@@ -16,7 +16,9 @@ const getAuthHeaders = response => {
 }
 
 const useAxiosWrapper = () => {
-  const api = axios.create();
+  const api = axios.create({
+    baseURL: process.env.API_BASE_URL
+  });
   const [headers, setAuth] = useRecoilState(AuthAtom);
 
   const navigate = useNavigate();

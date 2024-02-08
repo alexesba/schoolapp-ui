@@ -1,11 +1,14 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const DotEnv = require('dotenv-webpack');
 
 const path = require('path');
 module.exports = (_env, argsv) => {
   const { mode } = argsv;
 
   const isProduction = mode === 'production';
+
+  const dotEnvfilename = isProduction ? '.env.production' : '.env';
 
   const imageLoader = {
     test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -50,6 +53,17 @@ module.exports = (_env, argsv) => {
     type: "asset/inline"
   }
 
+  const babelLoaderConfigRule = {
+    test: /\.js(x)?$/,
+    exclude: /node_modules/,
+    use: {
+      loader: "babel-loader",
+      options: {
+        presets: ['@babel/preset-env', ['@babel/preset-react', { runtime: "automatic" }]]
+      }
+    }
+  }
+
   return {
     entry: path.resolve(__dirname, 'src/index.jsx'),
     output: {
@@ -63,7 +77,8 @@ module.exports = (_env, argsv) => {
         cssConfigRule,
         imageLoader,
         fontConfigRule,
-        ttfEotSvgConfigRule
+        ttfEotSvgConfigRule,
+        babelLoaderConfigRule
       ]
     },
     resolve: {
@@ -77,16 +92,16 @@ module.exports = (_env, argsv) => {
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, 'src/index.html'),
       }),
-      !isProduction && new ReactRefreshWebpackPlugin()
+      !isProduction && new ReactRefreshWebpackPlugin(),
+      new DotEnv({
+        path: dotEnvfilename,
+      }),
     ].filter(Boolean),
     devtool: 'source-map',
     devServer: {
       historyApiFallback: true,
       hot: true,
       open: true,
-      proxy: {
-        "/api/*": "http://[::1]:3000",
-      },
       client: {
         overlay: true
       }

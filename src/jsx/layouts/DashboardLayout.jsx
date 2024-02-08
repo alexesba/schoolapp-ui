@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { isEmpty } from "lodash";
 import { useRecoilValue } from "recoil";
 import Footer from '../layouts/Footer';
@@ -18,7 +18,6 @@ const DashboardLayout = () => {
   const { sidebariconHover } = useContext(ThemeContext)
   const sideMenu = useRecoilValue(toggleMenuAtom);
   let windowsize = window.innerWidth;
-
 
   const isLoggedIn = !isEmpty(auth);
   return (isLoggedIn ?
