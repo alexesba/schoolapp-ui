@@ -6,12 +6,11 @@ import { Link, useNavigate } from 'react-router-dom'
 
 // image
 
-import BgImage from "../images/bg1.png";
-import logo from "../images/logo-full.png";
-import logolight from "../images/logo-white.png";
-import pol from "../images/pol.jpg";
-import useAuthActions from '../store/actions/authActions';
-
+import BgImage from "../../images/bg1.png";
+import logo from "../../images/logo-full.png";
+import logolight from "../../images/logo-white.png";
+import pol from "../../images/pol.jpg";
+import useAuthActions from '../../store/actions/authActions';
 
 function Login(props) {
 
