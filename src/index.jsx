@@ -30,28 +30,20 @@ root.render(
     <RecoilRoot>
       <BrowserRouter>
         <ThemeContextProvider>
-          <Suspense fallback={
-            <div id="preloader">
-              <div className="sk-three-bounce">
-                <div className="sk-child sk-bounce1"></div>
-                <div className="sk-child sk-bounce2"></div>
-                <div className="sk-child sk-bounce3"></div>
-              </div>
-            </div>
-          }>
+          <Suspense fallback={<LoaderSpinner />}>
             <Routes>
               <Route element={<DashboardLayout />}>
-                <Route path="/" exact element={<Home/>} />
-                <Route path="/dashboard" exact element={<Home/>} />
-                <Route path="student" element={<Students/>} />
-                <Route path="student-detail" element={<StudentDetails/>} />
-                <Route path="add-student" element={<AddNewStudent/>} />
-                <Route path="teacher" element={<Teachers/>} />
-                <Route path="teacher-detail" element={<TeacherDetail/>} />
-                <Route path="add-teacher" element={<AddNewTeacher/>} />
-                <Route path="app-profile" element={<AppProfile/>} />
-                <Route path="edit-profile" element={<EditProfile/>} />
-                <Route path="finance" element={<Finance/>} />
+                <Route path="/" exact element={<Home />} />
+                <Route path="/dashboard" exact element={<Home />} />
+                <Route path="student" element={<Students />} />
+                <Route path="student-detail" element={<StudentDetails />} />
+                <Route path="add-student" element={<AddNewStudent />} />
+                <Route path="teacher" element={<Teachers />} />
+                <Route path="teacher-detail" element={<TeacherDetail />} />
+                <Route path="add-teacher" element={<AddNewTeacher />} />
+                <Route path="app-profile" element={<AppProfile />} />
+                <Route path="edit-profile" element={<EditProfile />} />
+                <Route path="finance" element={<Finance />} />
               </Route>
               <Route path="/login" element={<LoginPage />} />
               <Route path="*" element={<Error404 />} />
