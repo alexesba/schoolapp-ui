@@ -1,11 +1,10 @@
-
-
 import { useRecoilState } from 'recoil';
 import axios from 'axios';
 import AuthAtom from '../store/atoms/authAtom';
 import { local } from '../store/localStorage';
 import { pick } from 'lodash';
 import { useNavigate } from 'react-router-dom';
+import { APP_TOKEN_NAME } from '../constants/session';
 
 
 const getAuthHeaders = response => {
@@ -27,7 +26,7 @@ const useAxiosWrapper = () => {
     const authHeaders = getAuthHeaders(response);
     if (authHeaders['access-token']) {
       setAuth(authHeaders)
-      local.setItem("app:token", JSON.stringify(authHeaders));
+      local.setItem(APP_TOKEN_NAME, JSON.stringify(authHeaders));
     }
     return response;
   };

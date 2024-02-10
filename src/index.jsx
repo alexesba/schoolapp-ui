@@ -1,8 +1,9 @@
-import React, { StrictMode, Suspense, useContext } from "react";
+import React, { StrictMode, Suspense } from "react";
 
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { RecoilRoot } from "recoil";
+import LoaderSpinner from "./jsx/components/LoaderSpinner/LoaderSpinner";
 import Error404 from './jsx/pages/Error404';
 import LoginPage from './jsx/pages/Login';
 import DashboardLayout from "./jsx/layouts/DashboardLayout";
