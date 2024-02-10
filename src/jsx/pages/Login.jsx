@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 // import {
 //   loadingToggleAction, loginAction,
@@ -11,16 +11,19 @@ import logo from "../../images/logo-full.png";
 import logolight from "../../images/logo-white.png";
 import pol from "../../images/pol.jpg";
 import useAuthActions from '../../store/actions/authActions';
+import { HOME_PATH } from '../../constants/app';
+import useSessionActions from '../../store/actions/sessionActions';
 
-function Login(props) {
-
-  const [email, setEmail] = useState('demo@example.com');
+const Login = (props)  => {
+  const [email, setEmail] = useState('');
   let errorsObj = { email: '', password: '' };
   const [errors, setErrors] = useState(errorsObj);
-  const [password, setPassword] = useState('123456');
+  const [password, setPassword] = useState('');
   const { loginAction } = useAuthActions();
+  const navigate = useNavigate();
+  const { isLoggedIn } = useSessionActions();
 
-  function onLogin(e) {
+  const onLogin = (e) => {
     e.preventDefault();
     let error = false;
     const errorObj = { ...errorsObj };
@@ -39,11 +42,16 @@ function Login(props) {
 
     loginAction({ email, password })
     // dispatch(loadingToggleAction(true));
-    // dispatch(loginAction(email, password, navigate));
   }
 
   const element = document.querySelector("body");
   let dataTheme = element.getAttribute("data-theme-version");
+
+  useEffect(() => {
+    if(isLoggedIn()) {
+      return navigate(HOME_PATH, { replace: true})
+    }
+  }, [])
 
   return (
     <div className="container h-100">
@@ -136,12 +144,4 @@ function Login(props) {
   );
 };
 
-// const mapStateToProps = (state) => {
-//   return {
-//     errorMessage: state.auth.errorMessage,
-//     successMessage: state.auth.successMessage,
-//     showLoading: state.auth.showLoading,
-//   };
-// };
-// export default connect(mapStateToProps)(Login);
 export default Login

@@ -12,15 +12,15 @@ import { ThemeContext } from "../../context/ThemeContext";
 import '../index.css'
 import '../step.css'
 import '../chart.css'
+import useSessionActions from "../../store/actions/sessionActions";
 
 const DashboardLayout = () => {
-  const auth = useRecoilValue(authAtom)
   const { sidebariconHover } = useContext(ThemeContext)
   const sideMenu = useRecoilValue(toggleMenuAtom);
   let windowsize = window.innerWidth;
+  const { isLoggedIn } = useSessionActions()
 
-  const isLoggedIn = !isEmpty(auth);
-  return (isLoggedIn ?
+  return (isLoggedIn() ?
     (
       <div id="main-wrapper" className={` show  ${sidebariconHover ? "iconhover-toggle" : ""} ${sideMenu ? "menu-toggle" : ""}`}>
         <div className={`wallet-open  ${windowsize > 1199 ? 'active' : ''}`}>
