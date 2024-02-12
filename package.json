@@ -33,6 +33,7 @@
     "recoil": "^0.7.7",
     "sass": "^1.70.0",
     "sass-loader": "^14.1.0",
+    "spinkit": "^2.0.1",
     "storage-factory": "^0.2.1",
     "store-factory": "^1.1.4",
     "style-loader": "^3.3.4",

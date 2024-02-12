@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { isEmpty } from "lodash";
 import { useRecoilValue } from "recoil";
 import Footer from '../layouts/Footer';
 import Nav2 from './nav/index2';
 import WalletBar from '../layouts/WalletBar';
-import authAtom from "../../store/atoms/authAtom";
 import toggleMenuAtom from '../../store/atoms/toggleMenuAtom';
 import { LOGIN_PATH } from "../../constants/app";
 import { ThemeContext } from "../../context/ThemeContext";
