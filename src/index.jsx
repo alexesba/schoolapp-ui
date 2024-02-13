@@ -20,7 +20,6 @@ const EditProfile = React.lazy(() => import("./jsx/components/AppsMenu/AppProfil
 const Finance = React.lazy(() => import("./jsx/components/Dashboard/Finance"));
 const Home = React.lazy(() => import("./jsx/components/Dashboard/Home"));
 
-
 /// Style
 import './other/swiper/css/swiper-bundle.min.css';
 import "./other/bootstrap-select/dist/css/bootstrap-select.min.css";
