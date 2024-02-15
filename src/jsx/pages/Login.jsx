@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-// import {
-//   loadingToggleAction, loginAction,
-// } from '../../store/actions/AuthActions';
+import PropTypes from 'prop-types';
 
 // image
-
 import BgImage from '../../images/bg1.png';
 import logo from '../../images/logo-full.png';
 import logolight from '../../images/logo-white.png';
@@ -14,7 +11,7 @@ import useAuthActions from '../../store/actions/authActions';
 import { HOME_PATH } from '../../constants/app';
 import useSessionActions from '../../store/actions/sessionActions';
 
-function Login(props) {
+function Login({ successMessage, errorMessage }) {
   const [email, setEmail] = useState('');
   const errorsObj = { email: '', password: '' };
   const [errors, setErrors] = useState(errorsObj);
@@ -41,7 +38,6 @@ function Login(props) {
     }
 
     loginAction({ email, password });
-    // dispatch(loadingToggleAction(true));
   };
 
   const element = document.querySelector('body');
@@ -63,40 +59,42 @@ function Login(props) {
                 <div className="col-xl-6 col-md-6 sign text-center sign-bg" style={{ backgroundImage: `url(${pol})` }}>
                   <div>
                     <div className="text-center my-5">
-                      <Link to="#">
+                      <Link to="/#">
                         <img className="logo-abbr dark-logo" width="200" src={logo} alt="" />
                         <img className="logo-abbr light-logo text-center m-auto" width="200" src={logolight} alt="" />
                       </Link>
                     </div>
                     {
                       dataTheme === 'light'
-                        ? <img src={BgImage} className="slideskew img-fix bitcoin-img" />
-                        : <img src={BgImage} className=" slideskew img-fix bitcoin-img " />
+                        ? <img src={BgImage} alt="" className="slideskew img-fix bitcoin-img" />
+                        : <img src={BgImage} alt="" className=" slideskew img-fix bitcoin-img " />
                     }
                   </div>
                 </div>
                 <div className="col-xl-6 col-md-6">
                   <div className="sign-in-your px-2">
                     <h4 className="fs-20 ">Sign in your account</h4>
-                    <span>Welcome back! Login with your data that you entered during registration</span>
+                    <span>
+                      Welcome back! Login with your data that you entered during registration
+                    </span>
                     <div className="login-social">
-                      <Link to="#" className="btn btn-primary  d-block my-3">
+                      <Link to="/#" className="btn btn-primary  d-block my-3">
                         <i className="fab fa-google me-2" />
                         Login with Google
                       </Link>
-                      <Link to="#" className="btn btn-secondary  d-block my-3">
+                      <Link to="/#" className="btn btn-secondary  d-block my-3">
                         <i className="fab fa-facebook-f me-2 facebook-log" />
                         Login with Facebook
                       </Link>
                     </div>
-                    {props.errorMessage && (
+                    {errorMessage && (
                       <div className="bg-red-300 text-red-900 border border-red-900 p-1 my-2">
-                        {props.errorMessage}
+                        {errorMessage}
                       </div>
                     )}
-                    {props.successMessage && (
+                    {successMessage && (
                       <div className="bg-green-300 text-green-900 border border-green-900 p-1 my-2">
-                        {props.successMessage}
+                        {successMessage}
                       </div>
                     )}
                     <form onSubmit={onLogin}>
@@ -148,5 +146,10 @@ function Login(props) {
     </div>
   );
 }
+
+Login.propTypes = {
+  successMessage: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string.isRequired,
+};
 
 export default Login;
