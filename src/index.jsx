@@ -39,6 +39,8 @@ root.render(
                 <Route path="/" exact element={<Home />} />
                 <Route path="/dashboard" exact element={<Home />} />
                 <Route path="student" element={<Students />} />
+                <Route path="student/:id/edit" element={<EditProfile />} />
+                <Route path="student/:id/show" element={<StudentDetails />} />
                 <Route path="student-detail" element={<StudentDetails />} />
                 <Route path="add-student" element={<AddNewStudent />} />
                 <Route path="teacher" element={<Teachers />} />

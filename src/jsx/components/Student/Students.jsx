@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
 import { useRecoilValue } from 'recoil';
-import { IMAGES } from '../Dashboard/Content';
+
+import { range } from 'lodash';
+import noimage from '../../../images/no-img-avatar.png';
 import BasicModal from '../Dashboard/BasicModal';
 import useStudentActions from '../../../store/actions/studentActions';
 import studentsAtom from '../../../store/atoms/studentsAtom';
@@ -10,6 +12,8 @@ import studentsAtom from '../../../store/atoms/studentsAtom';
 function Students() {
   const childRef = useRef();
   const { getAll } = useStudentActions();
+  const [queryParams, setSearchParams] = useSearchParams();
+  console.log('PARAMS', queryParams.get('page'));
   const { students, pagination } = useRecoilValue(studentsAtom);
   const {
     current_page: currentPage,
@@ -18,6 +22,8 @@ function Students() {
   // const [currentPage, setCurrentPage] = useState(1);
   const [checked, setChecked] = useState(students);
   const [unchecked, setUnChecked] = useState(true);
+  console.log('Pagination Data', pagination);
+  const navigate = useNavigate();
 
   const handleChecked = (id) => {
     const temp = checked.map((data) => {
@@ -141,18 +147,19 @@ function Students() {
                           </td>
                           <td>
                             <div className="trans-list">
-                              <img src={item.avatar} alt="" className="avatar avatar-sm me-3" />
+                              <img src={item.avatar || noimage} alt="" className="avatar avatar-sm me-3" />
                               <h4>{item.name}</h4>
                             </div>
                           </td>
                           <td>
                             <span className="text-primary font-w600">
                               ID
-                              {item.tabid}
+                              {' '}
+                              {` ${item.no_control}`}
                             </span>
                           </td>
                           <td>
-                            <div className="date">{item.date}</div>
+                            <div className="date">{item.date_of_birth}</div>
                           </td>
                           <td><h6 className="mb-0">{item.parentname}</h6></td>
                           <td><h6 className="mb-0">{item.city}</h6></td>
@@ -183,9 +190,9 @@ function Students() {
                                 </svg>
                               </Dropdown.Toggle>
                               <Dropdown.Menu className="dropdown-menu-end" align="end">
-                                <Dropdown.Item>Option 1</Dropdown.Item>
-                                <Dropdown.Item>Option 2</Dropdown.Item>
-                                <Dropdown.Item>Option 3</Dropdown.Item>
+                                <Link className="dropdown-item" to={`${item.id}/edit`} role="button">Edit</Link>
+                                <Link className="dropdown-item" to={`${item.id}/show`} role="button">View</Link>
+                                <Link className="dropdown-item" to={`${item.id}/destroy`} role="button"> Delete</Link>
                               </Dropdown.Menu>
                             </Dropdown>
                           </td>
@@ -199,30 +206,25 @@ function Students() {
                       className="dataTables_paginate paging_simple_numbers justify-content-center"
                       id="example-student_wrapper"
                     >
-                      <Link
+                      <button
                         className="paginate_button previous disabled"
-                        to="#"
-                        onClick={prePage}
+                        onClick={() => setSearchParams({ page: pagination.previous_page || 1 })}
                       >
                         <i className="fa-solid fa-angle-left" />
-                      </Link>
+                      </button>
                       <span>
-                        {/* {number.map((n, i) => (
-                          <Link className={`paginate_button ${currentPage === n ? 'current' : ''} `} key={i}
-                            onClick={() => changeCPage(n)}
-                          >
-                            {n}
-
-                          </Link>
-                        ))} */}
+                        {
+                          range(1, pagination.total_pages + 1).map((page) => (
+                            <Link className={`paginate_button ${pagination.current_page === page ? 'current' : ''}`} key={page} to={`?page=${page}`}>{page}</Link>
+                          ))
+                        }
                       </span>
-                      <Link
-                        className="paginate_button next"
-                        to="#"
-                        onClick={nextPage}
+                      <button
+                        className={"paginate_button next"}
+                        onClick={() => setSearchParams({ page: pagination.next_page || pagination.current_page })}
                       >
                         <i className="fa-solid fa-angle-right" />
-                      </Link>
+                      </button>
                     </div>
                   </div>
                 </div>
