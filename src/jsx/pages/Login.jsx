@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-// import {
-//   loadingToggleAction, loginAction,
-// } from '../../store/actions/AuthActions';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 // image
-
-import BgImage from "../../images/bg1.png";
-import logo from "../../images/logo-full.png";
-import logolight from "../../images/logo-white.png";
-import pol from "../../images/pol.jpg";
+import BgImage from '../../images/bg1.png';
+import logo from '../../images/logo-full.png';
+import logolight from '../../images/logo-white.png';
+import pol from '../../images/pol.jpg';
 import useAuthActions from '../../store/actions/authActions';
 import { HOME_PATH } from '../../constants/app';
 import useSessionActions from '../../store/actions/sessionActions';
 
-const Login = (props)  => {
+function Login({ successMessage, errorMessage }) {
   const [email, setEmail] = useState('');
-  let errorsObj = { email: '', password: '' };
+  const errorsObj = { email: '', password: '' };
   const [errors, setErrors] = useState(errorsObj);
   const [password, setPassword] = useState('');
   const { loginAction } = useAuthActions();
@@ -40,18 +37,17 @@ const Login = (props)  => {
       return;
     }
 
-    loginAction({ email, password })
-    // dispatch(loadingToggleAction(true));
-  }
+    loginAction({ email, password });
+  };
 
-  const element = document.querySelector("body");
-  let dataTheme = element.getAttribute("data-theme-version");
+  const element = document.querySelector('body');
+  const dataTheme = element.getAttribute('data-theme-version');
 
   useEffect(() => {
-    if(isLoggedIn()) {
-      return navigate(HOME_PATH, { replace: true})
+    if (isLoggedIn()) {
+      navigate(HOME_PATH, { replace: true });
     }
-  }, [])
+  }, []);
 
   return (
     <div className="container h-100">
@@ -60,44 +56,53 @@ const Login = (props)  => {
           <div className="card">
             <div className="card-body p-0">
               <div className="row m-0">
-                <div className="col-xl-6 col-md-6 sign text-center sign-bg" style={{ backgroundImage: 'url(' + pol + ')' }}>
+                <div className="col-xl-6 col-md-6 sign text-center sign-bg" style={{ backgroundImage: `url(${pol})` }}>
                   <div>
                     <div className="text-center my-5">
-                      <Link to={"#"}>
+                      <Link to="/#">
                         <img className="logo-abbr dark-logo" width="200" src={logo} alt="" />
                         <img className="logo-abbr light-logo text-center m-auto" width="200" src={logolight} alt="" />
                       </Link>
                     </div>
                     {
-                      dataTheme === "light" ?
-                        <img src={BgImage} className="slideskew img-fix bitcoin-img" />
-                        :
-                        <img src={BgImage} className=" slideskew img-fix bitcoin-img " />
+                      dataTheme === 'light'
+                        ? <img src={BgImage} alt="" className="slideskew img-fix bitcoin-img" />
+                        : <img src={BgImage} alt="" className=" slideskew img-fix bitcoin-img " />
                     }
                   </div>
                 </div>
-                <div className="col-xl-6 col-md-6" >
+                <div className="col-xl-6 col-md-6">
                   <div className="sign-in-your px-2">
                     <h4 className="fs-20 ">Sign in your account</h4>
-                    <span>Welcome back! Login with your data that you entered during registration</span>
+                    <span>
+                      Welcome back! Login with your data that you entered during registration
+                    </span>
                     <div className="login-social">
-                      <Link to={"#"} className="btn btn-primary  d-block my-3"><i className="fab fa-google me-2"></i>Login with Google</Link>
-                      <Link to={"#"} className="btn btn-secondary  d-block my-3"><i className="fab fa-facebook-f me-2 facebook-log"></i>Login with Facebook</Link>
+                      <Link to="/#" className="btn btn-primary  d-block my-3">
+                        <i className="fab fa-google me-2" />
+                        Login with Google
+                      </Link>
+                      <Link to="/#" className="btn btn-secondary  d-block my-3">
+                        <i className="fab fa-facebook-f me-2 facebook-log" />
+                        Login with Facebook
+                      </Link>
                     </div>
-                    {props.errorMessage && (
-                      <div className='bg-red-300 text-red-900 border border-red-900 p-1 my-2'>
-                        {props.errorMessage}
+                    {errorMessage && (
+                      <div className="bg-red-300 text-red-900 border border-red-900 p-1 my-2">
+                        {errorMessage}
                       </div>
                     )}
-                    {props.successMessage && (
-                      <div className='bg-green-300 text-green-900 border border-green-900 p-1 my-2'>
-                        {props.successMessage}
+                    {successMessage && (
+                      <div className="bg-green-300 text-green-900 border border-green-900 p-1 my-2">
+                        {successMessage}
                       </div>
                     )}
                     <form onSubmit={onLogin}>
                       <div className="mb-3">
                         <label className="mb-1"><strong>Email</strong></label>
-                        <input type="email" className="form-control"
+                        <input
+                          type="email"
+                          className="form-control"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="Type Your Email Address"
@@ -112,9 +117,7 @@ const Login = (props)  => {
                           className="form-control"
                           value={password}
                           placeholder="Type Your Password"
-                          onChange={(e) =>
-                            setPassword(e.target.value)
-                          }
+                          onChange={(e) => setPassword(e.target.value)}
                         />
                         {errors.password && <div className="text-danger fs-12">{errors.password}</div>}
                       </div>
@@ -142,6 +145,11 @@ const Login = (props)  => {
       </div>
     </div>
   );
+}
+
+Login.propTypes = {
+  successMessage: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string.isRequired,
 };
 
-export default Login
+export default Login;

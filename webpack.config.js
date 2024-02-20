@@ -3,6 +3,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const DotEnv = require('dotenv-webpack');
 
 const path = require('path');
+
 module.exports = (_env, argsv) => {
   const { mode } = argsv;
 
@@ -12,8 +13,8 @@ module.exports = (_env, argsv) => {
 
   const imageLoader = {
     test: /\.(png|svg|jpg|jpeg|gif)$/i,
-    type: 'asset/resource'
-  }
+    type: 'asset/resource',
+  };
   const jsxConfigRule = {
     test: /\.(js|jsx)$/,
     exclude: /node_modules/,
@@ -22,10 +23,10 @@ module.exports = (_env, argsv) => {
       presets: [
         [
           '@babel/preset-react',
-          { runtime: 'automatic' }
+          { runtime: 'automatic' },
         ],
-      ]
-    }
+      ],
+    },
   };
 
   const scssConfigRule = {
@@ -36,39 +37,39 @@ module.exports = (_env, argsv) => {
 
   const cssConfigRule = {
     test: /\.css$/,
-    use: ['style-loader', 'css-loader']
+    use: ['style-loader', 'css-loader'],
   };
-
 
   const fontConfigRule = {
     test: /\.woff(2)?/,
-    type: "asset/resource",
+    type: 'asset/resource',
     generator: {
-      filename: "[hash].[ext]",
-    }
-  }
+      filename: '[hash].[ext]',
+    },
+  };
 
   const ttfEotSvgConfigRule = {
     test: /\.(ttf|eot|svg|oft)/,
-    type: "asset/inline"
-  }
+    type: 'asset/inline',
+  };
 
   const babelLoaderConfigRule = {
     test: /\.js(x)?$/,
     exclude: /node_modules/,
     use: {
-      loader: "babel-loader",
+      loader: 'babel-loader',
       options: {
-        presets: ['@babel/preset-env', ['@babel/preset-react', { runtime: "automatic" }]]
-      }
-    }
-  }
+        presets: ['@babel/preset-env', ['@babel/preset-react', { runtime: 'automatic' }]],
+      },
+    },
+  };
 
   return {
     entry: path.resolve(__dirname, 'src/index.jsx'),
     output: {
       filename: isProduction ? '[name].[contenthash].js' : 'main.js',
-      path: path.resolve(__dirname, 'build')
+      chunkFilename: '[name].[contenthash].js',
+      path: path.resolve(__dirname, 'build'),
     },
     module: {
       rules: [
@@ -78,13 +79,13 @@ module.exports = (_env, argsv) => {
         imageLoader,
         fontConfigRule,
         ttfEotSvgConfigRule,
-        babelLoaderConfigRule
-      ]
+        babelLoaderConfigRule,
+      ],
     },
     resolve: {
       alias: {
-        'images': path.resolve(__dirname, 'src/images'),
-        extensions: ['.js', '.jpg', '.ico', '.svg', '.gif']
+        images: path.resolve(__dirname, 'src/images'),
+        extensions: ['.js', '.jpg', '.ico', '.svg', '.gif'],
       },
       extensions: ['', '.*', '.js', '.jsx'],
     },
@@ -103,9 +104,9 @@ module.exports = (_env, argsv) => {
       hot: true,
       open: true,
       client: {
-        overlay: true
-      }
-    }
+        overlay: true,
+      },
+    },
 
   };
 };
