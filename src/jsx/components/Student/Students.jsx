@@ -1,5 +1,5 @@
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
 import { useRecoilValue } from 'recoil';
 
@@ -12,9 +12,9 @@ import Pagination from '../Pagination';
 function Students() {
   const childRef = useRef();
   const { getAll } = useStudentActions();
-  const [queryParams, setSearchParams] = useSearchParams();
+  const [queryParams] = useSearchParams();
   const { students, pagination } = useRecoilValue(studentsAtom);
-  const currentPage = useMemo(() => queryParams.get('page') || 1, [queryParams])
+  const currentPage = useMemo(() => queryParams.get('page') || 1, [queryParams]);
   const [checked, setChecked] = useState(students);
   const [unchecked, setUnChecked] = useState(true);
 
@@ -33,14 +33,6 @@ function Students() {
     setChecked(temp);
     setUnChecked(!unchecked);
   };
-
-  function prevPage() {
-    setSearchParams({ page: pagination.previous_page || 1 });
-  }
-
-  function nextPage() {
-    setSearchParams({ page: pagination.next_page || pagination.current_page });
-  }
 
   useEffect(() => {
     getAll({ page: currentPage });
@@ -180,11 +172,7 @@ function Students() {
                       ))}
                     </tbody>
                   </table>
-                  <Pagination
-                    pagination={pagination}
-                    onPrevPage={prevPage}
-                    onNextPage={nextPage}
-                  />
+                  <Pagination pagination={pagination} />
                 </div>
               </div>
             </div>

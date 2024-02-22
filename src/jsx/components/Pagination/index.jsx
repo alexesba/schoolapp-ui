@@ -1,8 +1,9 @@
 import { range } from 'lodash';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function Pagination({ onPrevPage, onNextPage, pagination }) {
+function Pagination({pagination }) {
+  const [, setSearchParams] = useSearchParams();
   return (
     <div className="d-sm-flex text-center justify-content-between align-items-center">
       <div className="dataTables_info" />
@@ -13,7 +14,7 @@ function Pagination({ onPrevPage, onNextPage, pagination }) {
         <button
           type="button"
           className={`paginate_button previous ${!pagination.previous_page ? 'disabled' : ''}`}
-          onClick={onPrevPage}
+          onClick={() => setSearchParams({ page: pagination.previous_page || 1 })}
           disabled={!pagination.previous_page}
         >
           <i className="fa-solid fa-angle-left" />
@@ -28,7 +29,7 @@ function Pagination({ onPrevPage, onNextPage, pagination }) {
         <button
           type="button"
           className={`paginate_button next ${!pagination.next_page ? 'disabled' : ''}`}
-          onClick={onNextPage}
+          onClick={() => setSearchParams({ page: pagination.next_page || pagination.current_page })}
           disabled={!pagination.next_page}
         >
           <i className="fa-solid fa-angle-right" />
@@ -37,9 +38,8 @@ function Pagination({ onPrevPage, onNextPage, pagination }) {
     </div>
   );
 }
+
 Pagination.propTypes = {
-  onPrevPage: PropTypes.func.isRequired,
-  onNextPage: PropTypes.func.isRequired,
   pagination: PropTypes.shape({
     next_page: PropTypes.oneOfType([
       PropTypes.number,
