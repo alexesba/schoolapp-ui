@@ -12,8 +12,9 @@ function Pagination({ onPrevPage, onNextPage, pagination }) {
       >
         <button
           type="button"
-          className="paginate_button previous disabled"
+          className={`paginate_button previous ${!pagination.previous_page ? 'disabled' : ''}`}
           onClick={onPrevPage}
+          disabled={!pagination.previous_page}
         >
           <i className="fa-solid fa-angle-left" />
         </button>
@@ -26,8 +27,9 @@ function Pagination({ onPrevPage, onNextPage, pagination }) {
         </span>
         <button
           type="button"
-          className="paginate_button next"
+          className={`paginate_button next ${!pagination.next_page ? 'disabled' : ''}`}
           onClick={onNextPage}
+          disabled={!pagination.next_page}
         >
           <i className="fa-solid fa-angle-right" />
         </button>
@@ -39,6 +41,14 @@ Pagination.propTypes = {
   onPrevPage: PropTypes.func.isRequired,
   onNextPage: PropTypes.func.isRequired,
   pagination: PropTypes.shape({
+    next_page: PropTypes.oneOfType([
+      PropTypes.number,
+      () => null,
+    ]),
+    previous_page: PropTypes.oneOfType([
+      PropTypes.number,
+      () => null,
+    ]),
     total_pages: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.string,
