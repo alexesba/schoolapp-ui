@@ -1,8 +1,8 @@
-import { atom } from "recoil";
+import { atom } from 'recoil';
 
 const studentsAtom = atom({
   key: 'students',
-  default:{ students: [], pagination: {}}
-})
+  default: { students: [], pagination: {} },
+});
 
 export default studentsAtom;
