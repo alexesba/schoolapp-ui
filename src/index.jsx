@@ -38,12 +38,12 @@ root.render(
               <Route element={<DashboardLayout />}>
                 <Route path="/" exact element={<Home />} />
                 <Route path="/dashboard" exact element={<Home />} />
-                <Route path="student" element={<Students />} />
+                <Route path="students" element={<Students />} />
                 <Route path="student/:id/edit" element={<EditProfile />} />
                 <Route path="student/:id/show" element={<StudentDetails />} />
                 <Route path="student-detail" element={<StudentDetails />} />
                 <Route path="add-student" element={<AddNewStudent />} />
-                <Route path="teacher" element={<Teachers />} />
+                <Route path="teachers" element={<Teachers />} />
                 <Route path="teacher-detail" element={<TeacherDetail />} />
                 <Route path="add-teacher" element={<AddNewTeacher />} />
                 <Route path="app-profile" element={<AppProfile />} />

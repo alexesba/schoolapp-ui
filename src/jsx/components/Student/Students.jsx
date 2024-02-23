@@ -1,29 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
 import { useRecoilValue } from 'recoil';
 
-import { range } from 'lodash';
 import noimage from '../../../images/no-img-avatar.png';
 import BasicModal from '../Dashboard/BasicModal';
 import useStudentActions from '../../../store/actions/studentActions';
 import studentsAtom from '../../../store/atoms/studentsAtom';
+import Pagination from '../Pagination';
 
 function Students() {
   const childRef = useRef();
   const { getAll } = useStudentActions();
-  const [queryParams, setSearchParams] = useSearchParams();
-  console.log('PARAMS', queryParams.get('page'));
+  const [queryParams] = useSearchParams();
   const { students, pagination } = useRecoilValue(studentsAtom);
-  const {
-    current_page: currentPage,
-
-  } = pagination;
-  // const [currentPage, setCurrentPage] = useState(1);
+  const currentPage = useMemo(() => queryParams.get('page') || 1, [queryParams]);
   const [checked, setChecked] = useState(students);
   const [unchecked, setUnChecked] = useState(true);
-  console.log('Pagination Data', pagination);
-  const navigate = useNavigate();
 
   const handleChecked = (id) => {
     const temp = checked.map((data) => {
@@ -41,31 +34,10 @@ function Students() {
     setUnChecked(!unchecked);
   };
 
-  /* const recordsPage = 1;
-  const lastIndex = currentPage * recordsPage;
-  const firstIndex = lastIndex - recordsPage;
-  const records = checked.slice(firstIndex, lastIndex); */
-
-  console.log(students);
-
-  function prePage() {
-    if (currentPage !== 1) {
-      // setCurrentPage(currentPage - 1)
-    }
-  }
-  function changeCPage(id) {
-    // setCurrentPage(id);
-  }
-
-  function nextPage() {
-    /* if (currentPage !== npage) {
-      setCurrentPage(currentPage + 1)
-    } */
-  }
-
   useEffect(() => {
-    getAll();
-  }, []);
+    getAll({ page: currentPage });
+  }, [currentPage]);
+
   return (
     <>
       <div className="row">
@@ -200,33 +172,7 @@ function Students() {
                       ))}
                     </tbody>
                   </table>
-                  <div className="d-sm-flex text-center justify-content-between align-items-center">
-                    <div className="dataTables_info" />
-                    <div
-                      className="dataTables_paginate paging_simple_numbers justify-content-center"
-                      id="example-student_wrapper"
-                    >
-                      <button
-                        className="paginate_button previous disabled"
-                        onClick={() => setSearchParams({ page: pagination.previous_page || 1 })}
-                      >
-                        <i className="fa-solid fa-angle-left" />
-                      </button>
-                      <span>
-                        {
-                          range(1, pagination.total_pages + 1).map((page) => (
-                            <Link className={`paginate_button ${pagination.current_page === page ? 'current' : ''}`} key={page} to={`?page=${page}`}>{page}</Link>
-                          ))
-                        }
-                      </span>
-                      <button
-                        className={"paginate_button next"}
-                        onClick={() => setSearchParams({ page: pagination.next_page || pagination.current_page })}
-                      >
-                        <i className="fa-solid fa-angle-right" />
-                      </button>
-                    </div>
-                  </div>
+                  <Pagination pagination={pagination} />
                 </div>
               </div>
             </div>
@@ -237,5 +183,4 @@ function Students() {
     </>
   );
 }
-
-export default Students;
+export default memo(Students);

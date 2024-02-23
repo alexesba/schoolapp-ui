@@ -99,7 +99,7 @@ table.dataTable tbody td{
 	font-weight:400;
 	padding:0.65rem 1.425rem;
 	color:$body-color;
-	
+
 }
 
 table.dataTable tr.selected{
@@ -130,7 +130,7 @@ table.dataTable tfoot th{
 		line-height:45px;
 		display:inline-block;
 		background:	transparent;
-		
+
 		&:last-child{
 			border-top-left-radius: 0;
 			border-bottom-left-radius: 0;
@@ -183,7 +183,7 @@ table.dataTable tfoot th{
 				display: none;
 			}
 		}
-		
+
 	}
 	span{
 		.paginate_button{
@@ -198,7 +198,7 @@ table.dataTable tfoot th{
 			color:$body-text!important;
 			border:0!important;
 			@include respond ('phone'){
-			
+
 				height:40px;
 				width:40px;
 				line-height:40px;
@@ -270,14 +270,14 @@ table.dataTable.no-footer{
     }
 }
 
-.dataTables_wrapper .dataTables_paginate .paginate_button.disabled, 
-.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, 
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
 .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active{
 	color: $body-color !important;
 }
-.dataTables_wrapper .dataTables_length, 
-.dataTables_wrapper .dataTables_filter, 
-.dataTables_wrapper .dataTables_processing, 
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_processing,
 .dataTables_wrapper .dataTables_paginate {
     color: $body-color;
 	border-radius:1rem;
@@ -293,10 +293,10 @@ table.dataTable.no-footer{
 }
 
 .paging_simple_numbers.dataTables_paginate {
-	border: 0.025rem  solid var(--primary);	
+	border: 0.025rem  solid var(--primary);
 	background:transparent;
 	border-radius: 0.5rem;
-	span{		
+	span{
 		border-radius: $radius;
 	}
 }
@@ -311,9 +311,9 @@ table.dataTable.no-footer{
 	display: inline-block;
 }
 
-table.dataTable.row-border tbody th, 
-table.dataTable.row-border tbody td, 
-table.dataTable.display tbody th, 
+table.dataTable.row-border tbody th,
+table.dataTable.row-border tbody td,
+table.dataTable.display tbody th,
 table.dataTable.display tbody td {
     border-color: $border;
     @at-root [data-theme-version="dark"] & {
@@ -411,10 +411,10 @@ table.dataTable thead .sorting_desc:after {//bottom
 	opacity:0;
 }
 .dlab-scroll::-webkit-scrollbar-thumb{
-	background:  rgba(111, 133, 147, 0.0); 
+	background:  rgba(111, 133, 147, 0.0);
 }
 .dlab-scroll:hover::-webkit-scrollbar-thumb{
-	background:  rgba(111, 133, 147, 0.1); 
+	background:  rgba(111, 133, 147, 0.1);
 } */
 
 
@@ -428,10 +428,10 @@ body > *{
 	opacity:0;
 }
 /* ::-webkit-scrollbar-thumb{
-	background:  rgba(111, 133, 147, 0.0); 
+	background:  rgba(111, 133, 147, 0.0);
 } */
 ::-webkit-scrollbar-thumb{
-	background:  rgba(111, 133, 147, 0.1); 
+	background:  rgba(111, 133, 147, 0.1);
 }
 #example2_wrapper{
 	#example2_filter{
