@@ -2,8 +2,8 @@ import { range } from 'lodash';
 import { Link, useSearchParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function Pagination({pagination }) {
-  const [, setSearchParams] = useSearchParams();
+function Pagination({ pagination }) {
+  const [queryParams, setSearchParams] = useSearchParams();
   return (
     <div className="d-sm-flex text-center justify-content-between align-items-center">
       <div className="dataTables_info" />
@@ -14,22 +14,29 @@ function Pagination({pagination }) {
         <button
           type="button"
           className={`paginate_button previous ${!pagination.previous_page ? 'disabled' : ''}`}
-          onClick={() => setSearchParams({ page: pagination.previous_page || 1 })}
+          onClick={() => {
+            queryParams.set('page', pagination.previous_page || 1);
+            setSearchParams(queryParams);
+          }}
           disabled={!pagination.previous_page}
         >
           <i className="fa-solid fa-angle-left" />
         </button>
         <span>
           {
-            range(1, pagination.total_pages + 1).map((page) => (
-              <Link className={`paginate_button ${pagination.current_page === page ? 'current' : ''}`} key={page} to={`?page=${page}`}>{page}</Link>
-            ))
+            range(1, pagination.total_pages + 1).map((page) => {
+              queryParams.set('page', page);
+             return <Link className={`paginate_button ${pagination.current_page === page ? 'current' : ''}`} key={page} to={`?${queryParams.toString()}`}>{page}</Link>
+            })
           }
         </span>
         <button
           type="button"
           className={`paginate_button next ${!pagination.next_page ? 'disabled' : ''}`}
-          onClick={() => setSearchParams({ page: pagination.next_page || pagination.current_page })}
+          onClick={() => {
+            queryParams.set('page', pagination.next_page || pagination.current_page);
+            setSearchParams(queryParams);
+          }}
           disabled={!pagination.next_page}
         >
           <i className="fa-solid fa-angle-right" />

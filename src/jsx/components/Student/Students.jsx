@@ -1,5 +1,7 @@
-import { memo, useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import {
+  useEffect, useMemo, useRef, useState,
+} from 'react';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
 import { useRecoilValue } from 'recoil';
 
@@ -8,15 +10,19 @@ import BasicModal from '../Dashboard/BasicModal';
 import useStudentActions from '../../../store/actions/studentActions';
 import studentsAtom from '../../../store/atoms/studentsAtom';
 import Pagination from '../Pagination';
+import SortOrder from '../Pagination/SortOrder';
 
 function Students() {
   const childRef = useRef();
   const { getAll } = useStudentActions();
-  const [queryParams] = useSearchParams();
+  const [queryParams, setQueryParams] = useSearchParams();
+  const location = useLocation();
   const { students, pagination } = useRecoilValue(studentsAtom);
   const currentPage = useMemo(() => queryParams.get('page') || 1, [queryParams]);
+  const sortOrder = useMemo(() => queryParams.get('order') || 'asc', [queryParams]);
   const [checked, setChecked] = useState(students);
   const [unchecked, setUnChecked] = useState(true);
+  const [selectedItem, setSelectedItem] = useState('Newest');
 
   const handleChecked = (id) => {
     const temp = checked.map((data) => {
@@ -35,8 +41,8 @@ function Students() {
   };
 
   useEffect(() => {
-    getAll({ page: currentPage });
-  }, [currentPage]);
+    getAll({ page: currentPage, order: sortOrder });
+  }, [currentPage, sortOrder]);
 
   return (
     <>
@@ -56,16 +62,7 @@ function Students() {
                   </span>
                 </div>
                 <div className="d-flex">
-                  <Dropdown className="drop-select me-3">
-                    <Dropdown.Toggle as="div" className="drop-select-btn ">
-                      Newest
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      <Dropdown.Item>Newest</Dropdown.Item>
-                      <Dropdown.Item>Oldest</Dropdown.Item>
-                      <Dropdown.Item>Recent</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+                  <SortOrder sortOrder={sortOrder} />
                   <button
                     type="button"
                     className="btn btn-primary"
@@ -120,7 +117,7 @@ function Students() {
                           <td>
                             <div className="trans-list">
                               <img src={item.avatar || noimage} alt="" className="avatar avatar-sm me-3" />
-                              <h4>{item.name}</h4>
+                              <h4>{`${item.first_name}${item.middle_name ? `${item.first_name} ` : ' '}${item.last_name}`}</h4>
                             </div>
                           </td>
                           <td>
@@ -177,10 +174,10 @@ function Students() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </div >
+      </div >
       <BasicModal ref={childRef} />
     </>
   );
 }
-export default memo(Students);
+export default Students;
