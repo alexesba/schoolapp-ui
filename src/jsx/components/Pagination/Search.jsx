@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useCallback, useMemo, useState } from 'react';
 import { debounce } from 'lodash';
 
-function Search({ query }) {
+function Search({ query, waitTime }) {
   const [queryParams, setQueryParams] = useSearchParams();
 
   const [textValue, setValue] = useState(query);
@@ -13,7 +13,7 @@ function Search({ query }) {
     setQueryParams(queryParams);
   }, []);
 
-  const debounceSetQuery = useMemo(() => debounce(setQuery, 2000), [setQuery]);
+  const debounceSetQuery = useMemo(() => debounce(setQuery, waitTime), [setQuery]);
 
   const handleSearch = (event) => {
     const { target: { value } } = event;
@@ -43,6 +43,11 @@ function Search({ query }) {
 
 Search.propTypes = {
   query: PropTypes.string.isRequired,
+  waitTime: PropTypes.number,
+};
+
+Search.defaultProps = {
+  waitTime: 1000,
 };
 
 export default Search;

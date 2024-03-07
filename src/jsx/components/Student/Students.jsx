@@ -53,7 +53,7 @@ function Students() {
           <div className="row">
             <div className="col-xl-12">
               <div className="page-title flex-wrap">
-                <Search query={query} />
+                <Search query={query} waitTime={2000} />
                 <div className="d-flex">
                   <SortOrder sortOrder={sortOrder} />
                   <button
@@ -110,7 +110,7 @@ function Students() {
                           <td>
                             <div className="trans-list">
                               <img src={item.avatar || noimage} alt="" className="avatar avatar-sm me-3" />
-                              <h4>{`${item.first_name}${item.middle_name ? `${item.first_name} ` : ' '}${item.last_name}`}</h4>
+                              <h4>{`${item.first_name}${item.middle_name ? ` ${item.middle_name} ` : ' '}${item.last_name}`}</h4>
                             </div>
                           </td>
                           <td>
