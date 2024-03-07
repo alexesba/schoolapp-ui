@@ -29,11 +29,17 @@ const useAxiosWrapper = () => {
   };
 
   const errorResponse = (error) => {
-    navigate('/login');
+    const status = error?.request?.status;
+    if (status && status === 401) {
+      local.removeItem(APP_TOKEN_NAME);
+      setAuth(null);
+      return navigate('/login');
+    }
     return error;
   };
 
   const setRequestHeaders = (config) => {
+    // eslint-disable-next-line no-param-reassign
     config.headers = headers;
     return config;
   };
