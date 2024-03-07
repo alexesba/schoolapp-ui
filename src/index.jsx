@@ -41,6 +41,7 @@ root.render(
                 <Route path="students" element={<Students />} />
                 <Route path="students/:id/edit" element={<EditProfile />} />
                 <Route path="students/:id/show" element={<StudentDetails />} />
+                <Route path="parents/:id" element={<StudentDetails />} />
                 <Route path="student-detail" element={<StudentDetails />} />
                 <Route path="add-student" element={<AddNewStudent />} />
                 <Route path="teachers" element={<Teachers />} />

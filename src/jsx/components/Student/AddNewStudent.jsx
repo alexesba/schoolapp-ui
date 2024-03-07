@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
+import { useRecoilValue } from 'recoil';
+import Form from 'react-bootstrap/Form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { IMAGES } from '../Dashboard/Content';
+import useStudentActions from '../../../store/actions/studentActions';
+import studentDetailsAtom from '../../../store/atoms/studentDetailsAtom';
 
 function AddNewStudent() {
+  const { id: userId } = useParams();
+  const { getOne } = useStudentActions();
+  const student = useRecoilValue(studentDetailsAtom);
   const [file, setFile] = useState(null);
   const fileHandler = (e) => {
     setFile(e.target.files[0]);
@@ -16,8 +24,62 @@ function AddNewStudent() {
   const onChange = (date) => {
     setStartDate(date);
   };
+
+  useEffect(() => {
+    if (userId) {
+      getOne(userId);
+    }
+  }, [userId]);
+
+  const onSubmit = (values) => console.log(values);
+  const {
+    control,
+    setValue,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      name: null,
+      email: null,
+      address: {
+        state: 'CHIS',
+        city: null,
+      },
+    },
+  });
+
+  const {
+    fields, append, prepend, remove, swap, move, insert,
+  } = useFieldArray({
+    control,
+    name: 'address',
+  });
+
+  async function getBase64(selectedFile) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(selectedFile);
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+      reader.onerror = reject;
+    });
+  }
+
+  useEffect(async() => {
+    let content = '';
+    if (file) {
+      try {
+        content = await (await getBase64(file));
+      } catch(error) {
+        console.log(error);
+      }
+    }
+  }, [file]);
+
   return (
-    <>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <div className="row">
         <div className="col-xl-12">
           <div className="card">
@@ -49,11 +111,16 @@ function AddNewStudent() {
                   <div className="row">
                     <div className="col-xl-6 col-sm-6">
                       <div className="mb-3">
-                        <label htmlFor="exampleFormControlInput1" className="form-label text-primary">
+                        <label htmlFor="first_name" className="form-label text-primary">
                           First Name
                           <span className="required">*</span>
                         </label>
-                        <input type="text" className="form-control" id="exampleFormControlInput1" placeholder="James" />
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="James"
+                          {...register('first_name')}
+                        />
                       </div>
                       <div className="mb-3">
                         <label className="form-label text-primary">
@@ -61,27 +128,48 @@ function AddNewStudent() {
                           <span className="required">*</span>
                         </label>
                         <div className="d-flex">
-                          <DatePicker
-                            className="form-control"
-                            selected={startDate}
-                            onChange={onChange}
+                          <Controller
+                            name="date_of_birth"
+                            control={control}
+                            render={({ field }) => (
+                              <DatePicker
+                                className="form-control"
+                                onChange={(date) => field.onChange(date)}
+                                selected={field.value}
+                              />
+                            )}
                           />
-                          <input type="text" className="form-control w-50 ms-3" id="exampleFormControlInput7" placeholder="USA" />
+                          <input
+                            type="text"
+                            {...register('address.state')}
+                            className="form-control w-50 ms-3"
+                            placeholder="CDMX"
+                          />
                         </div>
                       </div>
                       <div className="mb-3">
-                        <label htmlFor="exampleFormControlInput3" className="form-label text-primary">
+                        <label htmlFor="email" className="form-label text-primary">
                           Email
                           <span className="required">*</span>
                         </label>
-                        <input type="email" className="form-control" id="exampleFormControlInput3" placeholder="hello@example.com" />
+                        <input
+                          type="email"
+                          {...register('email')}
+                          name="email"
+                          className="form-control"
+                          placeholder="hello@example.com"
+                        />
                       </div>
                       <div className="mb-3">
                         <label htmlFor="exampleFormControlTextarea1" className="form-label text-primary">
                           Address
                           <span className="required">*</span>
                         </label>
-                        <textarea className="form-control" id="exampleFormControlTextarea1" rows="6" />
+                        <textarea
+                          className="form-control"
+                          {...register('address.street')}
+                          rows="6"
+                        />
                       </div>
                     </div>
                     <div className="col-xl-6 col-sm-6">
@@ -90,7 +178,12 @@ function AddNewStudent() {
                           Last Name
                           <span className="required">*</span>
                         </label>
-                        <input type="text" className="form-control" id="exampleFormControlInput4" placeholder="Wally" />
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Wally"
+                          {...register('last_name')}
+                        />
                       </div>
                       <div className="mb-3">
                         <label htmlFor="exampleFormControlInput5" className="form-label text-primary">
@@ -177,14 +270,13 @@ function AddNewStudent() {
             </div>
             <div className="">
               <button type="button" className="btn btn-outline-primary me-3">Save as Draft</button>
-              <button className="btn btn-primary" type="button">Save</button>
+              <button className="btn btn-primary" type="submit">Save</button>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </Form>
   );
 }
 
 export default AddNewStudent;
-

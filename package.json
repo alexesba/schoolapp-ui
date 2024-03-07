@@ -5,7 +5,8 @@
   "main": "index.jsx",
   "scripts": {
     "start": "webpack serve --mode=development",
-    "build": "webpack --mode=production"
+    "build": "webpack --mode=production",
+    "sass": "node-sass --watch src/scss/main.scss src/css/style.css --source-map src/css/style.css.map"
   },
   "author": "",
   "license": "ISC",
@@ -30,6 +31,7 @@
     "react-bootstrap-daterangepicker": "^8.0.0",
     "react-datepicker": "^6.1.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.0",
     "react-router-dom": "^6.22.0",
     "recoil": "^0.7.7",
     "recoilize": "^3.2.0",

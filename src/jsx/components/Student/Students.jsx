@@ -17,15 +17,13 @@ import dateToLocalString from '../../../utils/date';
 function Students() {
   const childRef = useRef();
   const { getAll } = useStudentActions();
-  const [queryParams, setQueryParams] = useSearchParams();
-  const location = useLocation();
+  const [queryParams] = useSearchParams();
   const { students, pagination } = useRecoilValue(studentsAtom);
   const currentPage = useMemo(() => queryParams.get('page') || 1, [queryParams]);
   const sortOrder = useMemo(() => queryParams.get('order') || 'asc', [queryParams]);
   const query = useMemo(() => queryParams.get('q') || '', [queryParams]);
   const [checked, setChecked] = useState(students);
   const [unchecked, setUnChecked] = useState(true);
-  const [selectedItem, setSelectedItem] = useState('Newest');
 
   const handleChecked = (id) => {
     const temp = checked.map((data) => {

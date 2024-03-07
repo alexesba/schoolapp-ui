@@ -9,44 +9,44 @@ import Editable from './Editable';
 
 const tableList = [
 	{
-		id:"1", name:'Tiger Nixon', department:'Architect',gender:'Male', 
+		id:"1", name:'Tiger Nixon', department:'Architect',gender:'Male',
 		education:'M.COM., M.B.A', mobile:'12345 67890', email:'info1@example.com'
 	},
-	{	
-		id:"2", name:'Gloria Little', department:' Administrator',gender:'Male', 
+	{
+		id:"2", name:'Gloria Little', department:' Administrator',gender:'Male',
 		education:'BTech, MTech', mobile:'09876 54321', email:'info2@example.com'
 	},
-	{	
-		id:"3", name:'Bradley Greer', department:'Software Engineer',gender:'Male', 
+	{
+		id:"3", name:'Bradley Greer', department:'Software Engineer',gender:'Male',
 		education:'B.CA M.CA', mobile:'98765 67890', email:'info3@example.com'
 	},
-	{	
-		id:"4", name:'Gloria Little', department:' Administrator',gender:'Male', 
+	{
+		id:"4", name:'Gloria Little', department:' Administrator',gender:'Male',
 		education:'BTech, MTech', mobile:'09876 54321', email:'info4@example.com'
 	},
 	{
-		id:"5", name:'Tiger Nixon', department:'Architect',gender:'Male', 
+		id:"5", name:'Tiger Nixon', department:'Architect',gender:'Male',
 		education:'M.COM., M.B.A', mobile:'12345 67890', email:'info5@example.com'
 	},
-	{	
-		id:"6", name:'Bradley Greer', department:'Software Engineer',gender:'Male', 
+	{
+		id:"6", name:'Bradley Greer', department:'Software Engineer',gender:'Male',
 		education:'B.CA M.CA', mobile:'98765 67890', email:'info6@example.com'
 	},
-]; 
+];
 
 const Todo = () =>{
 	const [contents, setContents] = useState(tableList);
-	// delete data  
+	// delete data
     const handleDeleteClick = (contentId) => {
-        const newContents = [...contents];    
+        const newContents = [...contents];
         const index = contents.findIndex((content)=> content.id === contentId);
         newContents.splice(index, 1);
         setContents(newContents);
     }
-	
+
 	//Modal box
 	const [addCard, setAddCard] = useState(false);
-	//Add data 
+	//Add data
     const [addFormData, setAddFormData ] = useState({
         name:'',
         department:'',
@@ -54,18 +54,18 @@ const Todo = () =>{
         education:'',
         mobile:'',
 		email:'',
-    }); 
-    
+    });
+
     // Add contact function
     const handleAddFormChange = (event) => {
-        event.preventDefault();    
+        event.preventDefault();
         const fieldName = event.target.getAttribute('name');
         const fieldValue = event.target.value;
         const newFormData = {...addFormData};
         newFormData[fieldName] = fieldValue;
         setAddFormData(newFormData);
     };
-    
+
      //Add Submit data
     const handleAddFormSubmit = (event)=> {
         event.preventDefault();
@@ -91,40 +91,40 @@ const Todo = () =>{
                 mobile:  addFormData.mobile,
                 email:  addFormData.email,
 			};
-            
+
             const newContents = [...contents, newContent];
             setContents(newContents);
             setAddCard(false);
             swal('Good job!', 'Successfully Added', "success");
-            addFormData.name  = addFormData.department = addFormData.gender = addFormData.education = addFormData.mobile = addFormData.email = '';         
-            
+            addFormData.name  = addFormData.department = addFormData.gender = addFormData.education = addFormData.mobile = addFormData.email = '';
+
         }else{
 			swal('Oops', errorMsg, "error");
 		}
     };
-	
-	//Edit start 
-	//const [editModal, setEditModal] = useState(false);	
+
+	//Edit start
+	//const [editModal, setEditModal] = useState(false);
 	// Edit function editable page loop
     const [editContentId, setEditContentId] = useState(null);
-   
+
     // Edit function button click to edit
     const handleEditClick = ( event, content) => {
         event.preventDefault();
         setEditContentId(content.id);
         const formValues = {
             name: content.name,
-            department: content.department,  
-            gender: content.gender,  
-            education: content.education,  
-            mobile: content.mobile,  
-            email: content.email,  	
+            department: content.department,
+            gender: content.gender,
+            education: content.education,
+            mobile: content.mobile,
+            email: content.email,
         }
         setEditFormData(formValues);
         //setEditModal(true);
     };
-   
-    // edit  data  
+
+    // edit  data
     const [editFormData, setEditFormData] = useState({
         name:'',
         department:'',
@@ -133,17 +133,17 @@ const Todo = () =>{
         mobile:'',
 		email:'',
     })
-    
+
     //update data function
     const handleEditFormChange = (event) => {
-        event.preventDefault();   
+        event.preventDefault();
         const fieldName = event.target.getAttribute('name');
         const fieldValue = event.target.value;
         const newFormData = {...editFormData};
         newFormData[fieldName] = fieldValue;
         setEditFormData(newFormData);
     };
-    
+
     // edit form data submit
     const handleEditFormSubmit = (event) => {
         event.preventDefault();
@@ -165,9 +165,9 @@ const Todo = () =>{
     }
 	//Cencel button to same data
     const handleCancelClick = () => {
-        setEditContentId(null);    
+        setEditContentId(null);
     };
-	
+
 	return(
 		<>
 			<PageTitle activeMenu="Table" motherMenu="Post" />
@@ -254,11 +254,11 @@ const Todo = () =>{
 									</div>
 								</div>
 								<div className="modal-footer">
-									<button type="submit" className="btn btn-primary" onClick={handleAddFormSubmit}>Add</button>   
-									<button type="button" onClick={()=> setAddCard(false)} className="btn btn-danger"> <i className="flaticon-delete-1"></i> Discard</button>      
+									<button type="submit" className="btn btn-primary" onClick={handleAddFormSubmit}>Add</button>
+									<button type="button" onClick={()=> setAddCard(false)} className="btn btn-danger"> <i className="flaticon-delete-1"></i> Discard</button>
 								</div>
 							</form>
-							
+
 						</div>
 					</div>
 				</Modal>
@@ -286,12 +286,12 @@ const Todo = () =>{
 										<tbody>
 											{contents.map((content, index)=>(
 												<tr key={index}>
-													{editContentId === content.id ? 
-														( 
-															<Editable editFormData={editFormData} 
-																handleEditFormChange={handleEditFormChange} handleCancelClick={handleCancelClick}/> 
-															) : 
-														( 
+													{editContentId === content.id ?
+														(
+															<Editable editFormData={editFormData}
+																handleEditFormChange={handleEditFormChange} handleCancelClick={handleCancelClick}/>
+															) :
+														(
 															<>
 																<td><img className="rounded-circle" width="35" src={pic1} alt="" /></td>
 																<td>{content.name}</td>
@@ -312,22 +312,22 @@ const Todo = () =>{
 																		>
 																			<i className="fas fa-pen"></i>
 																		</Link>
-																		<Link  className="btn btn-danger shadow btn-xs sharp" 
+																		<Link  className="btn btn-danger shadow btn-xs sharp"
 																			onClick={()=>handleDeleteClick(content.id)}
-																		> 
+																		>
 																			<i className="fa fa-trash"></i>
 																		</Link>
-																			
-																	</div>												
-																</td>			
-															</>   
+
+																	</div>
+																</td>
+															</>
 														)
 													}
-												</tr>    
+												</tr>
 											))}
 										</tbody>
 									</table>
-								</form>	
+								</form>
 							</div>
 						</div>
 					</div>
