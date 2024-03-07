@@ -53,7 +53,7 @@ function Students() {
           <div className="row">
             <div className="col-xl-12">
               <div className="page-title flex-wrap">
-                <Search query={query}/>
+                <Search query={query} />
                 <div className="d-flex">
                   <SortOrder sortOrder={sortOrder} />
                   <button
