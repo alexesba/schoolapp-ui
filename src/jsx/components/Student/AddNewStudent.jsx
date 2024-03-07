@@ -31,7 +31,31 @@ function AddNewStudent() {
     }
   }, [userId]);
 
-  const onSubmit = (values) => console.log(values);
+  function getBase64(selectedFile) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(selectedFile);
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+      reader.onerror = reject;
+    });
+  }
+
+  const onSubmit = async (values) => {
+    let user = { ...values };
+    let content = '';
+    if (file) {
+      try {
+        content = await getBase64(file);
+        user = { ...user, avatar: content };
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    console.log('user data', user);
+  };
+
   const {
     control,
     setValue,
@@ -55,28 +79,6 @@ function AddNewStudent() {
     control,
     name: 'address',
   });
-
-  async function getBase64(selectedFile) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(selectedFile);
-      reader.onload = () => {
-        resolve(reader.result);
-      };
-      reader.onerror = reject;
-    });
-  }
-
-  useEffect(async() => {
-    let content = '';
-    if (file) {
-      try {
-        content = await (await getBase64(file));
-      } catch(error) {
-        console.log(error);
-      }
-    }
-  }, [file]);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
