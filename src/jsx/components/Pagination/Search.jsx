@@ -10,6 +10,7 @@ function Search({ query, waitTime }) {
 
   const setQuery = useCallback((queryString) => {
     queryParams.set('q', queryString);
+    queryParams.set('page', 1);
     setQueryParams(queryParams);
   }, []);
 

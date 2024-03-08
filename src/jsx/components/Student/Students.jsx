@@ -125,12 +125,12 @@ function Students() {
                             {item.parent_names.map((name, key) => {
                               const parent = relationships.parents.data[key];
                               return (
-                                <>
+                                <span key={parent.id}>
                                   {key >= 1 ? <br /> : null}
                                   <Link to={`/parents/${parent.id}`}>
                                     {name}
                                   </Link>
-                                </>
+                                </span>
                               );
                             })}
 
