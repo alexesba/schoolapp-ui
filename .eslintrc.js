@@ -25,6 +25,12 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    'react/jsx-props-no-spreading': ['error', {
+      html: 'enforce',
+      custom: 'enforce',
+      explicitSpread: 'enforce',
+      exceptions: ['input', 'textarea'],
+    }],
     'jsx-a11y/label-has-associated-control': [2, {
       labelComponents: ['label'],
       labelAttributes: ['label'],
