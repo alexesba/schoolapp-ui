@@ -27,7 +27,7 @@ function DashboardLayout() {
   return (isLoggedIn()
     ? (
       <div id="main-wrapper" className={` show  ${sidebariconHover ? 'iconhover-toggle' : ''} ${sideMenu ? 'menu-toggle' : ''}`}>
-        <div className={`wallet-open  ${windowsize > 1199 ? 'active' : ''}`}>
+        <div className={`wallet-open  ${windowsize > 1920 ? 'active' : ''}`}>
           <Nav2 />
           <div className="content-body" style={{ minHeight: window.screen.height + 20 }}>
             <div className="container-fluid">

@@ -223,8 +223,8 @@ function AddNewStudent() {
                   <div className="card-header">
                     <h5 className="mb-0">
                       User'
-{' '}
-{ addressesAttributes.length > 1 ? 'Addresses' : 'Address' }
+                      {' '}
+                      {addressesAttributes.length > 1 ? 'Addresses' : 'Address'}
                     </h5>
                   </div>
                   {addressesAttributes.map((field, index) => (
@@ -254,11 +254,14 @@ function AddNewStudent() {
                         </div>
 
                         <div className="col-xl-6 col-sm-6">
-                          {index !== 0 &&
-                            <i className="bi bi-x-circle position-absolute end-0 cursor-pointer"
-                              onClick={removeAddress}
-                            />
-                            }
+                          {index !== 0
+                            && (
+                              <i
+                                className="bi bi-x-circle position-absolute end-0 cursor-pointer"
+                                onClick={() => removeAddress(index)}
+                              />
+                            )
+                          }
 
                           <div className="mb-3">
                             <label htmlFor={`addresses_attributes[${index}].state`} className="form-label text-primary position-relative">
