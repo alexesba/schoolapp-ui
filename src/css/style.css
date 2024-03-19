@@ -28564,6 +28564,8 @@ tr .trans-td-list {
   @media only screen and (max-width: 74.9375rem) {
     .student-details {
       margin-bottom: 10px; } }
+  .student-details .mb-0 {
+    word-break: break-word; }
 
 .setting-img img {
   width: 7.5rem;
