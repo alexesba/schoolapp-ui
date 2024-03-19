@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 import { Link, useParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import { useRecoilValue } from 'recoil';
@@ -78,24 +80,53 @@ function AddNewStudent() {
         zip: 28984,
       },
       ],
+      parents_attributes: [{
+        email: 'parent1@gmail.com',
+        first_name: 'Pedro',
+        home_phone: '3121026597',
+        last_name: 'Paramo',
+        middle_name: 'xx',
+        mobile_phone: '3121026597',
+        date_of_birth: '1984-03-16 02:08:19 UTC',
+      },
+      ],
     },
   });
 
   const {
-    fields: addressesAttributes, append, prepend, remove, swap, move, insert,
+    fields: studentAddressAtrributes, append: appendStudentAddress, remove: removeStudentAddress,
   } = useFieldArray({
     control,
     name: 'addresses_attributes',
   });
 
-  const addAddress = useCallback(() => append({
+  const addStudentAddress = useCallback(() => appendStudentAddress({
     street: 'J Jesus de la mora',
     state: 'CHIS',
     city: 'Colima',
     zip: 28984,
-  }), [append]);
+  }), [appendStudentAddress]);
 
-  const removeAddress = useCallback(index => remove(index), [remove]);
+  const deleteStudentAddress = useCallback((index) => removeStudentAddress(index), [removeStudentAddress]);
+
+  const {
+    fields: parentsAtrributes, append: appendParent, remove: removeParent,
+  } = useFieldArray({
+    control,
+    name: 'parents_attributes',
+  });
+
+  const addParent = useCallback(() => appendParent({
+    email: 'parent1@gmail.com',
+    first_name: 'Pedro',
+    home_phone: '3121026597',
+    last_name: 'Paramo',
+    middle_name: 'xx',
+    mobile_phone: '3121026597',
+    date_of_birth: '1984-03-16 02:08:19 UTC',
+  }), [appendParent]);
+
+  const deleteParent = useCallback((index) => removeParent(index), [removeParent]);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -219,78 +250,78 @@ function AddNewStudent() {
               </div>
 
               <div className="col-md-9 offset-md-3">
-                <div className="card">
-                  <div className="card-header">
-                    <h5 className="mb-0">
-                      User'
-                      {' '}
-                      {addressesAttributes.length > 1 ? 'Addresses' : 'Address'}
-                    </h5>
-                  </div>
-                  {addressesAttributes.map((field, index) => (
-                    <div className="card-body">
-                      <div className="row">
-                        <div className="col-xl-6 col-sm-6">
-                          <div className="mb-3">
-                            <label htmlFor={`addresses_attributes[${index}].street`} className="form-label text-primary">
-                              Street
-                              <span className="required">*</span>
-                            </label>
-                            <input
-                              className="form-control"
-                              {...register(`addresses_attributes[${index}].street`)}
-                            />
-                          </div>
-                          <div className="mb-3">
-                            <label htmlFor={`addresses_attributes[${index}].city`} className="form-label text-primary">
-                              City
-                              <span className="required">*</span>
-                            </label>
-                            <input
-                              className="form-control"
-                              {...register(`addresses_attributes[${index}].city`)}
-                            />
-                          </div>
-                        </div>
-
-                        <div className="col-xl-6 col-sm-6">
-                          {index !== 0
-                            && (
-                              <i
-                                className="bi bi-x-circle position-absolute end-0 cursor-pointer"
-                                onClick={() => removeAddress(index)}
-                              />
-                            )
-                          }
-
-                          <div className="mb-3">
-                            <label htmlFor={`addresses_attributes[${index}].state`} className="form-label text-primary position-relative">
-                              State
-                              <span className="required">*</span>
-
-                            </label>
-                            <input
-                              className="form-control"
-                              {...register(`addresses_attributes[${index}].state`)}
-                            />
-                          </div>
-
-                          <div className="mb-3">
-                            <label htmlFor={`addresses_attributes[${index}].zip`} className="form-label text-primary">
-                              Zip Code
-                              <span className="required">*</span>
-                            </label>
-                            <input
-                              className="form-control"
-                              {...register(`addresses_attributes[${index}].zip`)}
-                            />
-                          </div>
-                        </div>
+                <label className="mb-0">
+                  User'
+                  {' '}
+                  {studentAddressAtrributes.length > 1 ? 'Addresses' : 'Address'}
+                </label>
+                <hr />
+                {studentAddressAtrributes.map((field, index) => (
+                  <div className="row">
+                    {index !== 0 && (<hr />)}
+                    <div className="col-xl-6 col-sm-6">
+                      <div className="mb-3">
+                        <label htmlFor={`addresses_attributes[${index}].street`} className="form-label text-primary">
+                          Street
+                          <span className="required">*</span>
+                        </label>
+                        <input
+                          className="form-control"
+                          {...register(`addresses_attributes[${index}].street`)}
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor={`addresses_attributes[${index}].city`} className="form-label text-primary">
+                          City
+                          <span className="required">*</span>
+                        </label>
+                        <input
+                          className="form-control"
+                          {...register(`addresses_attributes[${index}].city`)}
+                        />
                       </div>
                     </div>
-                  ))}
-                  <button className="btn btn-default" onClick={addAddress}>
-                    Address {" "} <i class="bi bi-plus-circle-dotted" />
+
+                    <div className="col-xl-6 col-sm-6 position-relative">
+                      {index !== 0
+                        && (
+                          <i
+                            className="bi bi-x-circle position-absolute end-0 cursor-pointer"
+                            onClick={() => deleteStudentAddress(index)}
+                          />
+                        )}
+
+                      <div className="mb-3">
+                        <label htmlFor={`addresses_attributes[${index}].state`} className="form-label text-primary position-relative">
+                          State
+                          <span className="required">*</span>
+
+                        </label>
+                        <input
+                          className="form-control"
+                          {...register(`addresses_attributes[${index}].state`)}
+                        />
+                      </div>
+
+                      <div className="mb-3">
+                        <label htmlFor={`addresses_attributes[${index}].zip`} className="form-label text-primary">
+                          Zip Code
+                          <span className="required">*</span>
+                        </label>
+                        <input
+                          className="form-control"
+                          {...register(`addresses_attributes[${index}].zip`)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                <div className="row">
+                  <button className="btn btn-default" onClick={addStudentAddress}>
+                    Address
+                    {' '}
+                    <i className="bi bi-plus-circle-dotted" />
                   </button>
                 </div>
               </div>
@@ -302,72 +333,118 @@ function AddNewStudent() {
       <div className="col-xl-12">
         <div className="card">
           <div className="card-header">
-            <h5 className="mb-0">Parents Details</h5>
+            <h5 className="mb-0">
+              {parentsAtrributes.length > 1 ? 'Parents' : 'Parent'}
+              {' '}
+              Details
+            </h5>
           </div>
           <div className="card-body">
+            {
+              parentsAtrributes.map((field, index) => (
+                <div className="row">
+                  {index !== 0 && (<hr />)}
+                  <div className="col-xl-6 col-sm-6">
+                    <div className="mb-3">
+                      <label htmlFor={`parents_attributes[${index}].first_name`} className="form-label text-primary">
+                        First Name
+                        <span className="required">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="First Name"
+                        {...register(`parents_attributes[${index}].first_name`)}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label
+                        htmlFor={`parents_attributes[${index}].email`}
+                        className="form-label text-primary"
+                      >
+                        Email
+                        <span className="required">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        className="form-control"
+                        placeholder="hello@example.com"
+                        {...register(`parents_attributes[${index}].email`)}
+                      />
+                    </div>
+
+                    <label className="form-label text-primary">
+                      Payments
+                      <span className="required">*</span>
+                    </label>
+                    <div className="d-flex align-items-center">
+                      <div className="form-check">
+                        <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                        <label className="form-check-label font-w500" htmlFor="flexCheckDefault">Cash</label>
+                      </div>
+                      <div className="form-check ms-3">
+                        <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
+                        <label className="form-check-label font-w500" htmlFor="flexCheckDefault1">Online</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-xl-6 col-sm-6 position-relative">
+                    {index !== 0
+                      && (
+                        <i
+                          className="bi bi-x-circle position-absolute end-0 cursor-pointer pl-10"
+                          onClick={() => deleteParent(index)}
+                        />
+                      )}
+                    <div className="mb-3">
+                      <label
+                        htmlFor={`parents_attributes[${index}].last_name`}
+                        className="form-label text-primary"
+                      >
+                        Last Name
+                        <span className="required">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Last Name"
+                        {...register(`parents_attributes[${index}].last_name`)}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label
+                        htmlFor={`parents_attributes[${index}].mobile_phone`}
+                        className="form-label text-primary"
+                      >
+                        Phone Number
+                        <span className="required">*</span>
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        placeholder="+123456789"
+                        {...register(`parents_attributes[${index}].mobile_phone`)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
             <div className="row">
-              <div className="col-xl-6 col-sm-6">
-                <div className="mb-3">
-                  <label htmlFor="exampleFormControlInput8" className="form-label text-primary">
-                    First Name
-                    <span className="required">*</span>
-                  </label>
-                  <input type="text" className="form-control" id="exampleFormControlInput8" placeholder="Mana" />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="exampleFormControlInput9" className="form-label text-primary">
-                    Email
-                    <span className="required">*</span>
-                  </label>
-                  <input type="email" className="form-control" id="exampleFormControlInput9" placeholder="hello@example.com" />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="exampleFormControlTextarea2" className="form-label text-primary">
-                    Address
-                    <span className="required">*</span>
-                  </label>
-                  <textarea className="form-control" id="exampleFormControlTextarea2" rows="6" />
-                </div>
-              </div>
-              <div className="col-xl-6 col-sm-6">
-                <div className="mb-3">
-                  <label htmlFor="exampleFormControlInput10" className="form-label text-primary">
-                    Last Name
-                    <span className="required">*</span>
-                  </label>
-                  <input type="text" className="form-control" id="exampleFormControlInput10" placeholder="Wick" />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="exampleFormControlInput11" className="form-label text-primary">
-                    Phone Number
-                    <span className="required">*</span>
-                  </label>
-                  <input type="number" className="form-control" id="exampleFormControlInput11" placeholder="+123456789" />
-                </div>
-                <label className="form-label text-primary">
-                  Payments
-                  <span className="required">*</span>
-                </label>
-                <div className="d-flex align-items-center">
-                  <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                    <label className="form-check-label font-w500" htmlFor="flexCheckDefault">Cash</label>
-                  </div>
-                  <div className="form-check ms-3">
-                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
-                    <label className="form-check-label font-w500" htmlFor="flexCheckDefault1">Online</label>
-                  </div>
-                </div>
-              </div>
+              <button className="btn btn-default" type="button" onClick={addParent}>
+                Parent
+                {' '}
+                <i className="bi bi-plus-circle-dotted" />
+              </button>
             </div>
-            <div className="">
-              <button type="button" className="btn btn-outline-primary me-3">Save as Draft</button>
+            <div className="d-flex flex-row-reverse">
               <button className="btn btn-primary" type="submit">Save</button>
+              <button type="reset" className="btn btn-outline-primary me-3">Cancel</button>
             </div>
           </div>
         </div>
       </div>
-    </Form >
+    </Form>
   );
 }
 
