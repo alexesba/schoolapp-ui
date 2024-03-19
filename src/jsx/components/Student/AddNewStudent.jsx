@@ -249,7 +249,7 @@ function AddNewStudent() {
 
               </div>
 
-              <div className="col-md-9 offset-md-3">
+              <div className="col-xs-9 offset-xs-3">
                 <label className="mb-0">
                   User'
                   {' '}
@@ -431,7 +431,10 @@ function AddNewStudent() {
               ))
             }
             <div className="row">
-              <button className="btn btn-default" type="button" onClick={addParent}>
+              <button
+                className="btn btn-default"
+                type="button" onClick={addParent}
+              >
                 Parent
                 {' '}
                 <i className="bi bi-plus-circle-dotted" />
