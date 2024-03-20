@@ -161,7 +161,7 @@ function Students() {
                               </Dropdown.Toggle>
                               <Dropdown.Menu className="dropdown-menu-end" align="end">
                                 <Link className="dropdown-item" to={`${item.id}/edit`} role="button">Edit</Link>
-                                <Link className="dropdown-item" to={`${item.id}/show`} role="button">View</Link>
+                                <Link className="dropdown-item" to={`${item.id}`} role="button">View</Link>
                                 <Link className="dropdown-item" to={`${item.id}/destroy`} role="button"> Delete</Link>
                               </Dropdown.Menu>
                             </Dropdown>
