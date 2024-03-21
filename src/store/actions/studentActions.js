@@ -6,7 +6,7 @@ import studentDetailsAtom from '../atoms/studentDetailsAtom';
 
 const useStudentActions = () => {
   const api = useAxiosWrapper();
-  const [, setStudents] = useRecoilState(studentsAtom);
+  const [data, setStudents] = useRecoilState(studentsAtom);
   const [, setStudetDetails] = useRecoilState(studentDetailsAtom);
   const getAll = async (params = { page: 1 }) => {
     try {
@@ -27,9 +27,19 @@ const useStudentActions = () => {
     }
   };
 
+  const create = async (userParams) => {
+    try {
+      const { date: student } = await api.post(STUDENT_URL, { user: userParams });
+      setStudents({ ...data, students: [student, ...data.students] });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     getAll,
     getOne,
+    create,
   };
 };
 

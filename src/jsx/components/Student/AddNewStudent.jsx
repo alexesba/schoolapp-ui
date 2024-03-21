@@ -7,7 +7,7 @@ import DatePicker from 'react-datepicker';
 import { useRecoilValue } from 'recoil';
 import Form from 'react-bootstrap/Form';
 import {
-  Controller, FormProvider, useFieldArray, useForm,
+  FormProvider, useFieldArray, useForm,
 } from 'react-hook-form';
 import { Card, Col, Row } from 'react-bootstrap';
 import { IMAGES } from '../Dashboard/Content';
@@ -16,10 +16,11 @@ import studentDetailsAtom from '../../../store/atoms/studentDetailsAtom';
 import createStudentSchema from './validations/createStudent';
 import Input from '../Forms/FormField/Input';
 import InputDatePicker from '../Forms/FormField/InputDatePicker';
+import SelectInput from '../Forms/FormField/SelectInput';
 
 function AddNewStudent() {
   const { id: userId } = useParams();
-  const { getOne } = useStudentActions();
+  const { getOne, create } = useStudentActions();
   // const student = useRecoilValue(studentDetailsAtom);
   const [file, setFile] = useState(null);
 
@@ -54,12 +55,13 @@ function AddNewStudent() {
     if (file) {
       try {
         content = await getBase64(file);
-        user = { ...user, avatar: content };
+        user = { ...user, avatar: { data: content } };
       } catch (error) {
         console.log(error);
       }
     }
     console.log('FORM DATA', user);
+    create(user);
   };
 
   const {
@@ -217,6 +219,24 @@ function AddNewStudent() {
                       </Col>
                     </Row>
                   </Col>
+                  <Col xl="9" className="offset-md-3">
+                    <Row>
+                      <Col xl="6" sm="6">
+                        <Row className="mb-3">
+                          <SelectInput
+                            name="gender"
+                            label="Gender"
+                            className="form-control"
+                            placeholder="Select an option"
+                            options={[
+                              { label: 'Male', value: 'male' },
+                              { label: 'Female', value: 'female' },
+                            ]}
+                          />
+                        </Row>
+                      </Col>
+                    </Row>
+                  </Col>
                 </div>
 
                 <Col xs="9" className="offset-md-3">
@@ -235,7 +255,7 @@ function AddNewStudent() {
                         <Col xl="6" sm="6">
                           <Row className="mb-3">
                             <Input
-                                name={`${addressField}.street`}
+                              name={`${addressField}.street`}
                               label="Street"
                               placeholder="Street"
                             />
@@ -344,12 +364,12 @@ function AddNewStudent() {
                       </Col>
                       <div className="col-xl-6 col-sm-6 position-relative">
                         {index !== 0
-                        && (
-                          <i
-                            className="bi bi-x-circle position-absolute end-0 cursor-pointer pl-10"
-                            onClick={() => deleteParent(index)}
-                          />
-                        )}
+                          && (
+                            <i
+                              className="bi bi-x-circle position-absolute end-0 cursor-pointer pl-10"
+                              onClick={() => deleteParent(index)}
+                            />
+                          )}
                         <Row className="mb-3">
                           <Input
                             name={`${parentFields}.last_name`}

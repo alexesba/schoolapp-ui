@@ -20,7 +20,7 @@ function Students() {
   const [queryParams] = useSearchParams();
   const { students, pagination } = useRecoilValue(studentsAtom);
   const currentPage = useMemo(() => queryParams.get('page') || 1, [queryParams]);
-  const sortOrder = useMemo(() => queryParams.get('order') || 'asc', [queryParams]);
+  const sortOrder = useMemo(() => queryParams.get('order') || 'desc', [queryParams]);
   const query = useMemo(() => queryParams.get('q') || '', [queryParams]);
   const [checked, setChecked] = useState(students);
   const [unchecked, setUnChecked] = useState(true);
