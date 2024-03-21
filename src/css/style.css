@@ -20365,19 +20365,19 @@ input#checkAll.form-check-input:checked {
 
 .form-control.is-valid {
   border-color: #1EBA62 !important;
-  border-right: 0rem !important; }
+  background-image: none !important; }
   .form-control.is-valid:focus {
     box-shadow: none; }
 
 .form-control.is-warning {
   border-color: #FCC43E !important;
-  border-right: 0rem !important; }
+  background-image: none !important; }
   .form-control.is-warning:focus {
     box-shadow: none; }
 
 .form-control.is-invalid {
   border-color: #fd5353 !important;
-  border-right: 0rem !important; }
+  background-image: none !important; }
   .form-control.is-invalid:focus {
     box-shadow: none; }
 
