@@ -17,12 +17,20 @@ import createStudentSchema from './validations/createStudent';
 import Input from '../Forms/FormField/Input';
 import InputDatePicker from '../Forms/FormField/InputDatePicker';
 import SelectInput from '../Forms/FormField/SelectInput';
+import currentUserAtom from '../../../store/atoms/currentUserAtom';
+
+const ROLE_OPTIONS = [
+  { label: 'Male', value: 'male' },
+  { label: 'Female', value: 'female' },
+];
 
 function AddNewStudent() {
   const { id: userId } = useParams();
   const { getOne, create } = useStudentActions();
   // const student = useRecoilValue(studentDetailsAtom);
   const [file, setFile] = useState(null);
+  const currentUser = useRecoilValue(currentUserAtom);
+  const organizationId = currentUser?.organization_id;
 
   const fileHandler = (e) => {
     setFile(e.target.files[0]);
@@ -72,8 +80,10 @@ function AddNewStudent() {
     formState: { errors },
   } = useForm({
     mode: 'onSubmit',
+    reValidateMode: 'onChange',
     resolver: yupResolver(createStudentSchema),
     defaultValues: {
+      organization_id: organizationId,
       email: null,
       date_of_birth: null,
       first_name: null,
@@ -90,12 +100,14 @@ function AddNewStudent() {
       ],
       parents_attributes: [{
         email: 'parent1@gmail.com',
+        gender: null,
         first_name: 'Pedro',
         home_phone: '3121026597',
         last_name: 'Paramo',
         middle_name: 'xx',
         mobile_phone: '3121026597',
         date_of_birth: '1984-03-16 02:08:19 UTC',
+        organization_id: organizationId,
       },
       ],
     },
@@ -169,6 +181,7 @@ function AddNewStudent() {
                   <Col xl="9" lg="8">
                     <Row>
                       <Col xl="6" sm="6">
+                        <Input name="organization_id" hidden />
                         <Row className="mb-3">
                           <Input
                             name="first_name"
@@ -228,88 +241,96 @@ function AddNewStudent() {
                             label="Gender"
                             className="form-control"
                             placeholder="Select an option"
-                            options={[
-                              { label: 'Male', value: 'male' },
-                              { label: 'Female', value: 'female' },
-                            ]}
+                            options={ROLE_OPTIONS}
                           />
                         </Row>
                       </Col>
                     </Row>
                   </Col>
                 </div>
-
-                <Col xs="9" className="offset-md-3">
-                  <Form.Label className="mb-0">
-                    User'
-                    {' '}
-                    {studentAddressAtrributes.length > 1 ? 'Addresses' : 'Address'}
-                  </Form.Label>
-                  <hr />
-                  {studentAddressAtrributes.map((field, index) => {
-                    const addressErrors = errors.addresses_attributes || [];
-                    const addressField = `addresses_attributes[${index}]`;
-                    return (
-                      <Row key={index}>
-                        {index !== 0 && (<hr />)}
-                        <Col xl="6" sm="6">
-                          <Row className="mb-3">
-                            <Input
-                              name={`${addressField}.street`}
-                              label="Street"
-                              placeholder="Street"
-                            />
-                          </Row>
-                          <Row className="mb-3">
-                            <Input
-                              name={`${addressField}.city`}
-                              placeholder="City"
-                              label="City"
-                            />
-                          </Row>
-                        </Col>
-
-                        <Col xl="6" sm="6" className="position-relative">
-                          {index !== 0
-                            && (
-                              <i
-                                className="bi bi-x-circle position-absolute end-0 cursor-pointer"
-                                onClick={() => deleteStudentAddress(index)}
-                              />
-                            )}
-
-                          <Row className="mb-3">
-                            <Input
-                              name={`${addressField}.state`}
-                              placeholder="State"
-                              label="State"
-                            />
-                          </Row>
-
-                          <Row className="mb-3">
-                            <Input
-                              label="Zip Code"
-                              placeholder="e.g: 28984"
-                              name={`${addressField}.zip`}
-                            />
-                          </Row>
-                        </Col>
-                      </Row>
-                    );
-                  })}
-
-                  <Row>
-                    <button className="btn btn-default" onClick={addStudentAddress}>
-                      Address
-                      {' '}
-                      <i className="bi bi-plus-circle-dotted" />
-                    </button>
-                  </Row>
-                </Col>
               </div>
             </div>
           </div>
         </div>
+
+        <Col xl="12">
+          <Card>
+            <Card.Header>
+              <Card.Title>
+                {studentAddressAtrributes.length > 1 ? 'Addresses' : 'Address'}
+                {' '}
+                Details
+              </Card.Title>
+            </Card.Header>
+            <Card.Body>
+              <Form.Label className="mb-0">
+                User'
+                {' '}
+                {studentAddressAtrributes.length > 1 ? 'Addresses' : 'Address'}
+              </Form.Label>
+              <hr />
+              {studentAddressAtrributes.map((field, index) => {
+                const fieldName = (name) => `addresses_attributes[${index}].${name}`;
+
+                return (
+                  <Row key={field.id}>
+                    {index !== 0 && (<hr />)}
+                    <Col xl="6" sm="6">
+                      <Row className="mb-3">
+                        <Input
+                          name={fieldName('street')}
+                          label="Street"
+                          placeholder="Street"
+                        />
+                      </Row>
+                      <Row className="mb-3">
+                        <Input
+                          name={fieldName('city')}
+                          placeholder="City"
+                          label="City"
+                        />
+                      </Row>
+                    </Col>
+
+                    <Col xl="6" sm="6" className="position-relative">
+                      {index !== 0
+                        && (
+                          <i
+                            className="bi bi-x-circle position-absolute end-0 cursor-pointer"
+                            onClick={() => deleteStudentAddress(index)}
+                          />
+                        )}
+
+                      <Row className="mb-3">
+                        <Input
+                          name={fieldName('state')}
+                          placeholder="State"
+                          label="State"
+                        />
+                      </Row>
+
+                      <Row className="mb-3">
+                        <Input
+                          label="Zip Code"
+                          placeholder="e.g: 28984"
+                          name={fieldName('zip')}
+                        />
+                      </Row>
+                    </Col>
+                  </Row>
+                );
+              })}
+
+              <Row>
+                <button type="button" className="btn btn-default" onClick={addStudentAddress}>
+                  Address
+                  {' '}
+                  <i className="bi bi-plus-circle-dotted" />
+                </button>
+              </Row>
+            </Card.Body>
+          </Card>
+        </Col>
 
         <Col xl="12">
           <Card>
@@ -329,6 +350,7 @@ function AddNewStudent() {
                       {index !== 0 && (<hr />)}
                       <Col xl="6" xm="6">
                         <Row className="mb-3">
+                          <Input name={`${parentFields}.organization_id`} hidden />
                           <Input
                             name={`${parentFields}.first_name`}
                             label="First Name"
@@ -383,6 +405,16 @@ function AddNewStudent() {
                             type="number"
                             label="Phone Number"
                             placeholder="+3123234682"
+                          />
+                        </Row>
+
+                        <Row className="mb-3">
+                          <SelectInput
+                            name={`${parentFields}.gender`}
+                            label="Gender"
+                            className="form-control"
+                            placeholder="Select an option"
+                            options={ROLE_OPTIONS}
                           />
                         </Row>
                       </div>
