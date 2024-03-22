@@ -1,18 +1,23 @@
 import { Col, Form } from 'react-bootstrap';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { useFormContext } from 'react-hook-form';
 import { getErrorMessage, hasError } from './field-utils';
 
 function Input({
-  name, label, type, placeholder,
+  name, label, type, placeholder, hidden,
 }) {
   const { errors, register } = useFormContext();
   return (
-    <Form.Group as={Col}>
-      <Form.Label
-        htmlFor={name}
-        className="text-primary"
-      >
+    <Form.Group
+      as={Col}
+      className={
+      classNames('text-primary', {
+        'd-none': hidden,
+      })
+    }
+    >
+      <Form.Label htmlFor={name} className="text-primary">
         {label}
         <span className="required">*</span>
       </Form.Label>
@@ -29,12 +34,14 @@ function Input({
 
 Input.propTypes = {
   type: PropTypes.string,
+  hidden: PropTypes.bool,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   label: PropTypes.string.isRequired,
 };
 
 Input.defaultProps = {
+  hidden: false,
   type: 'text',
   placeholder: '',
 };
