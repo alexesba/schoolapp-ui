@@ -1,14 +1,21 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
 // image
 import logo from '../../images/logo-full.png';
 import logolight from '../../images/logo-white.png';
+import { useRecoilValue } from 'recoil';
+import currentUserAtom from '../../store/atoms/currentUserAtom';
+import useAuthActions from '../../store/actions/authActions';
 
 function LockScreen() {
-  const navigate = useNavigate();
+  const currentUser = useRecoilValue(currentUserAtom);
+  const { unlockScreenAction } = useAuthActions()
+  const pswdRef = useRef(null)
+
   const submitHandler = (e) => {
     e.preventDefault();
-    navigate('/dashboard');
+    const { current: { value: password } } = pswdRef;
+    unlockScreenAction({ email: currentUser.email, password });
   };
   return (
     <div className="authincation h-100 ">
@@ -26,15 +33,16 @@ function LockScreen() {
                       </Link>
                     </div>
                     <h4 className="text-center mb-4 ">Account Locked</h4>
-                    <form onSubmit={(e) => submitHandler(e)}>
+                    <form onSubmit={submitHandler}>
                       <div className="form-group mb-3">
                         <label className="">
                           <strong>Password</strong>
                         </label>
                         <input
+                          ref={pswdRef}
                           type="password"
                           className="form-control"
-                          defaultValue="Password"
+                          placeholder="********"
                         />
                       </div>
                       <div className="text-center">

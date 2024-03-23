@@ -40,12 +40,6 @@ function AddNewStudent() {
     setFile(null);
   };
 
-  useEffect(() => {
-    if (userId) {
-      getOne(userId);
-    }
-  }, [userId]);
-
   function getBase64(selectedFile) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -147,6 +141,12 @@ function AddNewStudent() {
   }), [appendParent]);
 
   const deleteParent = useCallback((index) => removeParent(index), [removeParent]);
+
+  useEffect(() => {
+    if (userId) {
+      getOne(userId);
+    }
+  }, [userId]);
 
   return (
     <FormProvider errors={errors} register={register} control={control}>

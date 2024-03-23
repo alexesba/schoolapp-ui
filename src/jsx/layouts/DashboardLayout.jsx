@@ -16,20 +16,23 @@ import useSessionActions from '../../store/actions/sessionActions';
 import LockScreen from '../pages/LockScreen';
 import currentUserAtom from '../../store/atoms/currentUserAtom';
 import useAuthActions from '../../store/actions/authActions';
+import lockScreenAtom from '../../store/atoms/lockScreenAtom';
 
 function DashboardLayout() {
   const { sidebariconHover } = useContext(ThemeContext);
   const sideMenu = useRecoilValue(toggleMenuAtom);
+  const lockScreen = useRecoilValue(lockScreenAtom);
   const currentUser = useRecoilValue(currentUserAtom);
   const windowsize = window.innerWidth;
   const { loadCurrentUserBytoken } = useAuthActions();
   const { isLoggedIn } = useSessionActions();
+  loadCurrentUserBytoken();
 
   if (!isLoggedIn()) return <Navigate to={LOGIN_PATH} />;
 
-  loadCurrentUserBytoken();
+  if (lockScreen) return <LockScreen />;
 
-  if (!currentUser) return null;
+  if (!currentUser) return <div />;
 
   return (
     <div id="main-wrapper" className={` show  ${sidebariconHover ? 'iconhover-toggle' : ''} ${sideMenu ? 'menu-toggle' : ''}`}>
