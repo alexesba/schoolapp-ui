@@ -13,11 +13,11 @@ function SortOrder({ sortOrder }) {
   return (
     <Dropdown className="drop-select me-3">
       <Dropdown.Toggle as="div" className="drop-select-btn ">
-        {sortOrder === 'desc' ? 'Oldest' : 'Newest'}
+        {sortOrder === 'desc' ? 'Newest' : 'Oldest'}
       </Dropdown.Toggle>
       <Dropdown.Menu>
-        <Dropdown.Item onClick={() => onSetOrder('asc')}>Newest</Dropdown.Item>
-        <Dropdown.Item onClick={() => onSetOrder('desc')}>Oldest</Dropdown.Item>
+        <Dropdown.Item onClick={() => onSetOrder('desc')}>Newest</Dropdown.Item>
+        <Dropdown.Item onClick={() => onSetOrder('asc')}>Oldest</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );

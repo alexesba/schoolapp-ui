@@ -1,7 +1,9 @@
 import React, { StrictMode, Suspense } from 'react';
 import RecoilizeDebugger from 'recoilize';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {
+  BrowserRouter, Route, Routes, Outlet,
+} from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import LoaderSpinner from './jsx/components/LoaderSpinner/LoaderSpinner';
 import ThemeContextProvider from './context/ThemeContext';
@@ -35,18 +37,27 @@ root.render(
         <ThemeContextProvider>
           <Suspense fallback={<LoaderSpinner />}>
             <Routes>
-              <Route element={<DashboardLayout />}>
-                <Route path="/" exact element={<Home />} />
+              <Route path="/" element={<DashboardLayout />}>
+                <Route index element={<Home />} />
                 <Route path="/dashboard" exact element={<Home />} />
-                <Route path="students" element={<Students />} />
-                <Route path="students/:id/edit" element={<EditProfile />} />
-                <Route path="students/:id/show" element={<StudentDetails />} />
-                <Route path="parents/:id" element={<StudentDetails />} />
+                <Route path="students" element={<Outlet />}>
+                  <Route index element={<Students />} />
+                  <Route path="new" element={<AddNewStudent />} />
+                  <Route path=":id/edit" element={<EditProfile />} />
+                  <Route path=":id" element={<StudentDetails />} />
+                </Route>
+                <Route path="parents" element={<Outlet />}>
+                  <Route index element={<Students />} />
+                  <Route path=":id" element={<StudentDetails />} />
+                </Route>
+                <Route path="teachers" element={<Outlet />}>
+                  <Route index element={<Teachers />} />
+                  <Route path=":id" element={<TeacherDetail />} />
+                  <Route path="new" element={<AddNewTeacher />} />
+                </Route>
+                {/* Remove the student-detail and teacher-detail routes */}
                 <Route path="student-detail" element={<StudentDetails />} />
-                <Route path="add-student" element={<AddNewStudent />} />
-                <Route path="teachers" element={<Teachers />} />
                 <Route path="teacher-detail" element={<TeacherDetail />} />
-                <Route path="add-teacher" element={<AddNewTeacher />} />
                 <Route path="app-profile" element={<AppProfile />} />
                 <Route path="edit-profile" element={<EditProfile />} />
                 <Route path="finance" element={<Finance />} />

@@ -35,9 +35,20 @@ export const MenuList = [
       },
       {
         title: 'Add New Student',
-        to: 'add-student',
+        to: 'students/new',
       },
 
+    ],
+  },
+  {
+    title: 'Parents',
+    classsChange: 'mm-collapse',
+    iconStyle: <i className="material-symbols-outlined">person</i>,
+    content: [
+      {
+        title: 'Parents',
+        to: 'parents',
+      },
     ],
   },
   {
@@ -55,7 +66,7 @@ export const MenuList = [
       },
       {
         title: 'Add New Teacher',
-        to: 'add-teacher',
+        to: 'teachers/new',
       },
     ],
   },

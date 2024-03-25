@@ -6,6 +6,36 @@ import AuthAtom from '../store/atoms/authAtom';
 import { local } from '../store/localStorage';
 import { APP_TOKEN_NAME } from '../constants/session';
 
+export const promiseWrapper = (promise) => {
+  let status = 'pending';
+
+  let result;
+
+  const s = promise.then(
+    (value) => {
+      status = 'success';
+      result = value;
+    },
+    (error) => {
+      status = 'error';
+      result = error;
+    },
+  );
+
+  return () => {
+    switch (status) {
+      case 'pending':
+        throw s;
+      case 'success':
+        return result;
+      case 'error':
+        throw result;
+      default:
+        throw new Error('Unknown status');
+    }
+  };
+};
+
 const getAuthHeaders = (response) => pick(
   response.headers,
   ['access-token', 'client', 'expiry', 'uid', 'token-type'],

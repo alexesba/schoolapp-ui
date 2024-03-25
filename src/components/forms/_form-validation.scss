@@ -26,7 +26,7 @@
 }
 
 ////////////////////////
-// Jquery Validation 
+// Jquery Validation
 ////////////////////////
 .is-valid {
     .input-group-prepend {
@@ -51,11 +51,11 @@
 // Show Pass
 .show-pass{
 	cursor:pointer;
-	
+
 	.fa-eye{
 		display:none;
 	}
-	
+
 	&.active{
 		.fa-eye-slash{
 			display:none;

@@ -2,9 +2,10 @@ import {
   useEffect, useMemo, useRef, useState,
 } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
-import { Dropdown } from 'react-bootstrap';
+import { Button, Dropdown } from 'react-bootstrap';
 import { useRecoilValue } from 'recoil';
 
+import swal from 'sweetalert';
 import noimage from '../../../images/no-img-avatar.png';
 import BasicModal from '../Dashboard/BasicModal';
 import useStudentActions from '../../../store/actions/studentActions';
@@ -16,11 +17,11 @@ import dateToLocalString from '../../../utils/date';
 
 function Students() {
   const childRef = useRef();
-  const { getAll } = useStudentActions();
+  const { getAll, destroy } = useStudentActions();
   const [queryParams] = useSearchParams();
   const { students, pagination } = useRecoilValue(studentsAtom);
   const currentPage = useMemo(() => queryParams.get('page') || 1, [queryParams]);
-  const sortOrder = useMemo(() => queryParams.get('order') || 'asc', [queryParams]);
+  const sortOrder = useMemo(() => queryParams.get('order') || 'desc', [queryParams]);
   const query = useMemo(() => queryParams.get('q') || '', [queryParams]);
   const [checked, setChecked] = useState(students);
   const [unchecked, setUnChecked] = useState(true);
@@ -33,6 +34,24 @@ function Students() {
       return data;
     });
     setChecked(temp);
+  };
+
+  const deleteStudent = async (studentId) => {
+    const willDelete = await swal({
+      title: 'Are you sure?',
+      text:
+        'Once deleted, you will not be able to recover this record!',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    });
+
+    if (willDelete) {
+      const status = await destroy(studentId);
+      if (status === 204) {
+        getAll({ q: query, page: currentPage, order: sortOrder });
+      }
+    }
   };
 
   const handleCheckedAll = (value) => {
@@ -160,9 +179,9 @@ function Students() {
                                 </svg>
                               </Dropdown.Toggle>
                               <Dropdown.Menu className="dropdown-menu-end" align="end">
-                                <Link className="dropdown-item" to={`${item.id}/edit`} role="button">Edit</Link>
-                                <Link className="dropdown-item" to={`${item.id}/show`} role="button">View</Link>
-                                <Link className="dropdown-item" to={`${item.id}/destroy`} role="button"> Delete</Link>
+                                <Dropdown.Item as={Link} to={`${item.id}/edit`} role="button">Edit</Dropdown.Item>
+                                <Dropdown.Item as={Link} to={`${item.id}`}>View</Dropdown.Item>
+                                <Dropdown.Item as={Button} onClick={() => deleteStudent(item.id)} variant="link"> Delete</Dropdown.Item>
                               </Dropdown.Menu>
                             </Dropdown>
                           </td>
