@@ -2,7 +2,7 @@ import {
   useEffect, useMemo, useRef, useState,
 } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
-import { Dropdown } from 'react-bootstrap';
+import { Button, Dropdown } from 'react-bootstrap';
 import { useRecoilValue } from 'recoil';
 
 import swal from 'sweetalert';
@@ -179,9 +179,9 @@ function Students() {
                                 </svg>
                               </Dropdown.Toggle>
                               <Dropdown.Menu className="dropdown-menu-end" align="end">
-                                <Link className="dropdown-item" to={`${item.id}/edit`} role="button">Edit</Link>
-                                <Link className="dropdown-item" to={`${item.id}`} role="button">View</Link>
-                                <button className="dropdown-item" onClick={() => deleteStudent(item.id)} role="button"> Delete</button>
+                                <Dropdown.Item as={Link} to={`${item.id}/edit`} role="button">Edit</Dropdown.Item>
+                                <Dropdown.Item as={Link} to={`${item.id}`}>View</Dropdown.Item>
+                                <Dropdown.Item as={Button} onClick={() => deleteStudent(item.id)} variant="link"> Delete</Dropdown.Item>
                               </Dropdown.Menu>
                             </Dropdown>
                           </td>
