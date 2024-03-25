@@ -1,20 +1,30 @@
- import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const Footer = (props) => {
-  let d = new Date();
+function Footer({changeFooter}) {
   return (
-    <div className={`footer ${props.changeFooter}`}>
+    <div className={`footer ${changeFooter}`}>
       <div className="copyright">
         <p>
-          Copyright © Designed &amp; Developed by{" "}
-          <a href="http://dexignlab.com/" target="_blank" rel="noreferrer">
-            DexignLab
-          </a>{" "}
-          {d.getFullYear()}
+          Developed by
+          {' '}
+          <a href="http://github.com/alexesba" target="_blank" rel="noreferrer">
+            @alexesba
+          </a>
+          {' '}
+          2024
         </p>
       </div>
     </div>
   );
+}
+
+Footer.propTypes = {
+  changeFooter: PropTypes.string,
+};
+
+Footer.defaultProps = {
+  changeFooter: '',
 };
 
 export default Footer;

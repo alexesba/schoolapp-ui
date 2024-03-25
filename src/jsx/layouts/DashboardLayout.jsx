@@ -1,10 +1,12 @@
 import { useContext, useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { Alert, Col, Row } from 'react-bootstrap';
+import { ToastContainer } from 'react-toastify';
+import classNames from 'classnames';
 import Footer from './Footer';
 import Nav2 from './nav/index2';
 import WalletBar from './WalletBar';
-import { Alert, Col, Row } from "react-bootstrap";
 import toggleMenuAtom from '../../store/atoms/toggleMenuAtom';
 import { LOGIN_PATH } from '../../constants/app';
 import { ThemeContext } from '../../context/ThemeContext';
@@ -20,15 +22,14 @@ import currentUserAtom from '../../store/atoms/currentUserAtom';
 import useAuthActions from '../../store/actions/authActions';
 import lockScreenAtom from '../../store/atoms/lockScreenAtom';
 import AlertsContainer from '../components/Notifications/AlertsContainer';
-import { ToastContainer } from 'react-toastify';
-
+import walletActiveAtom from '../../store/atoms/walletActiveAtom';
 
 function DashboardLayout() {
   const { sidebariconHover } = useContext(ThemeContext);
   const sideMenu = useRecoilValue(toggleMenuAtom);
   const lockScreen = useRecoilValue(lockScreenAtom);
   const currentUser = useRecoilValue(currentUserAtom);
-  const windowsize = window.innerWidth;
+  const walletActive = useRecoilValue(walletActiveAtom);
   const { loadCurrentUserBytoken } = useAuthActions();
   const { isLoggedIn } = useSessionActions();
   loadCurrentUserBytoken();
@@ -41,7 +42,10 @@ function DashboardLayout() {
 
   return (
     <div id="main-wrapper" className={` show  ${sidebariconHover ? 'iconhover-toggle' : ''} ${sideMenu ? 'menu-toggle' : ''}`}>
-      <div className={`wallet-open  ${windowsize > 1920 ? 'active' : ''}`}>
+      <div className={
+        classNames({ 'wallet-open active': walletActive })
+      }
+      >
         <Nav2 />
         <div className="content-body" style={{ minHeight: window.screen.height + 20 }}>
           <div className="container-fluid">
@@ -50,8 +54,8 @@ function DashboardLayout() {
             <Outlet />
           </div>
         </div>
-        <Footer changeFooter="footer out-footer style-2" />
-        <WalletBar />
+        <Footer changeFooter={classNames({ 'out-footer style-2': !walletActive })} />
+        {walletActive && <WalletBar />}
       </div>
     </div>
   );
