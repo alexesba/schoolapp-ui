@@ -43,12 +43,24 @@ const useStudentActions = () => {
 
   const create = async (userParams) => {
     try {
-      const { data: { data: student } } = await api.post(STUDENT_URL, { user: userParams });
+      const { status, data: { data: student } } = await api.post(STUDENT_URL, { user: userParams });
       setStudents({ ...data, students: [student, ...data.students] });
       alert.success('The student has been created successfully');
+      return status;
     } catch (error) {
       alert.error(error.message);
-      console.log(error);
+      return error;
+    }
+  };
+
+  const destroy = async (userId) => {
+    try {
+      const { status } = await api.delete(`${STUDENT_URL}/${userId}`);
+      alert.success('The student has been deleted successfully');
+      return status;
+    } catch (error) {
+      alert.error(error.message);
+      return error;
     }
   };
 
@@ -56,6 +68,7 @@ const useStudentActions = () => {
     getAll,
     getOne,
     create,
+    destroy,
   };
 };
 

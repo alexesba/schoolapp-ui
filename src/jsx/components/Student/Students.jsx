@@ -5,6 +5,7 @@ import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
 import { useRecoilValue } from 'recoil';
 
+import swal from 'sweetalert';
 import noimage from '../../../images/no-img-avatar.png';
 import BasicModal from '../Dashboard/BasicModal';
 import useStudentActions from '../../../store/actions/studentActions';
@@ -16,7 +17,7 @@ import dateToLocalString from '../../../utils/date';
 
 function Students() {
   const childRef = useRef();
-  const { getAll } = useStudentActions();
+  const { getAll, destroy } = useStudentActions();
   const [queryParams] = useSearchParams();
   const { students, pagination } = useRecoilValue(studentsAtom);
   const currentPage = useMemo(() => queryParams.get('page') || 1, [queryParams]);
@@ -33,6 +34,24 @@ function Students() {
       return data;
     });
     setChecked(temp);
+  };
+
+  const deleteStudent = async (studentId) => {
+    const willDelete = await swal({
+      title: 'Are you sure?',
+      text:
+        'Once deleted, you will not be able to recover this record!',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    });
+
+    if (willDelete) {
+      const status = await destroy(studentId);
+      if (status === 204) {
+        getAll({ q: query, page: currentPage, order: sortOrder });
+      }
+    }
   };
 
   const handleCheckedAll = (value) => {
@@ -162,7 +181,7 @@ function Students() {
                               <Dropdown.Menu className="dropdown-menu-end" align="end">
                                 <Link className="dropdown-item" to={`${item.id}/edit`} role="button">Edit</Link>
                                 <Link className="dropdown-item" to={`${item.id}`} role="button">View</Link>
-                                <Link className="dropdown-item" to={`${item.id}/destroy`} role="button"> Delete</Link>
+                                <button className="dropdown-item" onClick={() => deleteStudent(item.id)} role="button"> Delete</button>
                               </Dropdown.Menu>
                             </Dropdown>
                           </td>
