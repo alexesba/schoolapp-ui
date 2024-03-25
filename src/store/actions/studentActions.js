@@ -1,10 +1,10 @@
 import { useRecoilState } from 'recoil';
+// import { toast } from 'react-toastify';
 import { STUDENT_URL } from '../../constants/api';
 import useAxiosWrapper from '../../http/useAxiosWrapper';
 import studentsAtom from '../atoms/studentsAtom';
 import studentDetailsAtom from '../atoms/studentDetailsAtom';
 import useAlert from './useAlert';
-// import { toast } from 'react-toastify';
 
 const useStudentActions = () => {
   const api = useAxiosWrapper();
@@ -26,12 +26,12 @@ const useStudentActions = () => {
     try {
       const { data: { data: student } } = await api.get(`${STUDENT_URL}/${userId}`);
       alert.success('The student has been loaded successfully');
-      /* toast.success('✔️ Top Right !', {
+      /* toast.success('The student has been loaded successfully !', {
         position: 'top-right',
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: false,
-        pauseOnHover: truei,
+        pauseOnHover: true,
         draggable: true,
       }); */
       return setStudetDetails(student);
@@ -47,7 +47,7 @@ const useStudentActions = () => {
       setStudents({ ...data, students: [student, ...data.students] });
       alert.success('The student has been created successfully');
     } catch (error) {
-      alert.error(error.message)
+      alert.error(error.message);
       console.log(error);
     }
   };

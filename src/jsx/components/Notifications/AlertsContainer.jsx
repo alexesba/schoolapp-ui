@@ -107,7 +107,7 @@ function AlertsContainer() {
           {' '}
           {state.message}
           {state.dismissible && (
-          <button className="btn-close" onClick={closeAlert}>
+          <button type="button" aria-label="close Alert" className="btn-close" onClick={closeAlert}>
             <span>
               <i className="fa-solid fa-xmark" />
             </span>
