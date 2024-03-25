@@ -62,13 +62,11 @@ function AddNewStudent() {
         console.log(error);
       }
     }
-    console.log('FORM DATA', user);
     create(user);
   };
 
   const {
     control,
-    setValue,
     register,
     handleSubmit,
     formState: { errors },

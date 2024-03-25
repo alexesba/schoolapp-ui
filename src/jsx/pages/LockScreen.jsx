@@ -1,16 +1,16 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 // image
+import { useRecoilValue } from 'recoil';
 import logo from '../../images/logo-full.png';
 import logolight from '../../images/logo-white.png';
-import { useRecoilValue } from 'recoil';
 import currentUserAtom from '../../store/atoms/currentUserAtom';
 import useAuthActions from '../../store/actions/authActions';
 
 function LockScreen() {
   const currentUser = useRecoilValue(currentUserAtom);
-  const { unlockScreenAction } = useAuthActions()
-  const pswdRef = useRef(null)
+  const { unlockScreenAction } = useAuthActions();
+  const pswdRef = useRef(null);
 
   const submitHandler = (e) => {
     e.preventDefault();

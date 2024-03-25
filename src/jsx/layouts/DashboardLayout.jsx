@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil';
 import Footer from './Footer';
 import Nav2 from './nav/index2';
 import WalletBar from './WalletBar';
+import { Alert, Col, Row } from "react-bootstrap";
 import toggleMenuAtom from '../../store/atoms/toggleMenuAtom';
 import { LOGIN_PATH } from '../../constants/app';
 import { ThemeContext } from '../../context/ThemeContext';
@@ -11,12 +12,16 @@ import '../index.css';
 import '../step.css';
 import '../chart.css';
 import 'react-datepicker/dist/react-datepicker.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import useSessionActions from '../../store/actions/sessionActions';
 import LockScreen from '../pages/LockScreen';
 import currentUserAtom from '../../store/atoms/currentUserAtom';
 import useAuthActions from '../../store/actions/authActions';
 import lockScreenAtom from '../../store/atoms/lockScreenAtom';
+import AlertsContainer from '../components/Notifications/AlertsContainer';
+import { ToastContainer } from 'react-toastify';
+
 
 function DashboardLayout() {
   const { sidebariconHover } = useContext(ThemeContext);
@@ -40,10 +45,12 @@ function DashboardLayout() {
         <Nav2 />
         <div className="content-body" style={{ minHeight: window.screen.height + 20 }}>
           <div className="container-fluid">
+            <AlertsContainer />
+            <ToastContainer />
             <Outlet />
           </div>
         </div>
-        <Footer changeFooter="footer-outer" />
+        <Footer changeFooter="footer out-footer style-2" />
         <WalletBar />
       </div>
     </div>
