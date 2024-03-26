@@ -66,7 +66,7 @@ function EditStudent() {
 
   return (
     <Suspense fallback={<LoaderSpinner />}>
-      {student && student.attributes && <StudentForm initialValues={initialValues} />}
+      <StudentForm initialValues={initialValues} />
     </Suspense>
   );
 }

@@ -149,6 +149,7 @@ function StudentForm({ initialValues }) {
                     <Row>
                       <Col xl="6" sm="6">
                         <Input name="organization_id" hidden />
+                        <Input name="id" hidden />
                         <Row className="mb-3">
                           <Input
                             name="first_name"
@@ -236,9 +237,14 @@ function StudentForm({ initialValues }) {
                 {studentAddressAtrributes.length > 1 ? 'Addresses' : 'Address'}
               </Form.Label>
               <hr />
-              {studentAddressAtrributes.map((field, index) => {
-                return <UserAddress index={index} field ={field} key={field.id} remove={deleteStudentAddress} />
-              })}
+              {studentAddressAtrributes.map((field, index) => (
+                <UserAddress
+                  key={field.objId}
+                  field={field}
+                  index={index}
+                  remove={deleteStudentAddress}
+                />
+              ))}
 
               <Row>
                 <button type="button" className="btn btn-default" onClick={addStudentAddress}>
@@ -265,7 +271,7 @@ function StudentForm({ initialValues }) {
                 parentsAtrributes.map((field, index) => {
                   const parentFields = `parents_attributes[${index}]`;
                   return (
-                    <Row key={index}>
+                    <Row key={field.objId}>
                       {index !== 0 && (<hr />)}
                       <Col xl="6" xm="6">
                         <Row className="mb-3">
