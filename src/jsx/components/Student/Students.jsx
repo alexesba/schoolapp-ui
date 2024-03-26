@@ -18,7 +18,6 @@ import dateToLocalString from '../../../utils/date';
 import LoaderSpinner from '../LoaderSpinner/LoaderSpinner';
 
 function Students() {
-  const childRef = useRef();
   const { getAll, destroy } = useStudentActions();
   const [queryParams] = useSearchParams();
   const { students, pagination } = useRecoilValue(studentsAtom);
@@ -76,13 +75,9 @@ function Students() {
                 <Search query={query} waitTime={2000} />
                 <div className="d-flex">
                   <SortOrder sortOrder={sortOrder} />
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => childRef.current.openModal()}
-                  >
+                  <Button as={Link} to="/students/new" type="primary">
                     + New Student
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -198,7 +193,6 @@ function Students() {
           </div>
         </div>
       </div>
-      <BasicModal ref={childRef} />
     </Suspense>
   );
 }
