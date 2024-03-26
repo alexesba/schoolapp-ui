@@ -155,6 +155,7 @@ function StudentForm({ initialValues }) {
                             name="first_name"
                             label="First Name"
                             placeholder="First Name"
+                            required
                           />
                         </Row>
 
@@ -163,6 +164,7 @@ function StudentForm({ initialValues }) {
                             name="middle_name"
                             label="Middle Name"
                             placeholder="Middle Name"
+                            required
                           />
                         </Row>
 
@@ -171,6 +173,7 @@ function StudentForm({ initialValues }) {
                             name="email"
                             label="Email"
                             placeholder="hello@example.com"
+                            required
                           />
                         </Row>
                       </Col>
@@ -180,6 +183,7 @@ function StudentForm({ initialValues }) {
                             name="last_name"
                             placeholder="Last Name"
                             label="Last Name"
+                            required
                           />
                         </Row>
                         <Row className="mb-3">
@@ -187,6 +191,7 @@ function StudentForm({ initialValues }) {
                             name="mobile_phone"
                             label="Phone Number"
                             placeholder="(312)123-176-3"
+                            required
                           />
                         </Row>
 
@@ -195,6 +200,7 @@ function StudentForm({ initialValues }) {
                             name="date_of_birth"
                             label="Date of Birth"
                             placeholder="mm/dd/YY"
+                            required
                           />
                         </Row>
                       </Col>
@@ -210,6 +216,7 @@ function StudentForm({ initialValues }) {
                             className="form-control"
                             placeholder="Select an option"
                             options={ROLE_OPTIONS}
+                            required
                           />
                         </Row>
                       </Col>
@@ -275,11 +282,21 @@ function StudentForm({ initialValues }) {
                       {index !== 0 && (<hr />)}
                       <Col xl="6" xm="6">
                         <Row className="mb-3">
-                          <Input name={`${parentFields}.organization_id`} hidden />
+                          <Input
+                            label="id"
+                            name={`${parentFields}.id`}
+                            hidden
+                          />
+                          <Input
+                            label="organization_id"
+                            name={`${parentFields}.organization_id`}
+                            hidden
+                          />
                           <Input
                             name={`${parentFields}.first_name`}
                             label="First Name"
                             placeholder="First Name"
+                            required
                           />
                         </Row>
                         <Row className="mb-3">
@@ -287,6 +304,7 @@ function StudentForm({ initialValues }) {
                             name={`${parentFields}.email`}
                             label="Email"
                             placeholder="hello@example.com"
+                            required
                           />
                         </Row>
 
@@ -322,6 +340,7 @@ function StudentForm({ initialValues }) {
                             name={`${parentFields}.last_name`}
                             placeholder="Last Name"
                             label="Last Name"
+                            required
                           />
                         </Row>
                         <Row className="mb-3">
@@ -330,6 +349,7 @@ function StudentForm({ initialValues }) {
                             type="number"
                             label="Phone Number"
                             placeholder="+3123234682"
+                            required
                           />
                         </Row>
 
@@ -340,6 +360,7 @@ function StudentForm({ initialValues }) {
                             className="form-control"
                             placeholder="Select an option"
                             options={ROLE_OPTIONS}
+                            required
                           />
                         </Row>
                       </div>

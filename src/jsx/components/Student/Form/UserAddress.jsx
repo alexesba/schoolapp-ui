@@ -14,11 +14,10 @@ function UserAddress({ index, field, remove }) {
   useEffect(() => {
     if (address) {
       const { attributes } = address;
-      setValue(fieldName('city'), attributes.city);
-      setValue(fieldName('id'), attributes.id);
-      setValue(fieldName('state'), attributes.state);
-      setValue(fieldName('street'), attributes.street);
-      setValue(fieldName('zip'), attributes.zip);
+      // Dinamically sets the value for each field
+      Object.keys(field).forEach((propName) => {
+        setValue(fieldName(propName), attributes[propName]);
+      });
     }
   }, [address, setValue]);
 
@@ -38,6 +37,7 @@ function UserAddress({ index, field, remove }) {
             name={fieldName('street')}
             label="Street"
             placeholder="Street"
+            required
           />
         </Row>
         <Row className="mb-3">
@@ -45,6 +45,7 @@ function UserAddress({ index, field, remove }) {
             name={fieldName('city')}
             placeholder="City"
             label="City"
+            required
           />
         </Row>
       </Col>
@@ -63,6 +64,7 @@ function UserAddress({ index, field, remove }) {
             name={fieldName('state')}
             placeholder="State"
             label="State"
+            required
           />
         </Row>
 
@@ -71,6 +73,7 @@ function UserAddress({ index, field, remove }) {
             label="Zip Code"
             placeholder="e.g: 28984"
             name={fieldName('zip')}
+            required
           />
         </Row>
       </Col>

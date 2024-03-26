@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { getErrorMessage, hasError } from './field-utils';
 
 function Input({
-  name, label, type, placeholder, hidden,
+  name, label, type, placeholder, hidden, required
 }) {
   const { errors, register } = useFormContext();
   return (
@@ -20,7 +20,7 @@ function Input({
       {label && (
       <Form.Label htmlFor={name} className="text-primary">
         {label}
-        <span className="required">*</span>
+        { required && <span className="required">*</span> }
       </Form.Label>
       )}
       <Form.Control
@@ -37,6 +37,7 @@ function Input({
 Input.propTypes = {
   type: PropTypes.string,
   hidden: PropTypes.bool,
+  required: PropTypes.bool,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   label: PropTypes.string,
@@ -45,6 +46,7 @@ Input.propTypes = {
 Input.defaultProps = {
   label: null,
   hidden: false,
+  required: false,
   type: 'text',
   placeholder: '',
 };
