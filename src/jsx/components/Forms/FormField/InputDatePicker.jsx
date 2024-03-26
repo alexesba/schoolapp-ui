@@ -15,7 +15,7 @@ const CustomInput = forwardRef(({ placeholderText, ...props }, ref) => {
         {...props}
         placeholder={placeholderText}
       />
-      <InputGroup.Text onClick={props.onClick}>
+      <InputGroup.Text onClick={props.onClick} role="button">
         <i className="fa fa-calendar-alt" />
       </InputGroup.Text>
       <Form.Control.Feedback type="invalid">
