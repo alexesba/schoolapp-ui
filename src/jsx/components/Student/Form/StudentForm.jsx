@@ -16,13 +16,10 @@ import createStudentSchema from '../validations/createStudent';
 import Input from '../../Forms/FormField/Input';
 import InputDatePicker from '../../Forms/FormField/InputDatePicker';
 import SelectInput from '../../Forms/FormField/SelectInput';
-import currentUserAtom from '../../../../store/atoms/currentUserAtom';
+import { GENDER_OPTIONS } from '../../../../constants/app';
 import UserAddress from './UserAddress';
+import ParentFields from './ParentFields';
 
-const ROLE_OPTIONS = [
-  { label: 'Male', value: 'male' },
-  { label: 'Female', value: 'female' },
-];
 
 function StudentForm({ initialValues }) {
   const { avatar } = initialValues;
@@ -79,7 +76,6 @@ function StudentForm({ initialValues }) {
     fields: studentAddressAtrributes,
     append: appendStudentAddress,
     remove: removeStudentAddress,
-    update: updateStudentAddress,
   } = useFieldArray({
     keyName: 'objId',
     control,
@@ -215,7 +211,7 @@ function StudentForm({ initialValues }) {
                             label="Gender"
                             className="form-control"
                             placeholder="Select an option"
-                            options={ROLE_OPTIONS}
+                            options={GENDER_OPTIONS}
                             required
                           />
                         </Row>
@@ -275,98 +271,14 @@ function StudentForm({ initialValues }) {
             </Card.Header>
             <Card.Body>
               {
-                parentsAtrributes.map((field, index) => {
-                  const parentFields = `parents_attributes[${index}]`;
-                  return (
-                    <Row key={field.objId}>
-                      {index !== 0 && (<hr />)}
-                      <Col xl="6" xm="6">
-                        <Row className="mb-3">
-                          <Input
-                            label="id"
-                            name={`${parentFields}.id`}
-                            hidden
-                          />
-                          <Input
-                            label="organization_id"
-                            name={`${parentFields}.organization_id`}
-                            hidden
-                          />
-                          <Input
-                            name={`${parentFields}.first_name`}
-                            label="First Name"
-                            placeholder="First Name"
-                            required
-                          />
-                        </Row>
-                        <Row className="mb-3">
-                          <Input
-                            name={`${parentFields}.email`}
-                            label="Email"
-                            placeholder="hello@example.com"
-                            required
-                          />
-                        </Row>
-
-                        <Row className="mb-3">
-                          <Form.Group as={Col}>
-                            <Form.Label className="form-label text-primary">
-                              Payments
-                              <span className="required">*</span>
-                            </Form.Label>
-                            <div className="d-flex align-items-center">
-                              <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                <label className="form-check-label font-w500" htmlFor="flexCheckDefault">Cash</label>
-                              </div>
-                              <div className="form-check ms-3">
-                                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
-                                <label className="form-check-label font-w500" htmlFor="flexCheckDefault1">Online</label>
-                              </div>
-                            </div>
-                          </Form.Group>
-                        </Row>
-                      </Col>
-                      <div className="col-xl-6 col-sm-6 position-relative">
-                        {index !== 0
-                          && (
-                            <i
-                              className="bi bi-x-circle position-absolute end-0 cursor-pointer pl-10"
-                              onClick={() => deleteParent(index)}
-                            />
-                          )}
-                        <Row className="mb-3">
-                          <Input
-                            name={`${parentFields}.last_name`}
-                            placeholder="Last Name"
-                            label="Last Name"
-                            required
-                          />
-                        </Row>
-                        <Row className="mb-3">
-                          <Input
-                            name={`${parentFields}.mobile_phone`}
-                            type="number"
-                            label="Phone Number"
-                            placeholder="+3123234682"
-                            required
-                          />
-                        </Row>
-
-                        <Row className="mb-3">
-                          <SelectInput
-                            name={`${parentFields}.gender`}
-                            label="Gender"
-                            className="form-control"
-                            placeholder="Select an option"
-                            options={ROLE_OPTIONS}
-                            required
-                          />
-                        </Row>
-                      </div>
-                    </Row>
-                  );
-                })
+                parentsAtrributes.map((field, index) => (
+                  <ParentFields
+                    field={field}
+                    index={index}
+                    key={field.objId}
+                    remove={removeParent}
+                  />
+                ))
               }
               <Row>
                 <button

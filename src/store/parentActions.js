@@ -17,11 +17,16 @@ const useParentActions = () => {
   const api = useAxiosWrapper();
 
   const getOneAsync = (parentId) => {
-    const [parent, setParent] = useState();
+    const [parent, setParent] = useState(null);
 
     useEffect(() => {
       const loadParent = async () => {
-        const promise = api.get(`${PARENT_URL}/${parentId}`).then(({ data: { data } }) => data);
+        let promise;
+        if (parentId) {
+          promise = api.get(`${PARENT_URL}/${parentId}`).then(({ data: { data } }) => data);
+        } else {
+          promise = new Promise((resolve) => { resolve(null); });
+        }
         setParent(promiseWrapper(promise));
       };
 
