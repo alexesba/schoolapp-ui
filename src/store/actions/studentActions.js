@@ -1,15 +1,15 @@
 import { useRecoilState } from 'recoil';
 // import { toast } from 'react-toastify';
+import { useEffect, useState } from 'react';
 import { STUDENT_URL } from '../../constants/api';
 import useAxiosWrapper, { promiseWrapper } from '../../http/useAxiosWrapper';
 import studentsAtom from '../atoms/studentsAtom';
 import studentDetailsAtom from '../atoms/studentDetailsAtom';
 import useAlert from './useAlert';
-import { useEffect, useState } from 'react';
 
 const useStudentActions = () => {
   const api = useAxiosWrapper();
-  const [data, setStudents] = useRecoilState(studentsAtom);
+  const [studentCollection, setStudents] = useRecoilState(studentsAtom);
   const [, setStudetDetails] = useRecoilState(studentDetailsAtom);
   const alert = useAlert();
 
@@ -47,9 +47,7 @@ const useStudentActions = () => {
 
     useEffect(() => {
       const loadUser = async () => {
-        const promise = api.get(`${STUDENT_URL}/${userId}`).then(({ data: { data } }) => {
-          return data;
-        });
+        const promise = api.get(`${STUDENT_URL}/${userId}`).then(({ data: { data } }) => data);
 
         setStudent(promiseWrapper(promise));
       };
@@ -63,7 +61,7 @@ const useStudentActions = () => {
   const create = async (userParams) => {
     try {
       const { status, data: { data: student } } = await api.post(STUDENT_URL, { user: userParams });
-      setStudents({ ...data, students: [student, ...data.students] });
+      setStudents({ ...studentCollection, students: [student, ...studentCollection.students] });
       alert.success('The student has been created successfully');
       return status;
     } catch (error) {

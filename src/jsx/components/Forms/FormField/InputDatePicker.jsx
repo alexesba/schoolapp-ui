@@ -5,23 +5,21 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { forwardRef } from 'react';
 import { getErrorMessage, hasError } from './field-utils';
 
-const CustomInput = forwardRef((props, ref) => {
+const CustomInput = forwardRef(({ placeholderText, ...props }, ref) => {
   const { errors } = useFormContext();
   return (
     <InputGroup>
       <Form.Control
         ref={ref}
         isInvalid={hasError(errors, props.name)}
-        // eslint-disable-next-line react/jsx-props-no-spreading
         {...props}
-        placeholder={props.placeholderText}
+        placeholder={placeholderText}
       />
       <InputGroup.Text onClick={props.onClick}>
         <i className="fa fa-calendar-alt" />
       </InputGroup.Text>
       <Form.Control.Feedback type="invalid">
         {getErrorMessage(errors, props.name)}
-        &nbsp;
       </Form.Control.Feedback>
     </InputGroup>
   );
@@ -30,7 +28,11 @@ const CustomInput = forwardRef((props, ref) => {
 CustomInput.propTypes = {
   name: PropTypes.string.isRequired,
   placeholderText: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
+};
+
+CustomInput.defaultProps = {
+  onClick: () => { },
 };
 
 function InputDatePicker({ placeholder, name, label }) {
@@ -58,11 +60,10 @@ function InputDatePicker({ placeholder, name, label }) {
             wrapperClassName="input-group"
             customInput={(
               <CustomInput
-                // eslint-disable-next-line react/jsx-props-no-spreading
                 {...field}
                 placeholderText={placeholder}
               />
-        )}
+            )}
           />
         )}
       />
@@ -77,7 +78,6 @@ InputDatePicker.propTypes = {
 };
 
 InputDatePicker.defaultProps = {
-  type: 'text',
   placeholder: '',
 };
 

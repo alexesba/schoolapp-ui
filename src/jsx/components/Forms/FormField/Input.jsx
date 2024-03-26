@@ -12,15 +12,17 @@ function Input({
     <Form.Group
       as={Col}
       className={
-      classNames('text-primary', {
-        'd-none': hidden,
-      })
-    }
+        classNames('text-primary', {
+          'd-none': hidden,
+        })
+      }
     >
+      {label && (
       <Form.Label htmlFor={name} className="text-primary">
         {label}
         <span className="required">*</span>
       </Form.Label>
+      )}
       <Form.Control
         type={type}
         placeholder={placeholder}
@@ -37,10 +39,11 @@ Input.propTypes = {
   hidden: PropTypes.bool,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
 };
 
 Input.defaultProps = {
+  label: null,
   hidden: false,
   type: 'text',
   placeholder: '',
