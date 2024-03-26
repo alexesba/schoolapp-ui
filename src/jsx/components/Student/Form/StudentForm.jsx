@@ -67,7 +67,6 @@ function StudentForm({ initialValues, submitAction }) {
     defaultValues: initialValues,
   });
 
-  console.log(errors);
 
   const {
     fields: studentAddressAtrributes,
@@ -86,8 +85,6 @@ function StudentForm({ initialValues, submitAction }) {
     zip: null,
   }), [appendStudentAddress]);
 
-  const deleteStudentAddress = useCallback((index) => removeStudentAddress(index), [removeStudentAddress]);
-
   const {
     fields: parentsAtrributes, append: appendParent, remove: removeParent,
   } = useFieldArray({
@@ -104,8 +101,6 @@ function StudentForm({ initialValues, submitAction }) {
     mobile_phone: '',
     date_of_birth: '',
   }), [appendParent]);
-
-  const deleteParent = useCallback((index) => removeParent(index), [removeParent]);
 
   return (
     <FormProvider setValue={setValue} errors={errors} register={register} control={control}>
@@ -225,7 +220,7 @@ function StudentForm({ initialValues, submitAction }) {
                   key={field.objId}
                   field={field}
                   index={index}
-                  remove={deleteStudentAddress}
+                  remove={removeStudentAddress}
                 />
               ))}
 
