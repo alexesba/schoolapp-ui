@@ -1,10 +1,12 @@
 import { useRecoilValue } from 'recoil';
 import currentUserAtom from '../../../store/atoms/currentUserAtom';
 import StudentForm from './Form/StudentForm';
+import useStudentActions from '../../../store/actions/studentActions';
 
 function AddNewStudent() {
   const currentUser = useRecoilValue(currentUserAtom);
   const organizationId = currentUser.organization_id;
+  const { create } = useStudentActions();
 
   const initialValues = {
     organization_id: organizationId,
@@ -37,7 +39,10 @@ function AddNewStudent() {
   };
 
   return (
-    <StudentForm initialValues={initialValues} />
+    <StudentForm
+      initialValues={initialValues}
+      submitAction={create}
+    />
   );
 }
 

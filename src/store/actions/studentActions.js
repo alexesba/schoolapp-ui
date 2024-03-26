@@ -61,8 +61,18 @@ const useStudentActions = () => {
   const create = async (userParams) => {
     try {
       const { status, data: { data: student } } = await api.post(STUDENT_URL, { user: userParams });
-      setStudents({ ...studentCollection, students: [student, ...studentCollection.students] });
       alert.success('The student has been created successfully');
+      return status;
+    } catch (error) {
+      alert.error(error.message);
+      return error;
+    }
+  };
+
+  const update = async (userParams) => {
+    try {
+      const { status, data: { data: student } } = await api.put(`${STUDENT_URL}/${userParams.id}`, { user: userParams });
+      alert.success('The student has been updated successfully');
       return status;
     } catch (error) {
       alert.error(error.message);
@@ -86,6 +96,7 @@ const useStudentActions = () => {
     getOne,
     create,
     destroy,
+    update,
     getOneAsync,
   };
 };

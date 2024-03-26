@@ -1,17 +1,14 @@
 import {
-  useCallback, useEffect, useState,
+  useCallback, useState,
 } from 'react';
 import { Link } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
-import DatePicker from 'react-datepicker';
-import { useRecoilValue } from 'recoil';
 import Form from 'react-bootstrap/Form';
 import {
   FormProvider, useFieldArray, useForm,
 } from 'react-hook-form';
 import { Card, Col, Row } from 'react-bootstrap';
 import { IMAGES } from '../../Dashboard/Content';
-import useStudentActions from '../../../../store/actions/studentActions';
 import createStudentSchema from '../validations/createStudent';
 import Input from '../../Forms/FormField/Input';
 import InputDatePicker from '../../Forms/FormField/InputDatePicker';
@@ -20,10 +17,9 @@ import { GENDER_OPTIONS } from '../../../../constants/app';
 import UserAddress from './UserAddress';
 import ParentFields from './ParentFields';
 
-
-function StudentForm({ initialValues }) {
+function StudentForm({ initialValues, submitAction }) {
   const { avatar } = initialValues;
-  const { create } = useStudentActions();
+  console.log(submitAction);
   const [file, setFile] = useState(null);
 
   const fileHandler = (e) => {
@@ -56,7 +52,7 @@ function StudentForm({ initialValues }) {
         console.log(error);
       }
     }
-    create(user);
+    submitAction(user);
   };
 
   const {
@@ -292,7 +288,9 @@ function StudentForm({ initialValues }) {
                 </button>
               </Row>
               <div className="d-flex flex-row-reverse">
-                <button className="btn btn-primary" type="submit">Save</button>
+                <button className="btn btn-primary" type="submit">
+                  {initialValues?.id ? 'Update' : 'Save'}
+                </button>
                 <button type="reset" className="btn btn-outline-primary me-3">Cancel</button>
               </div>
             </Card.Body>
