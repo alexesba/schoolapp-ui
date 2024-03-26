@@ -2,13 +2,12 @@ import {
   Suspense,
   useEffect, useMemo, useRef, useState,
 } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Button, Dropdown } from 'react-bootstrap';
 import { useRecoilValue } from 'recoil';
 
 import swal from 'sweetalert';
 import noimage from '../../../images/no-img-avatar.png';
-import BasicModal from '../Dashboard/BasicModal';
 import useStudentActions from '../../../store/actions/studentActions';
 import studentsAtom from '../../../store/atoms/studentsAtom';
 import Pagination from '../Pagination';
