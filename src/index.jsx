@@ -19,6 +19,7 @@ const LoginPage = React.lazy(() => import('./jsx/pages/Login'));
 const DashboardLayout = React.lazy(() => import('./jsx/layouts/DashboardLayout'));
 const Students = React.lazy(() => import('./jsx/components/Student/Students'));
 const StudentDetails = React.lazy(() => import('./jsx/components/Student/StudentDetails'));
+const EditStudent = React.lazy(() => import('./jsx/components/Student/EditStudent'));
 const AddNewStudent = React.lazy(() => import('./jsx/components/Student/AddNewStudent'));
 const Teachers = React.lazy(() => import('./jsx/components/Teacher/Teachers'));
 const TeacherDetail = React.lazy(() => import('./jsx/components/Teacher/TeachersDetail'));
@@ -43,7 +44,7 @@ root.render(
                 <Route path="students" element={<Outlet />}>
                   <Route index element={<Students />} />
                   <Route path="new" element={<AddNewStudent />} />
-                  <Route path=":id/edit" element={<EditProfile />} />
+                  <Route path=":id/edit" element={<EditStudent />} />
                   <Route path=":id" element={<StudentDetails />} />
                 </Route>
                 <Route path="parents" element={<Outlet />}>

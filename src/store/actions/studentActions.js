@@ -1,10 +1,11 @@
 import { useRecoilState } from 'recoil';
 // import { toast } from 'react-toastify';
 import { STUDENT_URL } from '../../constants/api';
-import useAxiosWrapper from '../../http/useAxiosWrapper';
+import useAxiosWrapper, { promiseWrapper } from '../../http/useAxiosWrapper';
 import studentsAtom from '../atoms/studentsAtom';
 import studentDetailsAtom from '../atoms/studentDetailsAtom';
 import useAlert from './useAlert';
+import { useEffect, useState } from 'react';
 
 const useStudentActions = () => {
   const api = useAxiosWrapper();
@@ -41,6 +42,24 @@ const useStudentActions = () => {
     }
   };
 
+  const getOneAsync = (userId) => {
+    const [student, setStudent] = useState(null);
+
+    useEffect(() => {
+      const loadUser = async () => {
+        const promise = api.get(`${STUDENT_URL}/${userId}`).then(({ data: { data } }) => {
+          return data;
+        });
+
+        setStudent(promiseWrapper(promise));
+      };
+
+      loadUser();
+    }, [userId]);
+
+    return student;
+  };
+
   const create = async (userParams) => {
     try {
       const { status, data: { data: student } } = await api.post(STUDENT_URL, { user: userParams });
@@ -69,6 +88,7 @@ const useStudentActions = () => {
     getOne,
     create,
     destroy,
+    getOneAsync,
   };
 };
 
