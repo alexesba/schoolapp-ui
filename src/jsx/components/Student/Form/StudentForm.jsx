@@ -19,7 +19,6 @@ import ParentFields from './ParentFields';
 
 function StudentForm({ initialValues, submitAction }) {
   const { avatar } = initialValues;
-  console.log(submitAction);
   const [file, setFile] = useState(null);
 
   const fileHandler = (e) => {
@@ -68,6 +67,8 @@ function StudentForm({ initialValues, submitAction }) {
     defaultValues: initialValues,
   });
 
+  console.log(errors);
+
   const {
     fields: studentAddressAtrributes,
     append: appendStudentAddress,
@@ -100,7 +101,6 @@ function StudentForm({ initialValues, submitAction }) {
     first_name: '',
     home_phone: '',
     last_name: '',
-    middle_name: '',
     mobile_phone: '',
     date_of_birth: '',
   }), [appendParent]);
@@ -153,18 +153,17 @@ function StudentForm({ initialValues, submitAction }) {
 
                         <Row className="mb-3">
                           <Input
-                            name="middle_name"
-                            label="Middle Name"
-                            placeholder="Middle Name"
-                            required
-                          />
-                        </Row>
-
-                        <Row className="mb-3">
-                          <Input
                             name="email"
                             label="Email"
                             placeholder="hello@example.com"
+                            required
+                          />
+                        </Row>
+                        <Row className="mb-3">
+                          <InputDatePicker
+                            name="date_of_birth"
+                            label="Date of Birth"
+                            placeholder="mm/dd/YY"
                             required
                           />
                         </Row>
@@ -186,21 +185,6 @@ function StudentForm({ initialValues, submitAction }) {
                             required
                           />
                         </Row>
-
-                        <Row className="mb-3">
-                          <InputDatePicker
-                            name="date_of_birth"
-                            label="Date of Birth"
-                            placeholder="mm/dd/YY"
-                            required
-                          />
-                        </Row>
-                      </Col>
-                    </Row>
-                  </Col>
-                  <Col xl="9" className="offset-md-3">
-                    <Row>
-                      <Col xl="6" sm="6">
                         <Row className="mb-3">
                           <SelectInput
                             name="gender"

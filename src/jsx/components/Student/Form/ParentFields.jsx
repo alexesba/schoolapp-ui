@@ -56,23 +56,16 @@ function ParentFields({ field, index, remove }) {
         </Row>
 
         <Row className="mb-3">
-          <Form.Group as={Col}>
-            <Form.Label className="form-label text-primary">
-              Payments
-              <span className="required">*</span>
-            </Form.Label>
-            <div className="d-flex align-items-center">
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                <label className="form-check-label font-w500" htmlFor="flexCheckDefault">Cash</label>
-              </div>
-              <div className="form-check ms-3">
-                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
-                <label className="form-check-label font-w500" htmlFor="flexCheckDefault1">Online</label>
-              </div>
-            </div>
-          </Form.Group>
+          <SelectInput
+            name={fieldName('gender')}
+            label="Gender"
+            className="form-control"
+            placeholder="Select an option"
+            options={GENDER_OPTIONS}
+            required
+          />
         </Row>
+
       </Col>
       <div className="col-xl-6 col-sm-6 position-relative">
         {index !== 0
@@ -101,14 +94,22 @@ function ParentFields({ field, index, remove }) {
         </Row>
 
         <Row className="mb-3">
-          <SelectInput
-            name={fieldName('gender')}
-            label="Gender"
-            className="form-control"
-            placeholder="Select an option"
-            options={GENDER_OPTIONS}
-            required
-          />
+          <Form.Group as={Col}>
+            <Form.Label className="form-label text-primary">
+              Payments
+              <span className="required">*</span>
+            </Form.Label>
+            <div className="d-flex align-items-center">
+              <div className="form-check">
+                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                <label className="form-check-label font-w500" htmlFor="flexCheckDefault">Cash</label>
+              </div>
+              <div className="form-check ms-3">
+                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
+                <label className="form-check-label font-w500" htmlFor="flexCheckDefault1">Online</label>
+              </div>
+            </div>
+          </Form.Group>
         </Row>
       </div>
     </Row>

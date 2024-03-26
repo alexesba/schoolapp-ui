@@ -1,4 +1,5 @@
 import {
+  Suspense,
   useEffect, useMemo, useRef, useState,
 } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
@@ -14,6 +15,7 @@ import Pagination from '../Pagination';
 import SortOrder from '../Pagination/SortOrder';
 import Search from '../Pagination/Search';
 import dateToLocalString from '../../../utils/date';
+import LoaderSpinner from '../LoaderSpinner/LoaderSpinner';
 
 function Students() {
   const childRef = useRef();
@@ -65,7 +67,7 @@ function Students() {
   }, [query, currentPage, sortOrder]);
 
   return (
-    <>
+    <Suspense fallback={<LoaderSpinner />}>
       <div className="row">
         <div className="col-xl-12">
           <div className="row">
@@ -197,7 +199,7 @@ function Students() {
         </div>
       </div>
       <BasicModal ref={childRef} />
-    </>
+    </Suspense>
   );
 }
 export default Students;

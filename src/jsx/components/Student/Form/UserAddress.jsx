@@ -26,7 +26,6 @@ function UserAddress({ index, field, remove }) {
       {index !== 0 && (<hr />)}
       <Col xl="6" sm="6">
         <Row className="mb-3">
-
           <Input
             name={fieldName('id')}
             label="id"

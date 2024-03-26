@@ -9,7 +9,7 @@ import useAlert from './useAlert';
 
 const useStudentActions = () => {
   const api = useAxiosWrapper();
-  const [studentCollection, setStudents] = useRecoilState(studentsAtom);
+  const [, setStudents] = useRecoilState(studentsAtom);
   const [, setStudetDetails] = useRecoilState(studentDetailsAtom);
   const alert = useAlert();
 
@@ -62,7 +62,7 @@ const useStudentActions = () => {
     try {
       const { status, data: { data: student } } = await api.post(STUDENT_URL, { user: userParams });
       alert.success('The student has been created successfully');
-      return status;
+      return { status, student };
     } catch (error) {
       alert.error(error.message);
       return error;
@@ -73,7 +73,7 @@ const useStudentActions = () => {
     try {
       const { status, data: { data: student } } = await api.put(`${STUDENT_URL}/${userParams.id}`, { user: userParams });
       alert.success('The student has been updated successfully');
-      return status;
+      return { status, student };
     } catch (error) {
       alert.error(error.message);
       return error;

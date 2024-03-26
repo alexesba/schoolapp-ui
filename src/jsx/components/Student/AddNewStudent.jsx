@@ -1,4 +1,5 @@
 import { useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import currentUserAtom from '../../../store/atoms/currentUserAtom';
 import StudentForm from './Form/StudentForm';
 import useStudentActions from '../../../store/actions/studentActions';
@@ -7,6 +8,7 @@ function AddNewStudent() {
   const currentUser = useRecoilValue(currentUserAtom);
   const organizationId = currentUser.organization_id;
   const { create } = useStudentActions();
+  const navigate = useNavigate();
 
   const initialValues = {
     organization_id: organizationId,
@@ -38,10 +40,18 @@ function AddNewStudent() {
     ],
   };
 
+  const submitAction = async (userFormParams) => {
+    const { status, student } = await create(userFormParams);
+
+    if (status === 200) {
+      navigate(`/students/${student.id}/edit`);
+    }
+  };
+
   return (
     <StudentForm
       initialValues={initialValues}
-      submitAction={create}
+      submitAction={submitAction}
     />
   );
 }

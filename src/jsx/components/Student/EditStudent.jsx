@@ -1,9 +1,6 @@
-import { Suspense, useEffect, useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { Suspense } from 'react';
 import { useParams } from 'react-router-dom';
 import useStudentActions from '../../../store/actions/studentActions';
-import studentDetailsAtom from '../../../store/atoms/studentDetailsAtom';
-import currentUserAtom from '../../../store/atoms/currentUserAtom';
 import StudentForm from './Form/StudentForm';
 import LoaderSpinner from '../LoaderSpinner/LoaderSpinner';
 
@@ -61,12 +58,16 @@ function EditStudent() {
   const { getOneAsync: getStudent, update } = useStudentActions();
   const student = getStudent(userId);
 
+  const submitAction = (userFormParams) => {
+    update(userFormParams);
+  };
+
   return (
     <Suspense fallback={<LoaderSpinner />}>
       { student && (
       <StudentForm
         initialValues={initialValues(student)}
-        submitAction={update}
+        submitAction={submitAction}
       />
       ) }
     </Suspense>
