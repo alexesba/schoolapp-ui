@@ -1,5 +1,4 @@
 import React, { StrictMode, Suspense } from 'react';
-import RecoilizeDebugger from 'recoilize';
 import { createRoot } from 'react-dom/client';
 import {
   BrowserRouter, Route, Routes, Outlet,
@@ -33,7 +32,6 @@ const root = createRoot(app);
 root.render(
   <StrictMode>
     <RecoilRoot>
-      <RecoilizeDebugger root={app} />
       <BrowserRouter>
         <ThemeContextProvider>
           <Suspense fallback={<LoaderSpinner />}>
