@@ -30,10 +30,6 @@ export const MenuList = [
         to: 'students',
       },
       {
-        title: 'Student Detail',
-        to: 'student-detail',
-      },
-      {
         title: 'Add New Student',
         to: 'students/new',
       },

@@ -57,7 +57,6 @@ root.render(
                   <Route path="new" element={<AddNewTeacher />} />
                 </Route>
                 {/* Remove the student-detail and teacher-detail routes */}
-                <Route path="student-detail" element={<StudentDetails />} />
                 <Route path="teacher-detail" element={<TeacherDetail />} />
                 <Route path="app-profile" element={<AppProfile />} />
                 <Route path="edit-profile" element={<EditProfile />} />
