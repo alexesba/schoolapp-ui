@@ -1,272 +1,42 @@
-import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Dropdown, Modal } from 'react-bootstrap';
-import swal from 'sweetalert';
-import { nanoid } from 'nanoid';
-import { IMAGES } from '../Dashboard/Content';
+import { Button, Dropdown } from 'react-bootstrap';
+import BigButtonPagination from '../Pagination/BigButtonPagination';
+import Search from '../Pagination/Search';
+import SortOrder from '../Pagination/SortOrder';
 
-const CardListBlog = [
-  {
-    id: 1,
-    image: IMAGES.contact1,
-    Post: 'Teacher',
-    Cust_Name: 'Munaroh Steffani',
-    Subject: 'Mathematics',
-  },
-  {
-    id: 2,
-    image: IMAGES.contact2,
-    Post: 'Teacher',
-    Cust_Name: 'Geovanny Anderson',
-    Subject: 'Science ',
-  },
-  {
-    id: 3,
-    image: IMAGES.contact3,
-    Post: 'Teacher',
-    Cust_Name: 'Louis Ali',
-    Subject: 'English',
-  },
-  {
-    id: 4,
-    image: IMAGES.contact4,
-    Post: 'Teacher',
-    Cust_Name: 'Marquezz',
-    Subject: 'History',
-  },
-  {
-    id: 5,
-    image: IMAGES.contact5,
-    Post: 'Teacher',
-    Cust_Name: 'Richard ',
-    Subject: 'Biology',
-  },
-  {
-    id: 6,
-    image: IMAGES.contact6,
-    Post: 'Teacher',
-    Cust_Name: 'Andrew Stevano',
-    Subject: 'Music',
-  },
-  {
-    id: 7,
-    image: IMAGES.contact7,
-    Post: 'Teacher',
-    Cust_Name: 'Cathenna ',
-    Subject: 'Literature',
-  },
-  {
-    id: 8,
-    image: IMAGES.contact8,
-    Post: 'Teacher',
-    Cust_Name: 'Hrisovalantis ',
-    Subject: 'Psychology',
-  },
-  {
-    id: 9,
-    image: IMAGES.contact9,
-    Post: 'Teacher',
-    Cust_Name: 'Louis Ali',
-    Subject: 'English',
-  },
-  {
-    id: 10,
-    image: IMAGES.contact10,
-    Post: 'Teacher',
-    Cust_Name: 'Marquezz',
-    Subject: 'History',
-  },
-  {
-    id: 11,
-    image: IMAGES.contact11,
-    Post: 'Teacher',
-    Cust_Name: 'Richard ',
-    Subject: 'Biology',
-  },
-  {
-    id: 12,
-    image: IMAGES.contact12,
-    Post: 'Teacher',
-    Cust_Name: 'Andrew Stevano',
-    Subject: 'Music',
-  },
-];
-
-function Teachers() {
-  const [postModal, setPostModal] = useState(false);
-  const [teachers, setTeacher] = useState(CardListBlog);
-  // delete data
-  const handleDeleteClick = (contactId) => {
-    const newContacts = [...teachers];
-    const index = teachers.findIndex((contact) => contact.id === contactId);
-    newContacts.splice(index, 1);
-    setTeacher(newContacts);
-  };
-
-  // Add data
-  const [addFormData, setAddFormData] = useState({
-    Post: '',
-    Cust_Name: '',
-    Subject: '',
-    image: '',
-  });
-
-  // Add contact function
-  const handleAddFormChange = (event) => {
-    event.preventDefault();
-    const fieldName = event.target.getAttribute('name');
-    const fieldValue = event.target.value;
-    const newFormData = { ...addFormData };
-    newFormData[fieldName] = fieldValue;
-    setAddFormData(newFormData);
-  };
-
-  // Add Submit data
-  const handleAddFormSubmit = (event) => {
-    event.preventDefault();
-    let error = false;
-    let errorMsg = '';
-    if (addFormData.Post === '') {
-      error = true;
-      errorMsg = 'Please fill post';
-    } else if (addFormData.Cust_Name === '') {
-      error = true;
-      errorMsg = 'Please fill name.';
-    } else if (addFormData.Subject === '') {
-      error = true;
-      errorMsg = 'Please fill Subject';
-    }
-    if (!error) {
-      const newContact = {
-        id: nanoid(),
-        Post: addFormData.Post,
-        Cust_Name: addFormData.Cust_Name,
-        Subject: addFormData.Subject,
-        image: addFormData.image,
-      };
-      const newContacts = [...teachers, newContact];
-      setTeacher(newContacts);
-      setPostModal(false);
-      swal('Good job!', 'Successfully Added', 'success');
-      addFormData.Cust_Name = addFormData.Subject = addFormData.Post = '';
-    } else {
-      swal('Oops', errorMsg, 'error');
-    }
-  };
-
-  const [editModal, setEditModal] = useState(false);
-
-  // Edit function editable page loop
-  const [editContactId, setEditContactId] = useState(null);
-
-  // Edit function button click to edit
-  const handleEditClick = (event, contact) => {
-    event.preventDefault();
-    setEditContactId(contact.id);
-    const formValues = {
-      Post: contact.Post,
-      Cust_Name: contact.Cust_Name,
-      Subject: contact.Subject,
-      image: contact.image,
-    };
-    setEditFormData(formValues);
-    setEditModal(true);
-  };
-
-  // edit  data
-  const [editFormData, setEditFormData] = useState({
-    Post: '',
-    Cust_Name: '',
-    Subject: '',
-    image: '',
-  });
-
-  // update data function
-  const handleEditFormChange = (event) => {
-    event.preventDefault();
-    const fieldName = event.target.getAttribute('name');
-    const fieldValue = event.target.value;
-    const newFormData = { ...editFormData };
-    newFormData[fieldName] = fieldValue;
-    setEditFormData(newFormData);
-  };
-
-  // edit form data submit
-  const handleEditFormSubmit = (event) => {
-    event.preventDefault();
-    const editedContact = {
-      id: editContactId,
-      Post: editFormData.Post,
-      Cust_Name: editFormData.Cust_Name,
-      Subject: editFormData.Subject,
-      image: editFormData.image,
-    };
-    const newContacts = [...teachers];
-    const index = teachers.findIndex((contact) => contact.id === editContactId);
-    newContacts[index] = editedContact;
-    setTeacher(newContacts);
-    setEditContactId(null);
-    setEditModal(false);
-  };
-
-  // For Image upload in ListBlog
-  const [file, setFile] = React.useState(null);
-  const fileHandler = (e) => {
-    setFile(e.target.files[0]);
-    setTimeout(() => {
-      const src = document.getElementById('saveImageFile').getAttribute('src');
-      addFormData.image = src;
-    }, 200);
-  };
+function Teachers({ pagination, teachers, sortOrder, query }) {
   return (
     <div className="row">
       <div className="col-xl-12">
         <div className="page-title flex-wrap">
-          <div className="input-group search-area mb-md-0 mb-3">
-            <input type="text" className="form-control" placeholder="Search here..." />
-            <span className="input-group-text">
-              <Link to="#">
-                <svg width="15" height="15" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M17.5605 15.4395L13.7527 11.6317C14.5395 10.446 15 9.02625 15 7.5C15 3.3645 11.6355 0 7.5 0C3.3645 0 0 3.3645 0 7.5C0 11.6355 3.3645 15 7.5 15C9.02625 15 10.446 14.5395 11.6317 13.7527L15.4395 17.5605C16.0245 18.1462 16.9755 18.1462 17.5605 17.5605C18.1462 16.9747 18.1462 16.0252 17.5605 15.4395V15.4395ZM2.25 7.5C2.25 4.605 4.605 2.25 7.5 2.25C10.395 2.25 12.75 4.605 12.75 7.5C12.75 10.395 10.395 12.75 7.5 12.75C4.605 12.75 2.25 10.395 2.25 7.5V7.5Z" fill="#01A3FF" />
-                </svg>
-              </Link>
-            </span>
-          </div>
+          <Search query={query} waitTime={2000} />
           <div className="d-flex">
-            <Dropdown className="drop-select me-3">
-              <Dropdown.Toggle as="div" className="drop-select-btn ">
-                Newest
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item>Newest</Dropdown.Item>
-                <Dropdown.Item>Oldest</Dropdown.Item>
-                <Dropdown.Item>Recent</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => setPostModal(true)}
+            <SortOrder sortOrder={sortOrder} />
+            <Button as={Link}
+              type="primary"
+              to="/teachers/new"
             >
               + New Teacher
-            </button>
+            </Button>
           </div>
         </div>
       </div>
       <div className="col-xl-12">
         <div className="row">
-          {teachers.map((contact, index) => (
+          {teachers.map(({ attributes: contact }, index) => (
             <div className="col-xl-3 col-lg-4 col-sm-6" key={index}>
               <div className="card contact_list text-center">
                 <div className="card-body">
                   <div className="user-content">
                     <div className="user-info">
                       <div className="user-img">
-                        <img src={contact.image} alt="" className="avatar avatar-xl" />
+                        <img src={contact.avatar} alt="" className="avatar avatar-xl" />
                       </div>
                       <div className="user-details">
-                        <h4 className="user-name mb-0">{contact.Cust_Name}</h4>
-                        <p>{contact.Post}</p>
+                        <h4 className="user-name mb-0">
+                          {`${contact.first_name}${contact.middle_name ? ` ${contact.middle_name} ` : ' '}${contact.last_name}`}
+                        </h4>
+                        <p>{contact.email}</p>
                       </div>
                     </div>
                     <Dropdown>
@@ -276,7 +46,7 @@ function Teachers() {
                         </svg>
                       </Dropdown.Toggle>
                       <Dropdown.Menu className="dropdown-menu dropdown-menu-end" align="end">
-                        <Dropdown.Item onClick={(event) => handleEditClick(event, contact)}>Edit</Dropdown.Item>
+                        <Dropdown.Item as={Link} to={`/teachers/${contact.id}/edit`}>Edit</Dropdown.Item>
                         <Dropdown.Item
                           className="text-danger"
                           onClick={() => handleDeleteClick(contact.id)}
@@ -306,182 +76,8 @@ function Teachers() {
             </div>
           ))}
         </div>
-        <div className="table-pagenation teach">
-          <small>
-            Showing
-            <span>1-12</span>
-            {' '}
-            from
-            <span> 24</span>
-            {' '}
-            data
-          </small>
-          <nav>
-            <ul className="pagination pagination-gutter pagination-primary no-bg">
-              <li className="page-item page-indicator">
-                <Link to="#" className="page-link">
-                  <i className="fa-solid fa-chevron-left" />
-                </Link>
-              </li>
-              <li className="page-item active"><Link to="#" className="page-link">1</Link></li>
-              <li className="page-item "><Link to="#" className="page-link">2</Link></li>
-              <li className="page-item page-indicator">
-                <Link to="#" className="page-link"><i className="fa-solid fa-chevron-right" /></Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
+        <BigButtonPagination pagination={pagination} records={teachers.length - 1} />
       </div>
-
-      <Modal className="modal fade" show={postModal} onHide={setPostModal} centered>
-        <form>
-          <div className="modal-header">
-            <h4 className="modal-title fs-20">Add Task</h4>
-            <button type="button" className="btn-close" onClick={() => setPostModal(false)} data-dismiss="modal" />
-          </div>
-          <div className="modal-body">
-            <div className="add-contact-box">
-              <div className="add-contact-content">
-                <div className="image-placeholder">
-                  <div className="avatar-edit">
-                    <input type="file" onChange={fileHandler} id="imageUpload" />
-                    <label htmlFor="imageUpload" name="" />
-                  </div>
-                  <div className="avatar-preview">
-                    <div id="imagePreview">
-                      <img
-                        id="saveImageFile"
-                        src={file ? URL.createObjectURL(file) : IMAGES.noimage}
-                        alt={file ? file.name : null}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="form-group mb-3">
-                  <label className="text-black font-w500">Name</label>
-                  <div className="contact-occupation">
-                    <input
-                      type="text"
-                      autoComplete="off"
-                      onChange={handleAddFormChange}
-                      name="Cust_Name"
-                      required="required"
-                      className="form-control"
-                      placeholder="name"
-                    />
-                  </div>
-                </div>
-                <div className="form-group mb-3">
-                  <label className="text-black font-w500">Post</label>
-                  <div className="contact-name">
-                    <input
-                      type="text"
-                      className="form-control"
-                      autoComplete="off"
-                      name="Post"
-                      required="required"
-                      onChange={handleAddFormChange}
-                      placeholder="post"
-                    />
-                    <span className="validation-text" />
-                  </div>
-                </div>
-                <div className="form-group mb-3">
-                  <label className="text-black font-w500">Subject</label>
-                  <div className="contact-occupation">
-                    <input
-                      type="text"
-                      autoComplete="off"
-                      name="Subject"
-                      required="required"
-                      onChange={handleAddFormChange}
-                      className="form-control"
-                      placeholder="subject"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="modal-footer">
-            <button type="submit" className="btn btn-primary" onClick={handleAddFormSubmit}>Add</button>
-            <button type="button" onClick={() => setPostModal(false)} className="btn btn-danger">
-              {' '}
-              <i className="flaticon-delete-1" />
-              {' '}
-              Discard
-            </button>
-          </div>
-        </form>
-      </Modal>
-      <Modal className="modal fade" show={editModal} onHide={setEditModal} centered>
-        <form>
-          <div className="modal-header">
-            <h4 className="modal-title fs-20">Edit Task</h4>
-            <button type="button" className="btn-close" onClick={() => setEditModal(false)} />
-          </div>
-          <div className="modal-body">
-            <div className="add-contact-box">
-              <div className="add-contact-content">
-                <div className="form-group mb-3">
-                  <label className="text-black font-w500">Post</label>
-                  <div className="contact-name">
-                    <input
-                      type="text"
-                      className="form-control"
-                      autoComplete="off"
-                      name="Post"
-                      required="required"
-                      value={editFormData.Post}
-                      onChange={handleEditFormChange}
-                    />
-                    <span className="validation-text" />
-                  </div>
-                </div>
-                <div className="form-group mb-3">
-                  <label className="text-black font-w500">Name</label>
-                  <div className="contact-occupation">
-                    <input
-                      type="text"
-                      autoComplete="off"
-                      value={editFormData.Cust_Name}
-                      onChange={handleEditFormChange}
-                      name="Cust_Name"
-                      required="required"
-                      className="form-control"
-                      placeholder="name"
-                    />
-                  </div>
-                </div>
-                <div className="form-group mb-3">
-                  <label className="text-black font-w500">Subject</label>
-                  <div className="contact-occupation">
-                    <input
-                      type="text"
-                      autoComplete="off"
-                      name="Subject"
-                      required="required"
-                      value={editFormData.Subject}
-                      onChange={handleEditFormChange}
-                      className="form-control"
-                      placeholder="Subject"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="modal-footer">
-            <button type="submit" className="btn btn-primary" onClick={handleEditFormSubmit}>Save</button>
-            <button type="button" onClick={() => setEditModal(false)} className="btn btn-danger">
-              {' '}
-              <i className="flaticon-delete-1" />
-              {' '}
-              Discard
-            </button>
-          </div>
-        </form>
-      </Modal>
     </div>
   );
 }
