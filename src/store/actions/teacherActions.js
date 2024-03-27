@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import { TEACHER_URL } from '../../constants/api';
 import useAxiosWrapper, { promiseWrapper } from '../../http/useAxiosWrapper';
 import teachersAtom from '../atoms/teachersAtom';
-import { useRecoilState } from 'recoil';
+import useAlert from './useAlert';
 
 const useTeacherActions = () => {
   const api = useAxiosWrapper();
   const [, setParents] = useRecoilState(teachersAtom);
+  const alert = useAlert();
 
   const getAll = async (params = { page: 1 }) => {
     try {
@@ -14,6 +16,17 @@ const useTeacherActions = () => {
 
       return setParents({ teachers, pagination });
     } catch (error) {
+      return error;
+    }
+  };
+
+  const destroy = async (teacherId) => {
+    try {
+      const { status } = await api.delete(`${TEACHER_URL}/${teacherId}`);
+      alert.success('The teacher has been deleted successfully');
+      return status;
+    } catch (error) {
+      alert.error(error.message);
       return error;
     }
   };
@@ -40,6 +53,7 @@ const useTeacherActions = () => {
 
   return {
     getAll,
+    destroy,
     getOneAsync,
   };
 };

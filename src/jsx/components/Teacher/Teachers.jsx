@@ -4,7 +4,8 @@ import BigButtonPagination from '../Pagination/BigButtonPagination';
 import Search from '../Pagination/Search';
 import SortOrder from '../Pagination/SortOrder';
 
-function Teachers({ pagination, teachers, sortOrder, query }) {
+function Teachers({ pagination, teachers, sortOrder, query,
+onDeleteTeacher }) {
   return (
     <div className="row">
       <div className="col-xl-12">
@@ -49,7 +50,7 @@ function Teachers({ pagination, teachers, sortOrder, query }) {
                         <Dropdown.Item as={Link} to={`/teachers/${contact.id}/edit`}>Edit</Dropdown.Item>
                         <Dropdown.Item
                           className="text-danger"
-                          onClick={() => handleDeleteClick(contact.id)}
+                          onClick={() => onDeleteTeacher(contact.id)}
                         >
                           Delete
                         </Dropdown.Item>
