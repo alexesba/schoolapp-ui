@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import Input from '../../Forms/FormField/Input';
 import { GENDER_OPTIONS } from '../../../../constants/app';
 import SelectInput from '../../Forms/FormField/SelectInput';
-import useParentActions from '../../../../store/parentActions';
+import useParentActions from '../../../../store/actions/parentActions';
 
 function ParentFields({ field, index, remove }) {
   const fieldName = (name) => `parents_attributes[${index}].${name}`;

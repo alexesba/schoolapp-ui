@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
 import { useRecoilState } from 'recoil';
-import { IMAGES, SVGICON } from '../Dashboard/Content';
-import PaymentHistoryTable from './PaymentHistoryTable';
+import { IMAGES, SVGICON } from '../../components/Dashboard/Content';
+import PaymentHistoryTable from '../../components/Student/PaymentHistoryTable';
 import noimage from '../../../images/no-img-avatar.png';
 
 import profile from '../../../images/profile.svg';
@@ -12,7 +12,7 @@ import phone from '../../../images/svg/phone.svg';
 import email from '../../../images/svg/email.svg';
 import useStudentActions from '../../../store/actions/studentActions';
 import studentDetailsAtom from '../../../store/atoms/studentDetailsAtom';
-import StudentDetailsItem from './StudentDetailsItem';
+import StudentDetailsItem from '../../components/Student/StudentDetailsItem';
 
 const scheduleBlog = [
   {

@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 import { useParams } from 'react-router-dom';
+import StudentForm from '../../components/Student/Form/StudentForm';
+import LoaderSpinner from '../../components/LoaderSpinner/LoaderSpinner';
 import useStudentActions from '../../../store/actions/studentActions';
-import StudentForm from './Form/StudentForm';
-import LoaderSpinner from '../LoaderSpinner/LoaderSpinner';
 
 const getParents = (student) => {
   if (!student?.id) return [{}];
@@ -62,13 +62,15 @@ function EditStudent() {
     update(userFormParams);
   };
 
-  return (student &&
+  return (student
+    && (
     <Suspense fallback={<LoaderSpinner />}>
       <StudentForm
         initialValues={initialValues(student)}
         submitAction={submitAction}
       />
     </Suspense>
+    )
   );
 }
 
