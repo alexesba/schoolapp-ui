@@ -87,6 +87,7 @@ function AlertsContainer() {
   useEffect(() => {
     if (state.autoClose && state.show) {
       setTimeout(closeAlert, state.autoClose);
+      window.scrollTo(0, 0);
     }
   }, [state]);
 

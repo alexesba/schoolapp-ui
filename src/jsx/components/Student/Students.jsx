@@ -1,22 +1,22 @@
 import {
+  Suspense,
   useEffect, useMemo, useRef, useState,
 } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Button, Dropdown } from 'react-bootstrap';
 import { useRecoilValue } from 'recoil';
 
 import swal from 'sweetalert';
 import noimage from '../../../images/no-img-avatar.png';
-import BasicModal from '../Dashboard/BasicModal';
 import useStudentActions from '../../../store/actions/studentActions';
 import studentsAtom from '../../../store/atoms/studentsAtom';
 import Pagination from '../Pagination';
 import SortOrder from '../Pagination/SortOrder';
 import Search from '../Pagination/Search';
 import dateToLocalString from '../../../utils/date';
+import LoaderSpinner from '../LoaderSpinner/LoaderSpinner';
 
 function Students() {
-  const childRef = useRef();
   const { getAll, destroy } = useStudentActions();
   const [queryParams] = useSearchParams();
   const { students, pagination } = useRecoilValue(studentsAtom);
@@ -65,7 +65,7 @@ function Students() {
   }, [query, currentPage, sortOrder]);
 
   return (
-    <>
+    <Suspense fallback={<LoaderSpinner />}>
       <div className="row">
         <div className="col-xl-12">
           <div className="row">
@@ -74,13 +74,9 @@ function Students() {
                 <Search query={query} waitTime={2000} />
                 <div className="d-flex">
                   <SortOrder sortOrder={sortOrder} />
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => childRef.current.openModal()}
-                  >
+                  <Button as={Link} to="/students/new" type="primary">
                     + New Student
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -196,8 +192,7 @@ function Students() {
           </div>
         </div>
       </div>
-      <BasicModal ref={childRef} />
-    </>
+    </Suspense>
   );
 }
 export default Students;

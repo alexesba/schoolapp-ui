@@ -1,14 +1,15 @@
 import { useRecoilState } from 'recoil';
 // import { toast } from 'react-toastify';
+import { useEffect, useState } from 'react';
 import { STUDENT_URL } from '../../constants/api';
-import useAxiosWrapper from '../../http/useAxiosWrapper';
+import useAxiosWrapper, { promiseWrapper } from '../../http/useAxiosWrapper';
 import studentsAtom from '../atoms/studentsAtom';
 import studentDetailsAtom from '../atoms/studentDetailsAtom';
 import useAlert from './useAlert';
 
 const useStudentActions = () => {
   const api = useAxiosWrapper();
-  const [data, setStudents] = useRecoilState(studentsAtom);
+  const [, setStudents] = useRecoilState(studentsAtom);
   const [, setStudetDetails] = useRecoilState(studentDetailsAtom);
   const alert = useAlert();
 
@@ -41,12 +42,38 @@ const useStudentActions = () => {
     }
   };
 
+  const getOneAsync = (userId) => {
+    const [student, setStudent] = useState(null);
+
+    useEffect(() => {
+      const loadUser = async () => {
+        const promise = api.get(`${STUDENT_URL}/${userId}`).then(({ data: { data } }) => data);
+
+        setStudent(promiseWrapper(promise));
+      };
+
+      loadUser();
+    }, [userId]);
+
+    return student;
+  };
+
   const create = async (userParams) => {
     try {
       const { status, data: { data: student } } = await api.post(STUDENT_URL, { user: userParams });
-      setStudents({ ...data, students: [student, ...data.students] });
       alert.success('The student has been created successfully');
-      return status;
+      return { status, student };
+    } catch (error) {
+      alert.error(error.message);
+      return error;
+    }
+  };
+
+  const update = async (userParams) => {
+    try {
+      const { status, data: { data: student } } = await api.put(`${STUDENT_URL}/${userParams.id}`, { user: userParams });
+      alert.success('The student has been updated successfully');
+      return { status, student };
     } catch (error) {
       alert.error(error.message);
       return error;
@@ -69,6 +96,8 @@ const useStudentActions = () => {
     getOne,
     create,
     destroy,
+    update,
+    getOneAsync,
   };
 };
 

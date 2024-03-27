@@ -1,5 +1,4 @@
 import React, { StrictMode, Suspense } from 'react';
-import RecoilizeDebugger from 'recoilize';
 import { createRoot } from 'react-dom/client';
 import {
   BrowserRouter, Route, Routes, Outlet,
@@ -19,6 +18,7 @@ const LoginPage = React.lazy(() => import('./jsx/pages/Login'));
 const DashboardLayout = React.lazy(() => import('./jsx/layouts/DashboardLayout'));
 const Students = React.lazy(() => import('./jsx/components/Student/Students'));
 const StudentDetails = React.lazy(() => import('./jsx/components/Student/StudentDetails'));
+const EditStudent = React.lazy(() => import('./jsx/components/Student/EditStudent'));
 const AddNewStudent = React.lazy(() => import('./jsx/components/Student/AddNewStudent'));
 const Teachers = React.lazy(() => import('./jsx/components/Teacher/Teachers'));
 const TeacherDetail = React.lazy(() => import('./jsx/components/Teacher/TeachersDetail'));
@@ -32,7 +32,6 @@ const root = createRoot(app);
 root.render(
   <StrictMode>
     <RecoilRoot>
-      <RecoilizeDebugger root={app} />
       <BrowserRouter>
         <ThemeContextProvider>
           <Suspense fallback={<LoaderSpinner />}>
@@ -43,7 +42,7 @@ root.render(
                 <Route path="students" element={<Outlet />}>
                   <Route index element={<Students />} />
                   <Route path="new" element={<AddNewStudent />} />
-                  <Route path=":id/edit" element={<EditProfile />} />
+                  <Route path=":id/edit" element={<EditStudent />} />
                   <Route path=":id" element={<StudentDetails />} />
                 </Route>
                 <Route path="parents" element={<Outlet />}>
@@ -56,7 +55,6 @@ root.render(
                   <Route path="new" element={<AddNewTeacher />} />
                 </Route>
                 {/* Remove the student-detail and teacher-detail routes */}
-                <Route path="student-detail" element={<StudentDetails />} />
                 <Route path="teacher-detail" element={<TeacherDetail />} />
                 <Route path="app-profile" element={<AppProfile />} />
                 <Route path="edit-profile" element={<EditProfile />} />

@@ -5,22 +5,24 @@ import { useFormContext } from 'react-hook-form';
 import { getErrorMessage, hasError } from './field-utils';
 
 function Input({
-  name, label, type, placeholder, hidden,
+  name, label, type, placeholder, hidden, required
 }) {
   const { errors, register } = useFormContext();
   return (
     <Form.Group
       as={Col}
       className={
-      classNames('text-primary', {
-        'd-none': hidden,
-      })
-    }
+        classNames('text-primary', {
+          'd-none': hidden,
+        })
+      }
     >
+      {label && (
       <Form.Label htmlFor={name} className="text-primary">
         {label}
-        <span className="required">*</span>
+        { required && <span className="required">*</span> }
       </Form.Label>
+      )}
       <Form.Control
         type={type}
         placeholder={placeholder}
@@ -35,13 +37,16 @@ function Input({
 Input.propTypes = {
   type: PropTypes.string,
   hidden: PropTypes.bool,
+  required: PropTypes.bool,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
 };
 
 Input.defaultProps = {
+  label: null,
   hidden: false,
+  required: false,
   type: 'text',
   placeholder: '',
 };

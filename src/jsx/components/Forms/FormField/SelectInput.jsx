@@ -5,8 +5,7 @@ import { propTypes } from 'react-bootstrap/esm/Image';
 import { getErrorMessage, hasError } from './field-utils';
 
 function SelectInput({
-  name, label, placeholder,
-  options,
+  name, label, placeholder, options, required,
 }) {
   const { errors, register } = useFormContext();
   return (
@@ -16,7 +15,7 @@ function SelectInput({
         className="text-primary"
       >
         {label}
-        <span className="required">*</span>
+        { required && <span className="required">*</span> }
       </Form.Label>
       <Form.Select
         className="form-control"
@@ -38,6 +37,7 @@ function SelectInput({
 SelectInput.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
+  required: PropTypes.bool,
   label: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
@@ -46,6 +46,7 @@ SelectInput.propTypes = {
 };
 
 SelectInput.defaultProps = {
+  required: false,
   placeholder: '',
   options: [],
 };

@@ -9,7 +9,7 @@ function Footer({changeFooter}) {
           Developed by
           {' '}
           <a href="http://github.com/alexesba" target="_blank" rel="noreferrer">
-            @alexesba
+            @zaznova
           </a>
           {' '}
           2024

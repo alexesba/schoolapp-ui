@@ -29,7 +29,7 @@ module.exports = {
       html: 'enforce',
       custom: 'enforce',
       explicitSpread: 'enforce',
-      exceptions: ['input', 'textarea'],
+      exceptions: ['input', 'textarea', 'Form.Control', 'CustomInput', 'Form.Select'],
     }],
     'jsx-a11y/label-has-associated-control': [2, {
       labelComponents: ['label'],
