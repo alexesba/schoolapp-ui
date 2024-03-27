@@ -1,4 +1,4 @@
-import Parents from '../../components/Parents/Parents';
+import Parents from '../../components/Parent/Parents';
 
 function ParentIndex() {
   return <Parents />;
