@@ -12,14 +12,15 @@ import './other/swiper/css/swiper-bundle.min.css';
 import './other/bootstrap-select/dist/css/bootstrap-select.min.css';
 import 'spinkit/spinkit.min.css';
 import './css/style.css';
+import ParentIndex from './jsx/pages/Parents';
 
 const Error404 = React.lazy(() => import('./jsx/pages/Error404'));
 const LoginPage = React.lazy(() => import('./jsx/pages/Login'));
 const DashboardLayout = React.lazy(() => import('./jsx/layouts/DashboardLayout'));
 const StudentsIndex = React.lazy(() => import('./jsx/pages/Students'));
-const StudentDetails = React.lazy(() => import('./jsx/components/Student/StudentDetails'));
-const EditStudent = React.lazy(() => import('./jsx/components/Student/EditStudent'));
-const AddNewStudent = React.lazy(() => import('./jsx/components/Student/AddNewStudent'));
+const StudentDetails = React.lazy(() => import('./jsx/pages/Students/ShowStudent'));
+const EditStudent = React.lazy(() => import('./jsx/pages/Students/EditStudent'));
+const AddNewStudent = React.lazy(() => import('./jsx/pages/Students/NewStudent'));
 const Teachers = React.lazy(() => import('./jsx/components/Teacher/Teachers'));
 const TeacherDetail = React.lazy(() => import('./jsx/components/Teacher/TeachersDetail'));
 const AddNewTeacher = React.lazy(() => import('./jsx/components/Teacher/AddNewTeacher'));
@@ -46,7 +47,7 @@ root.render(
                   <Route path=":id" element={<StudentDetails />} />
                 </Route>
                 <Route path="parents" element={<Outlet />}>
-                  <Route index element={<StudentsIndex />} />
+                  <Route index element={<ParentIndex />} />
                   <Route path=":id" element={<StudentDetails />} />
                 </Route>
                 <Route path="teachers" element={<Outlet />}>

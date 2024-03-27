@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import currentUserAtom from '../../../store/atoms/currentUserAtom';
-import StudentForm from './Form/StudentForm';
+import StudentForm from '../../components/Student/Form/StudentForm';
 import useStudentActions from '../../../store/actions/studentActions';
 
 function AddNewStudent() {
