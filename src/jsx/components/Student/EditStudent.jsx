@@ -21,7 +21,7 @@ const getAddresses = (student) => {
 };
 
 const initialValues = (student) => ({
-  id: student.id,
+  id: student?.id,
   organization_id: student?.attributes?.organization_id,
   email: student?.attributes?.email,
   date_of_birth: student?.attributes?.date_of_birth,
@@ -62,14 +62,12 @@ function EditStudent() {
     update(userFormParams);
   };
 
-  return (
+  return (student &&
     <Suspense fallback={<LoaderSpinner />}>
-      { student && (
       <StudentForm
         initialValues={initialValues(student)}
         submitAction={submitAction}
       />
-      ) }
     </Suspense>
   );
 }
