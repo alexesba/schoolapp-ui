@@ -16,7 +16,7 @@ import './css/style.css';
 const Error404 = React.lazy(() => import('./jsx/pages/Error404'));
 const LoginPage = React.lazy(() => import('./jsx/pages/Login'));
 const DashboardLayout = React.lazy(() => import('./jsx/layouts/DashboardLayout'));
-const Students = React.lazy(() => import('./jsx/components/Student/Students'));
+const StudentsIndex = React.lazy(() => import('./jsx/pages/Students'));
 const StudentDetails = React.lazy(() => import('./jsx/components/Student/StudentDetails'));
 const EditStudent = React.lazy(() => import('./jsx/components/Student/EditStudent'));
 const AddNewStudent = React.lazy(() => import('./jsx/components/Student/AddNewStudent'));
@@ -40,13 +40,13 @@ root.render(
                 <Route index element={<Home />} />
                 <Route path="/dashboard" exact element={<Home />} />
                 <Route path="students" element={<Outlet />}>
-                  <Route index element={<Students />} />
+                  <Route index element={<StudentsIndex />} />
                   <Route path="new" element={<AddNewStudent />} />
                   <Route path=":id/edit" element={<EditStudent />} />
                   <Route path=":id" element={<StudentDetails />} />
                 </Route>
                 <Route path="parents" element={<Outlet />}>
-                  <Route index element={<Students />} />
+                  <Route index element={<StudentsIndex />} />
                   <Route path=":id" element={<StudentDetails />} />
                 </Route>
                 <Route path="teachers" element={<Outlet />}>
