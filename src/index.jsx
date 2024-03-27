@@ -12,7 +12,6 @@ import './other/swiper/css/swiper-bundle.min.css';
 import './other/bootstrap-select/dist/css/bootstrap-select.min.css';
 import 'spinkit/spinkit.min.css';
 import './css/style.css';
-import ParentIndex from './jsx/pages/Parents';
 
 const Error404 = React.lazy(() => import('./jsx/pages/Error404'));
 const LoginPage = React.lazy(() => import('./jsx/pages/Login'));
@@ -21,13 +20,14 @@ const StudentsIndex = React.lazy(() => import('./jsx/pages/Students'));
 const StudentDetails = React.lazy(() => import('./jsx/pages/Students/ShowStudent'));
 const EditStudent = React.lazy(() => import('./jsx/pages/Students/EditStudent'));
 const AddNewStudent = React.lazy(() => import('./jsx/pages/Students/NewStudent'));
-const Teachers = React.lazy(() => import('./jsx/components/Teacher/Teachers'));
+const Teachers = React.lazy(() => import('./jsx/pages/Teachers'));
 const TeacherDetail = React.lazy(() => import('./jsx/components/Teacher/TeachersDetail'));
 const AddNewTeacher = React.lazy(() => import('./jsx/components/Teacher/AddNewTeacher'));
 const AppProfile = React.lazy(() => import('./jsx/components/AppsMenu/AppProfile/AppProfile'));
 const EditProfile = React.lazy(() => import('./jsx/components/AppsMenu/AppProfile/EditProfile'));
 const Finance = React.lazy(() => import('./jsx/components/Dashboard/Finance'));
 const Home = React.lazy(() => import('./jsx/components/Dashboard/Home'));
+const ParentsIndex = React.lazy(() => import('./jsx/pages/Parents'));
 const app = document.getElementById('root');
 const root = createRoot(app);
 root.render(
@@ -47,7 +47,7 @@ root.render(
                   <Route path=":id" element={<StudentDetails />} />
                 </Route>
                 <Route path="parents" element={<Outlet />}>
-                  <Route index element={<ParentIndex />} />
+                  <Route index element={<ParentsIndex />} />
                   <Route path=":id" element={<StudentDetails />} />
                 </Route>
                 <Route path="teachers" element={<Outlet />}>
