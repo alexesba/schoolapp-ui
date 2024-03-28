@@ -1,11 +1,17 @@
 import { Link } from 'react-router-dom';
 import { Button, Dropdown } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import BigButtonPagination from '../Pagination/BigButtonPagination';
 import Search from '../Pagination/Search';
 import SortOrder from '../Pagination/SortOrder';
 
-function Teachers({ pagination, teachers, sortOrder, query,
-  onDeleteTeacher }) {
+function Teachers({
+  onDeleteTeacher,
+  pagination,
+  query,
+  sortOrder,
+  teachers,
+}) {
   return (
     <div className="row">
       <div className="col-xl-12">
@@ -13,7 +19,8 @@ function Teachers({ pagination, teachers, sortOrder, query,
           <Search query={query} waitTime={2000} />
           <div className="d-flex">
             <SortOrder sortOrder={sortOrder} />
-            <Button as={Link}
+            <Button
+              as={Link}
               type="primary"
               to="/teachers/new"
             >
@@ -83,4 +90,33 @@ function Teachers({ pagination, teachers, sortOrder, query,
   );
 }
 
+Teachers.propTypes = {
+  onDeleteTeacher: PropTypes.func.isRequired,
+  sortOrder: PropTypes.string.isRequired,
+  query: PropTypes.string.isRequired,
+  pagination: PropTypes.shape({
+    count: PropTypes.number,
+    current_page: PropTypes.number,
+    next_page: PropTypes.oneOfType([
+      PropTypes.number,
+    ]),
+    per_page: PropTypes.number,
+    previous_page: PropTypes.oneOfType([PropTypes.number]),
+    total_entries: PropTypes.number,
+    total_pages: PropTypes.number,
+  }).isRequired,
+  teachers: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    attributes: PropTypes.shape({
+      id: PropTypes.number,
+      email: PropTypes.string,
+      first_name: PropTypes.string,
+      middle_name: PropTypes.string,
+      last_name: PropTypes.string,
+      no_control: PropTypes.string,
+      mobile_phone: PropTypes.string,
+      created_at: PropTypes.string,
+    }),
+  })).isRequired,
+};
 export default Teachers;
