@@ -1,11 +1,11 @@
 import { Suspense, useEffect, useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useSearchParams } from 'react-router-dom';
+import swal from 'sweetalert';
 import LoaderSpinner from '../../components/LoaderSpinner/LoaderSpinner';
 import Teachers from '../../components/Teacher/Teachers';
 import teachersAtom from '../../../store/atoms/teachersAtom';
 import useTeacherActions from '../../../store/actions/teacherActions';
-import swal from 'sweetalert';
 
 function TeachersIndex() {
   const { getAll, destroy } = useTeacherActions();
@@ -15,7 +15,7 @@ function TeachersIndex() {
   const query = useMemo(() => queryParams.get('q') || '', [queryParams]);
   const sortOrder = useMemo(() => queryParams.get('order') || 'desc', [queryParams]);
 
-  const deleteTeacher = async(teacherId) => {
+  const deleteTeacher = async (teacherId) => {
     const willDelete = await swal({
       title: 'Are you sure?',
       text:
@@ -32,8 +32,6 @@ function TeachersIndex() {
       }
     }
   };
-  const checkOneRow = () => { };
-  const checkAllRows = () => { };
 
   useEffect(() => {
     getAll({ q: query, page: currentPage, order: sortOrder });
@@ -46,8 +44,6 @@ function TeachersIndex() {
           query={query}
           teachers={teachers}
           onDeleteTeacher={deleteTeacher}
-          onCheckOneRow={checkOneRow}
-          onHandCheckAllRows={checkAllRows}
           pagination={pagination}
           sortOrder={sortOrder}
         />
