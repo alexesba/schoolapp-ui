@@ -31,20 +31,20 @@ function Teachers({
       </div>
       <div className="col-xl-12">
         <div className="row">
-          {teachers.map(({ attributes: contact }, index) => (
-            <div className="col-xl-3 col-lg-4 col-sm-6" key={index}>
+          {teachers.map(({ attributes: teacher }) => (
+            <div className="col-xl-3 col-lg-4 col-sm-6" key={teacher.id}>
               <div className="card contact_list text-center">
                 <div className="card-body">
                   <div className="user-content">
                     <div className="user-info">
                       <div className="user-img">
-                        <img src={contact.avatar} alt="" className="avatar avatar-xl" />
+                        <img src={teacher.avatar} alt="" className="avatar avatar-xl" />
                       </div>
                       <div className="user-details">
                         <h4 className="user-name mb-0">
-                          {`${contact.first_name}${contact.middle_name ? ` ${contact.middle_name} ` : ' '}${contact.last_name}`}
+                          {`${teacher.first_name}${teacher.middle_name ? ` ${teacher.middle_name} ` : ' '}${teacher.last_name}`}
                         </h4>
-                        <p>{contact.email}</p>
+                        <p>{teacher.email}</p>
                       </div>
                     </div>
                     <Dropdown>
@@ -54,10 +54,10 @@ function Teachers({
                         </svg>
                       </Dropdown.Toggle>
                       <Dropdown.Menu className="dropdown-menu dropdown-menu-end" align="end">
-                        <Dropdown.Item as={Link} to={`${contact.id}/edit`}>Edit</Dropdown.Item>
+                        <Dropdown.Item as={Link} to={`${teacher.id}/edit`}>Edit</Dropdown.Item>
                         <Dropdown.Item
                           className="text-danger"
-                          onClick={() => onDeleteTeacher(contact.id)}
+                          onClick={() => onDeleteTeacher(teacher.id)}
                         >
                           Delete
                         </Dropdown.Item>
@@ -65,12 +65,12 @@ function Teachers({
                     </Dropdown>
                   </div>
                   <div className="contact-icon">
-                    <span className="badge badge-success light">{contact.Subject}</span>
+                    <span className="badge badge-success light">{teacher.Subject}</span>
                     <span className="badge badge-secondary light mx-2">Science</span>
                     <span className="badge badge-danger light">Art</span>
                   </div>
                   <div className="d-flex align-items-center">
-                    <Button as={Link} to={`${contact.id}/app-profile`} className="btn-sm w-50 me-2">
+                    <Button as={Link} to={`${teacher.id}/app-profile`} className="btn-sm w-50 me-2">
                       <i className="fa-solid fa-user me-2" />
                       Profile
                     </Button>
