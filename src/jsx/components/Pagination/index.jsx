@@ -1,46 +1,90 @@
 import { range } from 'lodash';
 import { Link, useSearchParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { Button } from 'react-bootstrap';
 
-function Pagination({ pagination }) {
+function Pagination({
+  pagination: {
+    current_page: currentPage,
+    per_page: perPage,
+    total_pages: totalPages,
+    count,
+    previous_page: previousPage,
+    next_page: nextPage,
+    total_entries: totalEntries,
+  },
+}) {
   const [queryParams, setSearchParams] = useSearchParams();
+
+  const goToPage = (page) => {
+    queryParams.set('page', page);
+    setSearchParams(queryParams);
+  };
+
+  const goPreviousPage = (page) => {
+    goToPage(page || 1);
+  };
+
+  const goNextPage = (page) => {
+    goToPage(page || currentPage);
+  };
+
+  const from = () => {
+    if (count) return (((currentPage * perPage) - perPage) || 1);
+
+    return count;
+  };
+
+  const to = () => ((currentPage - 1) * perPage) + count;
+
   return (
     <div className="d-sm-flex text-center justify-content-between align-items-center">
-      <div className="dataTables_info" />
+      <div className="dataTables_info">
+        Showing
+        {' '}
+        {from()}
+        {' '}
+        to
+        {' '}
+        {to()}
+        {' '}
+        of
+        {' '}
+        {totalEntries}
+        {' '}
+        entries
+      </div>
       <div
         className="dataTables_paginate paging_simple_numbers justify-content-center"
         id="example-student_wrapper"
       >
-        <button
-          type="button"
-          className={`paginate_button previous ${!pagination.previous_page ? 'disabled' : ''}`}
-          onClick={() => {
-            queryParams.set('page', pagination.previous_page || 1);
-            setSearchParams(queryParams);
-          }}
-          disabled={!pagination.previous_page}
+        <Button
+          className={classNames('paginate_button previous', { disabled: !previousPage })}
+          onClick={() => goPreviousPage(previousPage)}
+          disabled={!previousPage}
         >
           <i className="fa-solid fa-angle-left" />
-        </button>
+        </Button>
         <span>
           {
-            range(1, pagination.total_pages + 1).map((page) => {
+            range(1, totalPages + 1).map((page) => {
               queryParams.set('page', page);
-             return <Link className={`paginate_button ${pagination.current_page === page ? 'current' : ''}`} key={page} to={`?${queryParams.toString()}`}>{page}</Link>
+              return (
+                <Link className={classNames('paginate_button', { current: currentPage === page })} key={page} to={`?${queryParams.toString()}`}>
+                  {page}
+                </Link>
+              );
             })
           }
         </span>
-        <button
-          type="button"
-          className={`paginate_button next ${!pagination.next_page ? 'disabled' : ''}`}
-          onClick={() => {
-            queryParams.set('page', pagination.next_page || pagination.current_page);
-            setSearchParams(queryParams);
-          }}
-          disabled={!pagination.next_page}
+        <Button
+          className={classNames('paginate_button next', { disabled: !nextPage })}
+          onClick={() => goNextPage(nextPage)}
+          disabled={!nextPage}
         >
           <i className="fa-solid fa-angle-right" />
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -48,6 +92,9 @@ function Pagination({ pagination }) {
 
 Pagination.propTypes = {
   pagination: PropTypes.shape({
+    count: PropTypes.number.isRequired,
+    per_page: PropTypes.number.isRequired,
+    total_entries: PropTypes.number.isRequired,
     next_page: PropTypes.oneOfType([
       PropTypes.number,
       () => null,

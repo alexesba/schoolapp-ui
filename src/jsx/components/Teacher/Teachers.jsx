@@ -5,7 +5,7 @@ import Search from '../Pagination/Search';
 import SortOrder from '../Pagination/SortOrder';
 
 function Teachers({ pagination, teachers, sortOrder, query,
-onDeleteTeacher }) {
+  onDeleteTeacher }) {
   return (
     <div className="row">
       <div className="col-xl-12">
@@ -47,7 +47,7 @@ onDeleteTeacher }) {
                         </svg>
                       </Dropdown.Toggle>
                       <Dropdown.Menu className="dropdown-menu dropdown-menu-end" align="end">
-                        <Dropdown.Item as={Link} to={`/teachers/${contact.id}/edit`}>Edit</Dropdown.Item>
+                        <Dropdown.Item as={Link} to={`${contact.id}/edit`}>Edit</Dropdown.Item>
                         <Dropdown.Item
                           className="text-danger"
                           onClick={() => onDeleteTeacher(contact.id)}
@@ -63,10 +63,10 @@ onDeleteTeacher }) {
                     <span className="badge badge-danger light">Art</span>
                   </div>
                   <div className="d-flex align-items-center">
-                    <Link to="/app-profile" className="btn  btn-primary btn-sm w-50 me-2">
+                    <Button as={Link} to={`${contact.id}/app-profile`} className="btn-sm w-50 me-2">
                       <i className="fa-solid fa-user me-2" />
                       Profile
-                    </Link>
+                    </Button>
                     <Link to="/chat" className="btn  btn-secondary btn-sm w-50">
                       <i className="fa-sharp fa-regular fa-envelope me-2" />
                       Chat
@@ -77,7 +77,7 @@ onDeleteTeacher }) {
             </div>
           ))}
         </div>
-        <BigButtonPagination pagination={pagination} records={teachers.length - 1} />
+        <BigButtonPagination pagination={pagination} />
       </div>
     </div>
   );
