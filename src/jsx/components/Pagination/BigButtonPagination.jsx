@@ -1,85 +1,194 @@
-import { range } from 'lodash';
 import { Link, useSearchParams } from 'react-router-dom';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
+import { createContext, useCallback, useMemo } from 'react';
+import { createUltimatePagination } from 'react-ultimate-pagination';
+
+const PaginationContext = createContext();
+
+function Page({ value, isActive }) {
+  return (
+    <PaginationContext.Consumer>
+      {({ getUrl }) => (
+        <li className={classNames('page-item', { active: isActive })}>
+          <Link className="page-link" to={getUrl(value)}>
+            {value}
+          </Link>
+        </li>
+      )}
+    </PaginationContext.Consumer>
+  );
+}
+
+Page.propTypes = {
+  value: PropTypes.number.isRequired,
+  isActive: PropTypes.bool.isRequired,
+};
+
+function PreviousPageLink({ value, disabled }) {
+  return (
+    <PaginationContext.Consumer>
+      {({ getUrl }) => (
+        <li className="page-item page-indicator">
+          <Link className="page-link" to={getUrl(value)} disabled={disabled}>
+            <i className="fa-solid fa-chevron-left" />
+          </Link>
+        </li>
+      )}
+    </PaginationContext.Consumer>
+  );
+}
+
+PreviousPageLink.propTypes = {
+  value: PropTypes.number.isRequired,
+  disabled: PropTypes.bool.isRequired,
+};
+
+function NextPageLink({ value, disabled }) {
+  return (
+    <PaginationContext.Consumer>
+      {({ getUrl }) => (
+        <li className="page-item page-indicator">
+          <Link className="page-link" to={getUrl(value)} disabled={disabled}>
+            <i className="fa-solid fa-chevron-right" />
+          </Link>
+        </li>
+      )}
+    </PaginationContext.Consumer>
+  );
+}
+
+NextPageLink.propTypes = {
+  value: PropTypes.number.isRequired,
+  disabled: PropTypes.bool.isRequired,
+};
+
+function Ellipsis({ disabled }) {
+  return (
+    <li className="page-item page-indicator">
+      <Link className="page-link" to="#!" disabled={disabled}>
+        <i className="fa-solid fa-ellipsis" />
+      </Link>
+    </li>
+  );
+}
+
+Ellipsis.propTypes = {
+  disabled: PropTypes.bool.isRequired,
+};
+
+function FirstPageLink({ value, disabled }) {
+  return (
+    <PaginationContext.Consumer>
+      {({ getUrl }) => (
+        <li className="page-item page-indicator">
+          <Link className="page-link" to={getUrl(value)} disabled={disabled}>
+            <i className="fas fa-angle-double-left" />
+          </Link>
+        </li>
+      )}
+    </PaginationContext.Consumer>
+  );
+}
+
+FirstPageLink.propTypes = {
+  value: PropTypes.number.isRequired,
+  disabled: PropTypes.bool.isRequired,
+};
+
+function LastPageLink({ value, disabled }) {
+  return (
+    <PaginationContext.Consumer>
+      {({ getUrl }) => (
+        <li className="page-item page-indicator">
+          <Link className="page-link" to={getUrl(value)} disabled={disabled}>
+            <i className="fas fa-angle-double-right" />
+          </Link>
+        </li>
+      )}
+    </PaginationContext.Consumer>
+  );
+}
+
+LastPageLink.propTypes = {
+  value: PropTypes.number.isRequired,
+  disabled: PropTypes.bool.isRequired,
+};
+
+function WrapperComponent({ children }) {
+  return (
+    <PaginationContext.Consumer>
+      {({ from, to, totalEntries }) => (
+        <div className="table-pagenation teach">
+          <small>
+            {`Showing ${from()} - ${to()} from ${totalEntries} entries`}
+          </small>
+          <nav>
+            <ul className="pagination pagination-gutter pagination-primary no-bg">
+              {children}
+            </ul>
+          </nav>
+        </div>
+      )}
+    </PaginationContext.Consumer>
+  );
+}
+
+WrapperComponent.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+};
+
+const itemTypeToComponent = {
+  PAGE: Page,
+  ELLIPSIS: Ellipsis,
+  FIRST_PAGE_LINK: FirstPageLink,
+  PREVIOUS_PAGE_LINK: PreviousPageLink,
+  NEXT_PAGE_LINK: NextPageLink,
+  LAST_PAGE_LINK: LastPageLink,
+};
 
 function BigButtonPagination({ pagination }) {
-  const [queryParams, setSearchParams] = useSearchParams();
+  const [queryParams] = useSearchParams();
+
   const {
+    count,
     current_page: currentPage,
     per_page: perPage,
-    total_pages: totalPages,
-    count,
-    previous_page: previousPage,
-    next_page: nextPage,
     total_entries: totalEntries,
+    total_pages: totalPages,
   } = pagination;
 
-  const goToPage = (page) => {
+  const getUrl = useCallback((page) => {
     queryParams.set('page', page);
-    setSearchParams(queryParams);
-  };
-  const goPreviousPage = (page) => {
-    goToPage(page || 1);
-  };
+    return `?${queryParams.toString()}`;
+  }, [queryParams]);
 
-  const goNextPage = (page) => {
-    goToPage(page || currentPage);
-  };
-
-  const from = () => {
+  const from = useCallback(() => {
     if (count) return (((currentPage * perPage) - perPage) || 1);
-
     return count;
-  };
+  }, [currentPage]);
 
   const to = () => ((currentPage - 1) * perPage) + count;
 
+  const PaginationComponent = createUltimatePagination({
+    itemTypeToComponent,
+    WrapperComponent,
+  });
+
+  const value = useMemo(() => ({
+    getUrl, from, to, totalEntries, count,
+  }), [getUrl, from, to, totalEntries, count]);
+
   return (
-    <div className="table-pagenation teach">
-      <small>
-        Showing
-        {' '}
-        <span>
-          {from()}
-          {' '}
-          -
-          {' '}
-          {to()}
-          {' '}
-        </span>
-        from
-        {' '}
-        <span>
-          {' '}
-          {totalEntries}
-          {' '}
-        </span>
-        entries
-      </small>
-      <nav>
-        <ul className="pagination pagination-gutter pagination-primary no-bg">
-          <li className="page-item page-indicator">
-            <Button className="page-link" onClick={() => goPreviousPage(previousPage)} disabled={!previousPage}>
-              <i className="fa-solid fa-chevron-left" />
-            </Button>
-          </li>
-          {
-            range(1, totalPages + 1).map((page) => (
-              <li className={classNames('page-item', { active: currentPage === page })}>
-                <Button className="page-link" onClick={() => goToPage(page)}>
-                  {page}
-                </Button>
-              </li>
-            ))
-          }
-          <li className="page-item page-indicator">
-            <Button className="page-link" onClick={() => goNextPage(nextPage)} disabled={!nextPage}><i className="fa-solid fa-chevron-right" /></Button>
-          </li>
-        </ul>
-      </nav>
-    </div>
+    <PaginationContext.Provider value={value}>
+      <PaginationComponent
+        currentPage={currentPage || 0}
+        totalPages={totalPages || 0}
+      />
+    </PaginationContext.Provider>
   );
 }
 
