@@ -1,21 +1,22 @@
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { Button, Dropdown } from 'react-bootstrap';
-import noimage from '../../../images/no-img-avatar.png';
 import Pagination from '../Pagination';
-import SortOrder from '../Pagination/SortOrder';
 import Search from '../Pagination/Search';
+import SortOrder from '../Pagination/SortOrder';
+import noimage from '../../../images/no-img-avatar.png';
 import dateToLocalString from '../../../utils/date';
 
-function Students({
-  students,
-  pagination,
-  onDeleteStudent,
-  sortOrder,
-  onCheckOneRow,
-  onHandCheckAllRows,
+function Parents({
+  parents,
   query,
+  onHandCheckAllRows,
+  onCheckOneRow,
+  sortOrder,
+  onDeleteParent,
+  pagination,
 }) {
+
   return (
     <div className="row">
       <div className="col-xl-12">
@@ -25,8 +26,8 @@ function Students({
               <Search query={query} waitTime={2000} />
               <div className="d-flex">
                 <SortOrder sortOrder={sortOrder} />
-                <Button as={Link} to="/students/new" type="primary">
-                  + New Student
+                <Button as={Link} to="/parents/new" type="primary">
+                  + New Parent
                 </Button>
               </div>
             </div>
@@ -46,17 +47,15 @@ function Students({
                         />
                       </th>
                       <th>Name</th>
-                      <th>NoControl</th>
                       <th>Created At</th>
-                      <th>Parents</th>
                       <th>City</th>
                       <th>Contact</th>
                       <th className="text-end">Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {students.map(({ attributes: item, relationships }, ind) => (
-                      <tr key={ind}>
+                    {parents.map(({ attributes: item }) => (
+                      <tr key={item.id}>
                         <td>
                           <div className="checkbox me-0 align-self-center">
                             <div className="custom-control custom-checkbox ">
@@ -78,26 +77,7 @@ function Students({
                           </div>
                         </td>
                         <td>
-                          <span className="text-primary font-w600">
-                            {item.no_control}
-                          </span>
-                        </td>
-                        <td>
                           <div className="date">{dateToLocalString(item.created_at)}</div>
-                        </td>
-                        <td>
-                          {item.parent_names.map((name, key) => {
-                            const parent = relationships.parents.data[key];
-                            return (
-                              <span key={parent.id}>
-                                {key >= 1 ? <br /> : null}
-                                <Link to={`/parents/${parent.id}`}>
-                                  {name}
-                                </Link>
-                              </span>
-                            );
-                          })}
-
                         </td>
                         <td><h6 className="mb-0">{item.city}</h6></td>
                         <td>
@@ -128,7 +108,7 @@ function Students({
                             <Dropdown.Menu className="dropdown-menu-end" align="end">
                               <Dropdown.Item as={Link} to={`${item.id}/edit`} role="button">Edit</Dropdown.Item>
                               <Dropdown.Item as={Link} to={`${item.id}`}>View</Dropdown.Item>
-                              <Dropdown.Item as={Button} onClick={() => onDeleteStudent(item.id)} variant="link"> Delete</Dropdown.Item>
+                              <Dropdown.Item as={Button} onClick={() => onDeleteParent(item.id)} variant="link"> Delete</Dropdown.Item>
                             </Dropdown.Menu>
                           </Dropdown>
                         </td>
@@ -146,8 +126,8 @@ function Students({
   );
 }
 
-Students.propTypes = {
-  onDeleteStudent: PropTypes.func.isRequired,
+Parents.propTypes = {
+  onDeleteParent: PropTypes.func.isRequired,
   onCheckOneRow: PropTypes.func.isRequired,
   onHandCheckAllRows: PropTypes.func.isRequired,
   sortOrder: PropTypes.string.isRequired,
@@ -163,7 +143,7 @@ Students.propTypes = {
     total_entries: PropTypes.number,
     total_pages: PropTypes.number,
   }).isRequired,
-  students: PropTypes.arrayOf(PropTypes.shape({
+  parents: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     attributes: PropTypes.shape({
       id: PropTypes.number,
@@ -181,4 +161,4 @@ Students.propTypes = {
   })).isRequired,
 };
 
-export default Students;
+export default Parents;
