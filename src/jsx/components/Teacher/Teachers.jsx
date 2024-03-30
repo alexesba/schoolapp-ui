@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import BigButtonPagination from '../Pagination/BigButtonPagination';
 import Search from '../Pagination/Search';
 import SortOrder from '../Pagination/SortOrder';
+import Subjects from './Subjects';
 
 function Teachers({
   onDeleteTeacher,
@@ -31,7 +32,7 @@ function Teachers({
       </div>
       <div className="col-xl-12">
         <div className="row">
-          {teachers.map(({ attributes: teacher }) => (
+          {teachers.map(({ attributes: teacher, relationships }) => (
             <div className="col-xl-3 col-lg-4 col-sm-6" key={teacher.id}>
               <div className="card contact_list text-center">
                 <div className="card-body">
@@ -64,11 +65,7 @@ function Teachers({
                       </Dropdown.Menu>
                     </Dropdown>
                   </div>
-                  <div className="contact-icon">
-                    <span className="badge badge-success light">{teacher.Subject}</span>
-                    <span className="badge badge-secondary light mx-2">Science</span>
-                    <span className="badge badge-danger light">Art</span>
-                  </div>
+                  <Subjects subjects={relationships.teacher_programs}/>
                   <div className="d-flex align-items-center">
                     <Button as={Link} to={`${teacher.id}/app-profile`} className="btn-sm w-50 me-2">
                       <i className="fa-solid fa-user me-2" />
