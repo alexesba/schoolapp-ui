@@ -26155,6 +26155,11 @@ table.dataTable.display tbody td {
 .table-responsive thead {
   background-color: var(--rgba-primary-1); }
 
+.table-responsive .dropdown,
+.table-responsive .btn-group,
+.table-responsive .btn-group-vertical {
+  position: static; }
+
 .dataTables_wrapper .dataTables_paginate .paginate_button.previous, .dataTables_wrapper .dataTables_paginate .paginate_button.next {
   height: 30px;
   width: 30px;
@@ -26222,10 +26227,10 @@ table.dataTable thead .sorting_desc:after {
 	opacity:0;
 }
 .dlab-scroll::-webkit-scrollbar-thumb{
-	background:  rgba(111, 133, 147, 0.0); 
+	background:  rgba(111, 133, 147, 0.0);
 }
 .dlab-scroll:hover::-webkit-scrollbar-thumb{
-	background:  rgba(111, 133, 147, 0.1); 
+	background:  rgba(111, 133, 147, 0.1);
 } */
 body > * {
   scrollbar-width: thin;
@@ -26236,7 +26241,7 @@ body > * {
   opacity: 0; }
 
 /* ::-webkit-scrollbar-thumb{
-	background:  rgba(111, 133, 147, 0.0); 
+	background:  rgba(111, 133, 147, 0.0);
 } */
 ::-webkit-scrollbar-thumb {
   background: rgba(111, 133, 147, 0.1); }

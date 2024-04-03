@@ -10,9 +10,11 @@ function Subjects({ subjects: { data } }) {
     && (
       <div className="contact-icon">
         {subjects.programs.map(({ attributes: program }) => (
-          <span className="badge badge-success light mx-2" key={program.id}>
-            {program.name}
-          </span>
+          <Link to={`/programs/${program.id}`} key={program.id}>
+            <span className="badge badge-success light mx-2">
+              {program.name}
+            </span>
+          </Link>
         ))}
       </div>
     )
