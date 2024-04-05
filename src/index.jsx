@@ -29,6 +29,8 @@ const Finance = React.lazy(() => import('./jsx/components/Dashboard/Finance'));
 const Home = React.lazy(() => import('./jsx/components/Dashboard/Home'));
 const ParentsIndex = React.lazy(() => import('./jsx/pages/Parents'));
 const ProgramIndex = React.lazy(() => import('./jsx/pages/Programs'));
+const EditProgram = React.lazy(() => import('./jsx/pages/Programs/EditProgram'));
+const AddNewProgram = React.lazy(() => import('./jsx/pages/Programs/NewProgram'));
 const app = document.getElementById('root');
 const root = createRoot(app);
 root.render(
@@ -51,9 +53,10 @@ root.render(
                   <Route index element={<ParentsIndex />} />
                   <Route path=":id" element={<StudentDetails />} />
                 </Route>
-                <Route path="programs" element={<Outlet/>}>
-                  <Route index element={<ProgramIndex/>}/>
-                  <Route path=":id" element={<ProgramIndex />} />
+                <Route path="programs" element={<Outlet />}>
+                  <Route index element={<ProgramIndex />} />
+                  <Route path="new" element={<AddNewProgram />} />
+                  <Route path=":id/edit" element={<EditProgram />} />
                 </Route>
                 <Route path="teachers" element={<Outlet />}>
                   <Route index element={<Teachers />} />

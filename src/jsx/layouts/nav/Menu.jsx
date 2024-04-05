@@ -77,7 +77,7 @@ export const MenuList = [
       },
       {
         title: 'Add New Teacher',
-        to: 'prgrams/new',
+        to: 'programs/new',
       },
     ],
   },

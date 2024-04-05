@@ -6,6 +6,7 @@ import Pagination from '../Pagination';
 import SortOrder from '../Pagination/SortOrder';
 import Search from '../Pagination/Search';
 import dateToLocalString from '../../../utils/date';
+import 'flag-icon-css/css/flag-icons.css';
 
 function Programs({
   programs,
@@ -70,7 +71,7 @@ function Programs({
                         </td>
                         <td>
                           <div className="trans-list">
-                            <img src={program.avatar || noimage} alt="" className="avatar avatar-sm me-3" />
+                            <i className={`flag-icon flag-icon-${program.alpha_2_code} avatar avatar-sm me-3`} />
                             <h4>{program.name}</h4>
                           </div>
                         </td>
