@@ -1,13 +1,17 @@
-import { Col, Form } from 'react-bootstrap';
+import { Col, Form, InputGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { useFormContext } from 'react-hook-form';
 import { propTypes } from 'react-bootstrap/esm/Image';
+import { useState } from 'react';
 import { getErrorMessage, hasError } from './field-utils';
 
 function SelectInput({
   name, label, placeholder, options, required,
 }) {
-  const { errors, register } = useFormContext();
+  const { errors, register, watch } = useFormContext();
+
+  const icon = watch(name);
+
   return (
     <Form.Group as={Col}>
       <Form.Label
@@ -15,21 +19,26 @@ function SelectInput({
         className="text-primary"
       >
         {label}
-        { required && <span className="required">*</span> }
+        {required && <span className="required">*</span>}
       </Form.Label>
-      <Form.Select
-        className="form-control"
-        isInvalid={hasError(errors, name)}
-        {...register(name)}
-      >
-        <option value="">{placeholder}</option>
-        {
-          options.map((option) => (
-            <option value={option.value} key={option.value}>{option.label}</option>
-          ))
-        }
-      </Form.Select>
-      <Form.Control.Feedback type="invalid">{getErrorMessage(errors, name) || ' '}</Form.Control.Feedback>
+      <InputGroup>
+        <InputGroup.Text>
+          <i className={`flag-icon flag-icon-${icon}`} />
+        </InputGroup.Text>
+        <Form.Control
+          as={Form.Select}
+          isInvalid={hasError(errors, name)}
+          {...register(name)}
+        >
+          <option value="">{placeholder}</option>
+          {
+            options.map((option) => (
+              <option value={option.value} key={option.value}>{option.label}</option>
+            ))
+          }
+        </Form.Control>
+        <Form.Control.Feedback type="invalid">{getErrorMessage(errors, name) || ' '}</Form.Control.Feedback>
+      </InputGroup>
     </Form.Group>
   );
 }
