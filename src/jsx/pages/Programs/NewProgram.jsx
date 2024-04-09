@@ -10,9 +10,10 @@ function NewProgram() {
   const { create } = useProgramActions();
 
   const initialValues = {
-    name: undefined,
-    alpha_2_code: undefined,
-    description: undefined,
+    id: '',
+    name: '',
+    alpha_2_code: '',
+    description: '',
     organization_id: currentUser.organization_id,
   };
 

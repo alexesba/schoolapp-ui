@@ -1,8 +1,7 @@
 import { Col, Form, InputGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { useFormContext } from 'react-hook-form';
-import { propTypes } from 'react-bootstrap/esm/Image';
-import { useState } from 'react';
 import { getErrorMessage, hasError } from './field-utils';
 
 function SelectInput({
@@ -23,7 +22,12 @@ function SelectInput({
       </Form.Label>
       <InputGroup>
         <InputGroup.Text>
-          <i className={`flag-icon flag-icon-${icon}`} />
+          <i className={classNames({
+            'bi bi-flag-fill': !icon,
+            'flag-icon': icon,
+            [`flag-icon-${icon}`]: icon,
+          })}
+          />
         </InputGroup.Text>
         <Form.Control
           as={Form.Select}
