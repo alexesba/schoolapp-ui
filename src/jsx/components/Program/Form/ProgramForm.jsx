@@ -1,41 +1,55 @@
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Button, Card, Col, Form, Row,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import createProgramSchema from '../validations/createProgram';
 import SelectInput from '../../Forms/FormField/SelectInput';
 import Input from '../../Forms/FormField/Input';
 import TextArea from '../../Forms/FormField/TextArea';
 import 'flag-icon-css/css/flag-icons.css';
-import useProgramActions from '../../../../store/actions/programActions';
 import { languageOptions } from '../../../../constants/app';
+import LevelProgramFields from './LevelProgramFields';
 
 function ProgramForm({ initialValues, submitAction }) {
   const onSubmit = async (values) => submitAction(values);
 
-  const { getAll: getAllPrograms } = useProgramActions();
 
   const {
     setValue,
     control,
+    getValues,
     register,
+    update,
     reset,
     watch,
     handleSubmit,
     formState: { errors },
   } = useForm({
+    keyName: 'objId',
     mode: 'onSubmit',
     reValidateMode: 'onChange',
     resolver: yupResolver(createProgramSchema),
     defaultValues: initialValues,
   });
 
-  useEffect(() => {
-    getAllPrograms();
-  }, []);
+  const {
+    fields: levelProgramsAttributes,
+    append: appendLevelProgram,
+    remove: removeLevelProgram,
+    update: updateLevelProgram,
+  } = useFieldArray({
+    keyName: 'objId',
+    control,
+    name: 'level_programs_attributes',
+  });
+
+  const addLevelProgram = () => appendLevelProgram({
+    program_id: initialValues?.id,
+    level_id: undefined,
+  });
 
   return (
     <FormProvider
@@ -43,6 +57,7 @@ function ProgramForm({ initialValues, submitAction }) {
       errors={errors}
       register={register}
       setValue={setValue}
+      getValues={getValues}
       watch={watch}
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
@@ -66,6 +81,7 @@ function ProgramForm({ initialValues, submitAction }) {
                 </Col>
                 <Col md="6">
                   <SelectInput
+                    showIcon
                     name="alpha_2_code"
                     label="Country"
                     className="form-control"
@@ -82,6 +98,19 @@ function ProgramForm({ initialValues, submitAction }) {
                 </Col>
               </Row>
             </Card.Body>
+          </Card>
+        </Col>
+        {initialValues.id &&
+          <Col>
+            <LevelProgramFields
+              levelProgramsAttributes={levelProgramsAttributes}
+              removeLevelProgram={removeLevelProgram}
+              addLevelProgram={addLevelProgram}
+              updateLevelProgram={updateLevelProgram}
+            />
+          </Col>}
+        <Col>
+          <Card>
             <Card.Footer>
               <Row>
                 <div className="d-flex flex-row-reverse">

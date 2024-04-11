@@ -49,6 +49,7 @@ function StudentForm({ initialValues, submitAction }) {
     control,
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     mode: 'onSubmit',
@@ -56,7 +57,6 @@ function StudentForm({ initialValues, submitAction }) {
     resolver: yupResolver(createStudentSchema),
     defaultValues: initialValues,
   });
-
 
   const {
     fields: studentAddressAtrributes,
@@ -93,7 +93,7 @@ function StudentForm({ initialValues, submitAction }) {
   }), [appendParent]);
 
   return (
-    <FormProvider setValue={setValue} errors={errors} register={register} control={control}>
+    <FormProvider setValue={setValue} watch={watch} errors={errors} register={register} control={control}>
       <Form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <div className="row">
           <div className="col-xl-12">

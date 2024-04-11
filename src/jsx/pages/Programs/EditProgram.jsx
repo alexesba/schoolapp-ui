@@ -7,6 +7,13 @@ function EditProgram() {
   const { getOneAsync: getProgram, update } = useProgramActions();
 
   const program = getProgram(programId);
+  let levelPrograms = program?.relationships?.level_programs?.data?.map(
+    ({ id }) => ({ id, program_id: program?.id, level_id: null }),
+  );
+
+  if (levelPrograms?.length === 0) {
+    levelPrograms = [{ id: null, level_id: null, program_id: program?.id }];
+  }
 
   const initialValues = {
     id: programId,
@@ -14,9 +21,11 @@ function EditProgram() {
     description: program?.attributes?.description,
     alpha_2_code: program?.attributes?.alpha_2_code,
     organization_id: program?.attributes?.organization_id,
+    level_programs_attributes: levelPrograms,
   };
 
   const submitAction = (programFormParams) => {
+    // console.log(programFormParams);
     update(programFormParams);
   };
 

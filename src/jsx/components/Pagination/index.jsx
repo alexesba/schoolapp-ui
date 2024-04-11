@@ -113,7 +113,11 @@ function LastPageLink({ value, disabled }) {
 
 LastPageLink.propTypes = {
   value: PropTypes.number.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
+};
+
+LastPageLink.defaultProps = {
+  disabled: false,
 };
 
 function WrapperComponent({ children }) {
