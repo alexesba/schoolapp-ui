@@ -67,6 +67,21 @@ export const MenuList = [
     ],
   },
   {
+    title: 'Program',
+    classsChange: 'mm-collapse',
+    iconStyle: <i className="material-symbols-outlined">subject</i>,
+    content: [
+      {
+        title: 'Programs',
+        to: 'programs',
+      },
+      {
+        title: 'Add New Teacher',
+        to: 'programs/new',
+      },
+    ],
+  },
+  {
     title: 'Food',
     classsChange: 'mm-collapse',
     iconStyle: <i className="material-symbols-outlined">restaurant_menu</i>,

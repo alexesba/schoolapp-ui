@@ -113,7 +113,11 @@ function LastPageLink({ value, disabled }) {
 
 LastPageLink.propTypes = {
   value: PropTypes.number.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
+};
+
+LastPageLink.defaultProps = {
+  disabled: false,
 };
 
 function WrapperComponent({ children }) {
@@ -122,7 +126,7 @@ function WrapperComponent({ children }) {
       {({ from, to, totalEntries }) => (
         <div className="d-sm-flex text-center justify-content-between align-items-center">
           <div className="dataTables_info">
-            {`Showing ${from()} to ${to()} of ${totalEntries} entries`}
+            {`Showing ${from()} to ${to()} of ${totalEntries || 0} entries`}
           </div>
           <div
             className="dataTables_paginate paging_simple_numbers justify-content-center"
@@ -170,10 +174,10 @@ function Pagination({
 
   const from = useCallback(() => {
     if (count) return (((currentPage * perPage) - perPage) || 1);
-    return count;
+    return count || 0;
   }, [currentPage]);
 
-  const to = () => ((currentPage - 1) * perPage) + count;
+  const to = () => (count && ((currentPage - 1) * perPage) + count) || 0;
 
   const PaginationComponent = createUltimatePagination({
     itemTypeToComponent,

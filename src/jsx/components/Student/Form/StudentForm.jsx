@@ -16,6 +16,7 @@ import SelectInput from '../../Forms/FormField/SelectInput';
 import { GENDER_OPTIONS } from '../../../../constants/app';
 import UserAddress from './UserAddress';
 import ParentFields from './ParentFields';
+import getBase64 from "../../../../utils/image";
 
 function StudentForm({ initialValues, submitAction }) {
   const { avatar } = initialValues;
@@ -28,17 +29,6 @@ function StudentForm({ initialValues, submitAction }) {
   const RemoveFile = () => {
     setFile(null);
   };
-
-  function getBase64(selectedFile) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(selectedFile);
-      reader.onload = () => {
-        resolve(reader.result);
-      };
-      reader.onerror = reject;
-    });
-  }
 
   const onSubmit = async (values) => {
     let user = { ...values };
@@ -59,6 +49,7 @@ function StudentForm({ initialValues, submitAction }) {
     control,
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     mode: 'onSubmit',
@@ -66,7 +57,6 @@ function StudentForm({ initialValues, submitAction }) {
     resolver: yupResolver(createStudentSchema),
     defaultValues: initialValues,
   });
-
 
   const {
     fields: studentAddressAtrributes,
@@ -103,12 +93,12 @@ function StudentForm({ initialValues, submitAction }) {
   }), [appendParent]);
 
   return (
-    <FormProvider setValue={setValue} errors={errors} register={register} control={control}>
+    <FormProvider setValue={setValue} watch={watch} errors={errors} register={register} control={control}>
       <Form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <div className="row">
           <div className="col-xl-12">
             <div className="card">
-              <Card.Header className="card-header">
+              <Card.Header>
                 <Card.Title>Student Details</Card.Title>
               </Card.Header>
               <div className="card-body">

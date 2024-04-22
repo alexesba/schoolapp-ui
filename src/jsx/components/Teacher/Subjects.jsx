@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import useProgramActions from '../../../store/actions/programActions';
 
 function Subjects({ subjects: { data } }) {
@@ -10,9 +11,11 @@ function Subjects({ subjects: { data } }) {
     && (
       <div className="contact-icon">
         {subjects.programs.map(({ attributes: program }) => (
-          <span className="badge badge-success light mx-2" key={program.id}>
-            {program.name}
-          </span>
+          <Link to={`/programs/${program.id}`} key={program.id}>
+            <span className="badge badge-success light mx-2">
+              {program.name}
+            </span>
+          </Link>
         ))}
       </div>
     )

@@ -13,7 +13,7 @@ function Students({
   onDeleteStudent,
   sortOrder,
   onCheckOneRow,
-  onHandCheckAllRows,
+  onCheckAllRows,
   query,
 }) {
   return (
@@ -42,7 +42,7 @@ function Students({
                           type="checkbox"
                           className="form-check-input"
                           id="checkAll"
-                          onClick={() => onHandCheckAllRows()}
+                          onClick={() => onCheckAllRows()}
                         />
                       </th>
                       <th>Name</th>
@@ -149,7 +149,7 @@ function Students({
 Students.propTypes = {
   onDeleteStudent: PropTypes.func.isRequired,
   onCheckOneRow: PropTypes.func.isRequired,
-  onHandCheckAllRows: PropTypes.func.isRequired,
+  onCheckAllRows: PropTypes.func.isRequired,
   sortOrder: PropTypes.string.isRequired,
   query: PropTypes.string.isRequired,
   pagination: PropTypes.shape({

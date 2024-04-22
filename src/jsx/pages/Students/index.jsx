@@ -67,7 +67,7 @@ function StudentsIndex() {
         students={students}
         onDeleteStudent={deleteStudent}
         onCheckOneRow={checkOneRow}
-        onHandCheckAllRows={checkAllRows}
+        onCheckAllRows={checkAllRows}
         pagination={pagination}
         sortOrder={sortOrder}
       />
