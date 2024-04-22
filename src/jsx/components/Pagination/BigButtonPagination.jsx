@@ -1,4 +1,5 @@
 import { Link, useSearchParams } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { createContext, useCallback, useMemo } from 'react';
@@ -11,7 +12,10 @@ function Page({ value, isActive }) {
     <PaginationContext.Consumer>
       {({ getUrl }) => (
         <li className={classNames('page-item', { active: isActive })}>
-          <Link className="page-link" to={getUrl(value)}>
+          <Link
+            className="page-link"
+            to={getUrl(value)}
+          >
             {value}
           </Link>
         </li>
@@ -25,12 +29,16 @@ Page.propTypes = {
   isActive: PropTypes.bool.isRequired,
 };
 
-function PreviousPageLink({ value, disabled }) {
+function PreviousPageLink({ value, isActive }) {
   return (
     <PaginationContext.Consumer>
       {({ getUrl }) => (
         <li className="page-item page-indicator">
-          <Link className="page-link" to={getUrl(value)} disabled={disabled}>
+          <Link
+            className="page-link"
+            to={getUrl(value)}
+            style={isActive ? { pointerEvents: 'none' } : {}}
+          >
             <i className="fa-solid fa-chevron-left" />
           </Link>
         </li>
@@ -41,15 +49,19 @@ function PreviousPageLink({ value, disabled }) {
 
 PreviousPageLink.propTypes = {
   value: PropTypes.number.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool.isRequired,
 };
 
-function NextPageLink({ value, disabled }) {
+function NextPageLink({ value, isActive }) {
   return (
     <PaginationContext.Consumer>
       {({ getUrl }) => (
         <li className="page-item page-indicator">
-          <Link className="page-link" to={getUrl(value)} disabled={disabled}>
+          <Link
+            className="page-link"
+            to={getUrl(value)}
+            style={isActive ? { pointerEvents: 'none' } : {}}
+          >
             <i className="fa-solid fa-chevron-right" />
           </Link>
         </li>
@@ -60,29 +72,29 @@ function NextPageLink({ value, disabled }) {
 
 NextPageLink.propTypes = {
   value: PropTypes.number.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool.isRequired,
 };
 
-function Ellipsis({ disabled }) {
+function Ellipsis() {
   return (
     <li className="page-item page-indicator">
-      <Link className="page-link" to="#!" disabled={disabled}>
+      <Button className="page-link" disabled>
         <i className="fa-solid fa-ellipsis" />
-      </Link>
+      </Button>
     </li>
   );
 }
 
-Ellipsis.propTypes = {
-  disabled: PropTypes.bool.isRequired,
-};
-
-function FirstPageLink({ value, disabled }) {
+function FirstPageLink({ value, isActive }) {
   return (
     <PaginationContext.Consumer>
       {({ getUrl }) => (
         <li className="page-item page-indicator">
-          <Link className="page-link" to={getUrl(value)} disabled={disabled}>
+          <Link
+            className="page-link"
+            to={getUrl(value)}
+            style={isActive ? { pointerEvents: 'none' } : {}}
+          >
             <i className="fas fa-angle-double-left" />
           </Link>
         </li>
@@ -93,15 +105,19 @@ function FirstPageLink({ value, disabled }) {
 
 FirstPageLink.propTypes = {
   value: PropTypes.number.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool.isRequired,
 };
 
-function LastPageLink({ value, disabled }) {
+function LastPageLink({ value, isActive }) {
   return (
     <PaginationContext.Consumer>
       {({ getUrl }) => (
         <li className="page-item page-indicator">
-          <Link className="page-link" to={getUrl(value)} disabled={disabled}>
+          <Link
+            className="page-link"
+            to={getUrl(value)}
+            style={isActive ? { pointerEvents: 'none' } : {}}
+          >
             <i className="fas fa-angle-double-right" />
           </Link>
         </li>
@@ -112,7 +128,7 @@ function LastPageLink({ value, disabled }) {
 
 LastPageLink.propTypes = {
   value: PropTypes.number.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool.isRequired,
 };
 
 function WrapperComponent({ children }) {

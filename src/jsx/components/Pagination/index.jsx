@@ -1,4 +1,3 @@
-import { range } from 'lodash';
 import { Link, useSearchParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -24,17 +23,21 @@ function Page({ value, isActive }) {
 
 Page.propTypes = {
   value: PropTypes.number.isRequired,
-  isActive: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool,
 };
 
-function PreviousPageLink({ value, disabled }) {
+Page.defaultProps = {
+  isActive: false,
+};
+
+function PreviousPageLink({ value, isActive }) {
   return (
     <PaginationContext.Consumer>
       {({ getUrl }) => (
         <Link
-          className={classNames('paginate_button previous', { disabled })}
+          className="paginate_button previous"
           to={getUrl(value)}
-          disabled={disabled}
+          style={isActive ? { pointerEvents: 'none' } : {}}
         >
           <i className="fa-solid fa-angle-left" />
         </Link>
@@ -45,17 +48,21 @@ function PreviousPageLink({ value, disabled }) {
 
 PreviousPageLink.propTypes = {
   value: PropTypes.number.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool,
 };
 
-function NextPageLink({ value, disabled }) {
+PreviousPageLink.defaultProps = {
+  isActive: false,
+};
+
+function NextPageLink({ value, isActive }) {
   return (
     <PaginationContext.Consumer>
       {({ getUrl }) => (
         <Link
-          className={classNames('paginate_button next', { disabled })}
+          className="paginate_button next"
           to={getUrl(value)}
-          disabled={disabled}
+          style={isActive ? { pointerEvents: 'none' } : {}}
         >
           <i className="fa-solid fa-angle-right" />
         </Link>
@@ -66,27 +73,30 @@ function NextPageLink({ value, disabled }) {
 
 NextPageLink.propTypes = {
   value: PropTypes.number.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool,
 };
 
-function Ellipsis({ onClick, disabled }) {
+NextPageLink.defaultProps = {
+  isActive: false,
+};
+
+function Ellipsis() {
   return (
-    <Button className="paginate_button previous" onClick={onClick} disabled={disabled}>
+    <Button className="paginate_button previous" disabled>
       <i className="fa-solid fa-ellipsis" />
     </Button>
   );
 }
 
-Ellipsis.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  disabled: PropTypes.bool.isRequired,
-};
-
-function FirstPageLink({ value, disabled }) {
+function FirstPageLink({ value, isActive }) {
   return (
     <PaginationContext.Consumer>
       {({ getUrl }) => (
-        <Link className="paginate_button previous" to={getUrl(value)} disabled={disabled}>
+        <Link
+          className="paginate_button previous"
+          to={getUrl(value)}
+          style={isActive ? { pointerEvents: 'none' } : {}}
+        >
           <i className="fas fa-angle-double-left" />
         </Link>
       )}
@@ -96,14 +106,22 @@ function FirstPageLink({ value, disabled }) {
 
 FirstPageLink.propTypes = {
   value: PropTypes.number.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool,
 };
 
-function LastPageLink({ value, disabled }) {
+FirstPageLink.defaultProps = {
+  isActive: true,
+};
+
+function LastPageLink({ value, isActive }) {
   return (
     <PaginationContext.Consumer>
       {({ getUrl }) => (
-        <Link className="paginate_button next" to={getUrl(value)} disabled={disabled}>
+        <Link
+          className="paginate_button next"
+          to={getUrl(value)}
+          style={isActive ? { pointerEvents: 'none' } : {}}
+        >
           <i className="fas fa-angle-double-right" />
         </Link>
       )}
@@ -113,11 +131,11 @@ function LastPageLink({ value, disabled }) {
 
 LastPageLink.propTypes = {
   value: PropTypes.number.isRequired,
-  disabled: PropTypes.bool,
+  isActive: PropTypes.bool,
 };
 
 LastPageLink.defaultProps = {
-  disabled: false,
+  isActive: false,
 };
 
 function WrapperComponent({ children }) {
@@ -200,9 +218,9 @@ function Pagination({
 
 Pagination.propTypes = {
   pagination: PropTypes.shape({
-    count: PropTypes.number.isRequired,
-    per_page: PropTypes.number.isRequired,
-    total_entries: PropTypes.number.isRequired,
+    count: PropTypes.number,
+    per_page: PropTypes.number,
+    total_entries: PropTypes.number,
     next_page: PropTypes.oneOfType([
       PropTypes.number,
       () => null,

@@ -32,6 +32,7 @@ const ProgramIndex = React.lazy(() => import('./jsx/pages/Programs'));
 const EditProgram = React.lazy(() => import('./jsx/pages/Programs/EditProgram'));
 const ShowProgram = React.lazy(() => import('./jsx/pages/Programs/ShowProgram'));
 const AddNewProgram = React.lazy(() => import('./jsx/pages/Programs/NewProgram'));
+const Courses = React.lazy(() => import('./jsx/pages/Courses'));
 const app = document.getElementById('root');
 const root = createRoot(app);
 root.render(
@@ -62,6 +63,12 @@ root.render(
                 </Route>
                 <Route path="teachers" element={<Outlet />}>
                   <Route index element={<Teachers />} />
+                  <Route path=":id" element={<TeacherDetail />} />
+                  <Route path="new" element={<AddNewTeacher />} />
+                </Route>
+
+                <Route path="courses" element={<Outlet />}>
+                  <Route index element={<Courses />} />
                   <Route path=":id" element={<TeacherDetail />} />
                   <Route path="new" element={<AddNewTeacher />} />
                 </Route>

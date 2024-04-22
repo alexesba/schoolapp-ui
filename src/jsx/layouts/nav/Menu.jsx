@@ -82,6 +82,21 @@ export const MenuList = [
     ],
   },
   {
+    title: 'Courses',
+    classsChange: 'mm-collapse',
+    iconStyle: <i className="material-symbols-outlined">sync</i>,
+    content: [
+      {
+        title: 'Courses',
+        to: 'courses',
+      },
+      {
+        title: 'Add New Course',
+        to: 'courses/new',
+      },
+    ],
+  },
+  {
     title: 'Food',
     classsChange: 'mm-collapse',
     iconStyle: <i className="material-symbols-outlined">restaurant_menu</i>,
